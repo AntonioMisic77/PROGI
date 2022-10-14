@@ -1,0 +1,2 @@
+C:\maptasker\MapTasker\Frontend\obj\Debug\Frontend.esproj.SuggestedBindingRedirects.cache
+C:\maptasker\MapTasker\Frontend\obj\Debug\Frontend.esproj.CoreCompileInputs.cache
