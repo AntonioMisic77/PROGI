@@ -8,7 +8,7 @@
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
 
-export class UsersClient {
+export class UserClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -18,8 +18,8 @@ export class UsersClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    get(): Promise<string[]> {
-        let url_ = this.baseUrl + "/Users";
+    getAllUsers(): Promise<User[]> {
+        let url_ = this.baseUrl + "/User";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: RequestInit = {
@@ -30,17 +30,17 @@ export class UsersClient {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGet(_response);
+            return this.processGetAllUsers(_response);
         });
     }
 
-    protected processGet(response: Response): Promise<string[]> {
+    protected processGetAllUsers(response: Response): Promise<User[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as string[];
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as User[];
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -48,8 +48,13 @@ export class UsersClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<string[]>(null as any);
+        return Promise.resolve<User[]>(null as any);
     }
+}
+
+export interface User {
+    name?: string | undefined;
+    oib: number;
 }
 
 export class ApiException extends Error {

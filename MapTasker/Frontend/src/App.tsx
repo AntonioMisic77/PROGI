@@ -1,13 +1,13 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { WeatherForecastClient } from './Api/Api';
+import { UserClient } from './Api/Api';
 
 function App() {
   let handleClick = async () => {
-    let client = new WeatherForecastClient("https://localhost:7270");
-    let response = await client.get();
-    console.log(response[1]);
+    let client = new UserClient("https://localhost:7270");
+    let response = await client.getAllUsers();
+    console.log(response);
   }
   return (
     <div className="App">
