@@ -1,19 +1,84 @@
-$\chapter{Opis projektnog zadatka}
-		/begin{document}
+%chapter{Opis projektnog zadatka}
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{titling}
+\usepackage{parskip}
+\usepackage[document]{ragged2e}
+\usepackage[T1]{fontenc}
+		%\textbf{\textit{dio 1. revizije}}\\
 		
-		\textbf{\textit{dio 1. revizije}}\\
+		%\textit{Na osnovi projektnog zadatka detaljno opisati korisničke zahtjeve. Što jasnije opisati cilj projektnog zadatka, razraditi problematiku zadatka, dodati nove aspekte problema i potencijalnih rješenja. Očekuje se minimalno 3, a poželjno 4-5 stranica opisa.	Teme koje treba dodatno razraditi u ovom poglavlju su:}
+		\begin{document}
+			\setlength{\parindent}{30pt}
+			\begin{flushleft}
+				\huge{\textbf{2. Opis projektnog zadatka}}
+			\end{flushleft}
+			%\textit{potencijalna korist ovog projekta}
+			\par
+			Cilj je razviti programsku potporu za web aplikaciju \textit{"MapTasker"} koja služi za pronalaženje nestalih osoba tijekom raznim elementarnih nepogoda. Kako bi se takve operacije uspješno izvele, potrebno je spasiocima napraviti kartu s pozicijama kuća koju proizvode kartografi. Područje koje je potrebno kartografirati postavljaju voditelji.
+			
+			Početna stranica sadrži formu za registraciju ili prijavu te tipku za prijavu nestalih osoba. Taj gumb vodi korisnika na stranicu na kojoj se nalaze već prijavljene nestale osobe te gumb za prijavu nove osobe. Prijavljenim korisnicima se na stranici također nalazi karta čije se funkcionalnosti razlikuju, oviseći o ulozi korisnika. Uz kartu se nalazi statistika koja voditeljima i kartografima prikazuje podatke o nestalim i pronađenim osobama, broj završenih blokova kroz vrijeme (\textit{engl. Burn down chart}) te broj pretraženih i nepretraženih građevina.
+			
+			Prijavljeni korisnici imaju pristup stranici koja im omogućuje pregled i uređivanje njihovog profila.
+			Pri pokretanju aplikacije neregistrirani korisnik ima dvije opcije:
+			\begin{enumerate}
+				\item Ostati neregistriran te prijaviti nestalu osobu te njihove informacije:
+				\begin{itemize}
+					\item Ime i prezime
+					\item Fotograija
+					\item Opis nestale osobe
+				\end{itemize}
+				\item Poslati zahtjev za registraciju na aplikaciju pri čemu je potrebno navesti:
+				\begin{itemize}
+					\item Uloga za koju se prijavljuje (spasioc, voditelj, kartograf)
+					\item Korisničko ime
+					\item Fotografija
+					\item Lozinka
+					\item Ime i prezime
+					\item Broj mobitela
+					\item Email adresa
+				\end{itemize}
+			\end{enumerate}
+			
+			U prvom slučaju gdje korisnik prijavljuje nestalu osobu, ostali korisnici mogu komentirati prijavu i odgovoriti na nju. Kad je prijavljena osoba pronađena, spasioc ili voditelj zaključavaju prijavu dok voditelj jedini ima ulogu brisanja prijave i komentara.
+			
+			\underbar{Voditelj} je odgovoran za proces stvaranja operacije te definiranja područja koje će se kartografirati i pretraživati. To uključuje određivanje područja na karti koje će biti definirano poligonom. Kako bi se izbjegli problemi, samo jedan voditelj može raditi na jednoj regiji i blokovima.
+			Postoje tri razine područja:
+			\begin{itemize}
+				\item Regija
+				\item Blok
+				\item Građevina
+			\end{itemize}
+			
+			Na jednom poligonu može postojati više regija u kojima se nalaze razni blokovi. Svaki od blokoba ima status o tome u kojoj se fazi trenutno nalazi:
+			\begin{enumerate}
+				\item \textbf{Nezapočeto}
+				\item \textbf{Aktivno}
+				\item \textbf{Provjera}
+				\item \textbf{Završeno}
+			\end{enumerate}
+			
+			Blok će biti prikazan na karti u različitim bojama ovisno o fazi. Nakon što je blok \textbf{završen}, voditelj zaključava operaciju.
+			
+			\underbar{Kartograf} jedini može mijenjati statuse blokova iz \textbf{nezapočetog} u \textbf{aktivnog} i nakon toga u \textbf{provjeru}. U fazu \textbf{završeno} blok prelazi jedino kad su dva kartografa sigurna da je posao dobro obavljen. Ako kartograf smatra da se posao mogao bolje odraditi, može vratiti stanje bloka iz \textbf{provjere} u \textbf{aktivno}. U \textbf{aktivnom} stanju kartograf može dodavati nove građevine. Kartograf može tijekom kartografiranja imati samo jedan \textbf{aktivan} blok kako bi se izbjegli konflikti. Blok može biti \textbf{aktivan} samo kod jednog kartografa.
+			
+			\underline{Spasioc} na svojoj stranici ima pristup karti s građevinama koje imaju jedan od dva statusa:
+			\begin{itemize}
+				\item Pretraženo
+				\item Nepretraženo
+			\end{itemize}
+			
+			Nakon promjene statusa iz \textbf{nepretraženo} u \textbf{pretraženo}, kartograf i voditelj primaju obavijest na stranici da je osoba za koju je objavljena prijava pronađena te voditelj dobiva ime i prezime spasioca. U tom slučaju, voditelj zatvara prijavu za pronađenu osobu. Time se ažurira statistika \textit{Burn down chart}, broj nestalih osoba i pretraženih građevina. 
+			
+			\underline{Administrator} aplikacije ima pristup popisu svih registriranih korisnika te njihovim osobnim podatcima. Uloga mu je potvrđivanje ili odbacivanje zahtjeva za registraciju korisnika te može mijenjati dodijeljena prava korisnicima.
+			
+			Sustav treba podržavati rad te više zahtjeva od više korisnika u stvarnom vremenu. 
+			%\textit{mogućnost prilagodbe rješenja }
+			%\textit{opseg projektnog zadatka}
+			%\textit{moguće nadogradnje projektnog zadatka}
+		\end{document}
 		
-		\textit{Na osnovi projektnog zadatka detaljno opisati korisničke zahtjeve. Što jasnije opisati cilj projektnog zadatka, razraditi problematiku zadatka, dodati nove aspekte problema i potencijalnih rješenja. Očekuje se minimalno 3, a poželjno 4-5 stranica opisa.	Teme koje treba dodatno razraditi u ovom poglavlju su:}
-		\begin{packed_item}
-			\item \textit{potencijalna korist ovog projekta}
-			\item \textit{postojeća slična rješenja (istražiti i ukratko opisati razlike u odnosu na zadani zadatak). Dodajte slike koja predočavaju slična rješenja.}
-			\item \textit{skup korisnika koji bi mogao biti zainteresiran za ostvareno rješenje.}
-			\item \textit{mogućnost prilagodbe rješenja }
-			\item \textit{opseg projektnog zadatka}
-			\item \textit{moguće nadogradnje projektnog zadatka}
-		\end{packed_item}
-		
-		\textit{Za pomoć pogledati reference navedene u poglavlju „Popis literature“, a po potrebi konzultirati sadržaj na internetu koji nudi dobre smjernice u tom pogledu.}
+		%\textit{Za pomoć pogledati reference navedene u poglavlju „Popis literature“, a po potrebi konzultirati sadržaj na internetu koji nudi dobre smjernice u tom pogledu.}
 		\eject
 		
 		\section{Primjeri u \LaTeX u}
