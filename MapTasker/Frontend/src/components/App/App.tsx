@@ -1,7 +1,7 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { UserClient } from './Api/Api';
+import { UserClient } from '../../Api/Api';
+import Button from '../Button/Button';
 
 function App() {
   let handleClick = async () => {
@@ -12,11 +12,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-              <img src={logo} className="App-logo" alt="logo"/>
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <button onClick={handleClick}>Klikni</button>
+          <Button onClick={handleClick} text="Klikni me"/>
       </header>
     </div>
   );
