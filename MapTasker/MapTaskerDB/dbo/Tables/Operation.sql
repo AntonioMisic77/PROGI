@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[Operation]
+(
+	[Id] INT NOT NULL PRIMARY KEY, 
+    [Status] NVARCHAR(50) NOT NULL, 
+    [LeaderOIB] BIGINT NOT NULL,
+    CONSTRAINT [FK_LeaderOIB] FOREIGN KEY (LeaderOIB) REFERENCES Users(OIB)
+)
