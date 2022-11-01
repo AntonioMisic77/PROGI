@@ -102,12 +102,27 @@
 					\textit{Prikazati odnos aktora i obrazaca uporabe odgovarajućim UML dijagramom. Nije nužno nacrtati sve na jednom dijagramu. Modelirati po razinama apstrakcije i skupovima srodnih funkcionalnosti.}
 				\eject		
 				
-			\subsection{Sekvencijski dijagrami}
+				\subsection{Sekvencijski dijagrami}
 				
-				\textbf{\textit{dio 1. revizije}}\\
-				
-				\textit{Nacrtati sekvencijske dijagrame koji modeliraju najvažnije dijelove sustava (max. 4 dijagrama). Ukoliko postoji nedoumica oko odabira, razjasniti s asistentom. Uz svaki dijagram napisati detaljni opis dijagrama.}
-				\eject
+				\textbf{Obrazac uporabe UC4 - Prijava nestale osobe}
+    
+                \textit{Klijent šalje zahtjev za prijavu nestale osobe. Poslužitelj prikazuje obrazac za prijavu. Klijent ispunjava obrazac (ime, prezime, fotografija i opis) za prijavu nestale osobe. Poslužitelj dohvaća podatke iz baze te provjerava je li nova prijavljena osoba u bazi. Ako osoba dosad nije prijavljena, zapisuje se u bazu nestalih te sustav šalje potvrdu i prikaz prijave. Ukoliko je osoba već prijavljena, poslužitelj obavještava klijenta uz poruku.}
+
+                \begin{figure}[H] \includegraphics[width=\linewidth]{dokumentacija/dijagrami/PrijavaNestalog.jpg}
+				    \caption{Sekvencijski dijagram za UC4 - Prijava nestale osobe}
+				    \end{figure}
+
+                \eject
+
+                \textbf{Obrazac uporabe UC10 - Stvaranje operacije}
+
+                \textit{Klijent šalje zahtjev za stvaranje operacije. Sustav provjerava je li korisnik voditelj. Ako korisnik nije voditelj, poslužitelj će ispisati poruku da nema ovlaštenje za stvaranje nove operacije, a ukoliko je, poslat će obrazac za stvaranje nove operacije. Klijent stvara novu operaciju, tj. upisuje ime operacije i područje (regije i blokove) koje je potrebno pretražiti. Poslužitelj dohvaća podatke iz baze te provjerava postoji li već operacija s tim imenom. Ako ne postoji, nova stvorena operacija se zapisuje u bazu podataka te sustav šalje potvrdu i prikaz nove operacije. Ukoliko  već postoji operacija s tim imenom, sustav javlja grešku da je stvorena operacija s već postojećim imenom.}
+                
+                \begin{figure}[H] \includegraphics[width=\linewidth]{dokumentacija/dijagrami/StvaranjeOperacije.jpg}
+				    \caption{Sekvencijski dijagram za UC10 - Stvaranje operacije}
+				    \end{figure}
+
+            	\eject
 	
 		\section{Ostali zahtjevi}
 		
