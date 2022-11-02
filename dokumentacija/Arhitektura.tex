@@ -2,19 +2,67 @@
 		
 		\textbf{\textit{dio 1. revizije}}\\
 
-		\textit{ Potrebno je opisati stil arhitekture te identificirati: podsustave, preslikavanje na radnu platformu, spremišta podataka, mrežne protokole, globalni upravljački tok i sklopovsko-programske zahtjeve. Po točkama razraditi i popratiti odgovarajućim skicama:}
-	\begin{itemize}
-		\item 	\textit{izbor arhitekture temeljem principa oblikovanja pokazanih na predavanjima (objasniti zašto ste baš odabrali takvu arhitekturu)}
-		\item 	\textit{organizaciju sustava s najviše razine apstrakcije (npr. klijent-poslužitelj, baza podataka, datotečni sustav, grafičko sučelje)}
-		\item 	\textit{organizaciju aplikacije (npr. slojevi frontend i backend, MVC arhitektura) }		
-	\end{itemize}
 
-	
-		
 
-		
+               \textit{Arhitektura sustava može se podijeliti  na tri podsustava: }
 
-				
+              \begin{packed_item}
+               \item  Web  preglednik
+                \item   Web aplikacija
+                \item    Baza Podataka
+
+                \end{packed_item}
+
+                 \begin{figure}[H]
+                     \includegraphics[width=7cm, height=5cm ]{arhitektura.jpg}
+                      \centering
+                      \caption{Arhitektura sustava}
+                  \end{figure}
+
+
+                  \textbf{Web preglednik} je aplikacija za prikaz web stranica. Kada korisnik posjeti neku web stranicu, internetski preglednik zatraži podatke
+                                 sa web poslužitelja, koje interpretira i prikaže na zaslon računala ili nekog drugog pametnog uređaja.
+
+                  \textbf{Web poslužitelj} osnovni podsustav u izradi web aplikacije. Njegova uloga u sustavu je komunikacija korisnika(web preglednika) s 
+                                 aplikacijom. Komunikacija se ostvaruje preko HTTP (engl. Hyper Text Transfer Protocol) protokola. Uloga HTTP protokola je prijenos 
+                                 sadržaja s poslužitelja na preglednik, koji dalje odrađuje svoj posao.
+                            
+                                Korisnik preko preglednika, koristi korisničko sučelje, te tako šalje HTTP zahtjeve na poslužitelj. Neki od zahtjeva su HTTP GET, HTTP POST 
+                                itd. Svaki takav zahtjev u 99 \% slučajeva na poslužitelju izaziva, njegovu komunikaciju s \underbar{bazom podataka}.
+
+                  \textbf{Baza podataka} je skup međusobno povezanih podataka, pohranjeni u vanjskoj memoriji računala. Njezina uloga u sustavu je brza i efikasna
+                                 pohrana podataka, koji se propagiraju iz sloja web preglednika, preko web poslužitelja.
+
+                  \textit{Web aplikacija se najčešće dijeli na dva dijela: }
+
+                               \begin{packed_item}
+              			 \item  \textbf{Front-end} koji je zadužen za razvoj korsicničkog iskustva na webu.
+                		\item    \textbf{Back-end} koji je zadužen za obradu i spremanje podataka, koji dođu sa frontenda.
+
+              		       \end{packed_item}
+
+                                Tehnologije koje smo uzeli za razvoj web aplikacije su React.js za Front-end u razvojnom okruženju Microsoft Visual Studio Code, te .NET za Back-end u razvojnom okruženju Microsoft Visual Studio.
+                                Uz .Net na back-endu, smo uzeli SQL server za bazu podataka. 
+                                Arhitektura sustava će biti bazirana na MVC(engl. Model-View-Controller) konceptu.
+
+                      \textbf{MVC} model sastoji se od tri komponenti: 
+                                  
+                               \begin{packed_item}
+             			  \item \textbf{Model} -  komponenta modela koja je zadužena za dohvat i manipulacijom podataka. Često za obavljanje svojih zadaća koristi bazu podataka.
+                		  \item  \textbf{View} -   komponenta kojoj je zadaća prikaz dobivenih podataka korisniku.
+               		           \item  \textbf{Controller} - komponenta zadužena za primanje zahtjeva od korisnika, koje dalje propagira komponenti Model.
+
+                                \end{packed_item}
+                  
+                    \begin{figure}[H]
+                     \includegraphics[width=7cm, height=5cm ]{mvc.jpg}
+                      \centering
+                      \caption{MVC model}
+                    \end{figure}
+                    
+                                 
+
+			
 		\section{Baza podataka}
 			
 			\textbf{\textit{dio 1. revizije}}\\
