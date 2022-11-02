@@ -1,0 +1,4 @@
+﻿CREATE TABLE [dbo].[Area]
+(
+	[Id] INT NOT NULL PRIMARY KEY
+)

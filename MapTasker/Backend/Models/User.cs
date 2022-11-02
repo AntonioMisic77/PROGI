@@ -5,7 +5,25 @@ namespace Backend.Models
 {
     public partial class User
     {
-        public string? Name { get; set; }
-        public int Oib { get; set; }
+        public User()
+        {
+            Comments = new HashSet<Comment>();
+            Operations = new HashSet<Operation>();
+        }
+
+        public string? Username { get; set; }
+        public long Oib { get; set; }
+        public string FirstName { get; set; } = null!;
+        public string LastName { get; set; } = null!;
+        public string Photo { get; set; } = null!;
+        public string PhoneNumber { get; set; } = null!;
+        public string Email { get; set; } = null!;
+        public string Password { get; set; } = null!;
+        public int RoleId { get; set; }
+        public bool Confirmed { get; set; }
+
+        public virtual Role Role { get; set; } = null!;
+        public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Operation> Operations { get; set; }
     }
 }
