@@ -106,6 +106,11 @@ namespace Backend.Data
                     .HasForeignKey(d => d.ReportId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ReportId");
+
+                entity.HasOne(d => d.UserOibNavigation)
+                    .WithMany(p => p.Comments)
+                    .HasForeignKey(d => d.UserOib)
+                    .HasConstraintName("FK_PosterOIB");
             });
 
             modelBuilder.Entity<MissingReport>(entity =>
@@ -118,9 +123,7 @@ namespace Backend.Data
 
                 entity.Property(e => e.LastName).HasMaxLength(50);
 
-                entity.Property(e => e.Oib)
-                    .HasMaxLength(50)
-                    .HasColumnName("OIB");
+                entity.Property(e => e.Oib).HasColumnName("OIB");
             });
 
             modelBuilder.Entity<Operation>(entity =>

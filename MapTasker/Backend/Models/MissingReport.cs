@@ -13,7 +13,7 @@ namespace Backend.Models
         public int Id { get; set; }
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;
-        public string Oib { get; set; } = null!;
+        public long Oib { get; set; }
         public string Photo { get; set; } = null!;
         public string? Description { get; set; }
 

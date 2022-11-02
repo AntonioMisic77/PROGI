@@ -53,8 +53,74 @@ export class UserClient {
 }
 
 export interface User {
-    name?: string | undefined;
+    username?: string | undefined;
     oib: number;
+    firstName: string;
+    lastName: string;
+    photo: string;
+    phoneNumber: string;
+    email: string;
+    password: string;
+    roleId: number;
+    confirmed: boolean;
+    role: Role;
+    operations: Operation[];
+}
+
+export interface Role {
+    id: number;
+    name: string;
+    users: User[];
+}
+
+export interface Operation {
+    id: number;
+    status: string;
+    leaderOib: number;
+    leaderOibNavigation: User;
+    regions: Region[];
+}
+
+export interface Region {
+    areaId: number;
+    operationId: number;
+    area: Area;
+    operation: Operation;
+    blocks: Block[];
+}
+
+export interface Area {
+    id: number;
+    block?: Block | undefined;
+    building?: Building | undefined;
+    region?: Region | undefined;
+    points: Point[];
+}
+
+export interface Block {
+    areaId: number;
+    status: string;
+    regionId: number;
+    area: Area;
+    region: Region;
+    buildings: Building[];
+}
+
+export interface Building {
+    areaId: number;
+    blockId: number;
+    status: string;
+    area: Area;
+    block: Block;
+}
+
+export interface Point {
+    id: number;
+    xcoordinate: number;
+    ycoordinate: number;
+    areaId: number;
+    orderNumber: number;
+    area: Area;
 }
 
 export class ApiException extends Error {

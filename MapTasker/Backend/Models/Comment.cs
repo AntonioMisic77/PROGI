@@ -11,5 +11,6 @@ namespace Backend.Models
         public long? UserOib { get; set; }
 
         public virtual MissingReport Report { get; set; } = null!;
+        public virtual User? UserOibNavigation { get; set; }
     }
 }
