@@ -29,7 +29,7 @@
 				
 				\begin{packed_enum}
 					
-					\item poslati zahtjev za registraciju s potrebim osobnim podacima: korisničko ime, fotografija, ime, prezime, lozinka, broj mobitela i adresa, i s ulogom za koju se prijavljuje
+					\item poslati zahtjev za registraciju s potrebnim osobnim podacima: korisničko ime, fotografija, ime, prezime, lozinka, broj mobitela i adresa, i s ulogom za koju se prijavljuje
 					\item prijaviti nestalu osobu s imenom, prezimenom, fotografijom i opisom
 					
 					
@@ -54,7 +54,7 @@
 					
 					\item promijeniti status odabranog bloka na karti iz nezapočetog u aktivno, i iz aktivnog u provjeru
 					\item promijeniti status odabranog bloka na karti iz provjera u aktivno ako posao nije dobro odrađen, te nastavljati uređivati područje
-					\item dodavati nove građevine bloku sa sastusom aktivno
+					\item dodavati nove građevine bloku sa statusom aktivno
 					\item imati pristup statistici humanitarne akcije
 					\item mijenjati podatke u svom profilu
 
@@ -77,7 +77,7 @@
 				
 				\begin{packed_enum}
 					
-					\item potvrditi željena prava neregistriranog koristnika
+					\item potvrditi željena prava neregistriranog korisnika
 					\item vidjeti popis registriranih korisnika i njihovih osobnih podataka
 					\item mijenjati dodijeljena prava registriranih korisnika
 					\item imati sva prava i ovlasti kao registrirani korisnici
@@ -103,7 +103,7 @@
 					
 
 					
-					\noindent \underbar{\textbf{UC1 - Registarcija u sustav}}
+					\noindent \underbar{\textbf{UC1 - Registracija u sustav}}
 					\begin{packed_item}
 	
 						\item \textbf{Glavni sudionik: }Korisnik
@@ -300,27 +300,8 @@
 						\item[] \begin{packed_enum}
 	
 							\item Nakon prijave korisniku je vidljiva karta sa označenim regijama i blokovima svih operacija
-							\item 
-							\item $<$opis korak tri$>$
-							\item $<$opis korak četiri$>$
-							\item $<$opis korak pet$>$
+
 						\end{packed_enum}
-						
-						\item  \textbf{Opis mogućih odstupanja:}
-						
-						\item[] \begin{packed_item}
-	
-							\item[2.a] $<$opis mogućeg scenarija odstupanja u koraku 2$>$
-							\item[] \begin{packed_enum}
-								
-								\item $<$opis rješenja mogućeg scenarija korak 1$>$
-								\item $<$opis rješenja mogućeg scenarija korak 2$>$
-								
-							\end{packed_enum}
-							\item[2.b] $<$opis mogućeg scenarija odstupanja u koraku 2$>$
-							\item[3.a] $<$opis mogućeg scenarija odstupanja  u koraku 3$>$
-							
-						\end{packed_item}
 					\end{packed_item}
 					\noindent \underbar{\textbf{UC10 - Stvaranje operacije}}
 					\begin{packed_item}
@@ -346,12 +327,240 @@
 							\item[2.a] Stvorena je operacija s već postojećim imenom
 							\item[] \begin{packed_enum}
 								
-								\item Sustav onemogućuje stvaranje nove opracije, te javlja grešku.
+								\item Sustav onemogućuje stvaranje nove operacije, te javlja grešku.
 
 							\end{packed_enum}
 							
 						\end{packed_item}
 					\end{packed_item}
+					\noindent \underbar{\textbf{UC11 - Mijenjanje statusa bloka}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: }Kartograf
+						\item  \textbf{Cilj:} Promjena statusa bloka
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Kartograf je prijavljen u sustav
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Kartograf odabire ekran "Karta"
+							\item Kartograf odabire blok na kojem želi raditi
+							\item Kartograf odabire gumb "Promijeni status bloka"
+							\item Kartograf mijenja status bloka iz "nezapočeto" u "aktivno" te potom uređuje blok 
+							\item Kartograf mijenja status bloka iz "aktivno" u "provjera" nakon što je odradio posao
+							\item Status bloka mijenja se iz "provjera" u "dovršeno" ako su dva kartografa provjerila odrađeni posao
+							\item Promjena statusa bloka sprema se u bazu podataka
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+							
+							\item[2.a] Kartograf odabire blok sa statusom "aktivan" kojeg uređuje drugi kartograf
+							\item[] \begin{packed_enum}
+								
+								\item Nije mu dopušteno uređivanje bloka uz ispis prigodne poruke
+								
+							\end{packed_enum}
+							
+							\item[5.a] Kartograf smatra da posao nije dobro odrađen
+							\item[] \begin{packed_enum}
+								
+								\item Kartograf mijenja status bloka iz "provjera" u "aktivno"
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+					\noindent \underbar{\textbf{UC12 - Dodavanje građevine u blok}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: }Kartograf
+						\item  \textbf{Cilj:} Dodavanje nove građevine u blok
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Blok ima status "aktivan"
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Kartograf odabire ekran "Karta"
+							\item Kartograf odabire blok na kojem želi unijeti građevinu
+							\item Kartograf odabire gumb "Unesi novu građevinu"
+							\item Kartograf unosi podatke o građevini
+							\item Podaci o unesenoj građevini spremaju se u bazu podataka
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+							
+							\item[4.a] Građevina s tim podacima već postoji
+							\item[] \begin{packed_enum}
+								
+								\item Sustav onemogućava dodavanje građevine te javlja grešku
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+					\noindent \underbar{\textbf{UC13 - Mijenjanje statusa građevini}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: }Spasioc
+						\item  \textbf{Cilj:} Promjena statusa građevine
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Spasioc je prijavljen u sustav
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Spasioc odabire ekran "Karta"
+							\item Spasioc odabire građevinu kojoj želi promijeniti status
+							\item Spasioc odabire gumb "Promijeni status građevine"
+							\item Spasioc mijenja status u "pretraženo" ako je građevina pretražena ili u "nepretraženo" ako građevina nije pretražena
+							\item Podaci o statusu građevine spremaju se u bazu podataka
+							
+						\end{packed_enum}
+					
+					\end{packed_item}
+					\noindent \underbar{\textbf{UC14 - Zaključavanje operacije}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: }Voditelj operacije
+						\item  \textbf{Cilj:} Zaključavanje područja koja su uspješno kartografirana i pretražena
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Područje je uspješno pretraženo
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Voditelj operacije odabire ekran "Karta"
+							\item Voditelj operacije klikne na operaciju koju želi zaključati
+							\item Voditelj operacije odabire gumb "Zaključaj operaciju"
+							\item Područje se više ne prikazuje kao područje koje je potrebno pretražiti
+							
+						\end{packed_enum}
+					
+					\end{packed_item}
+					\noindent \underbar{\textbf{UC15 - Prikaz statistike}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: }Voditelj operacije ili kartograf
+						\item  \textbf{Cilj:} Prikaz statistike humanitarne akcije
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Voditelj operacije ili kartograf je prijavljen u sustav
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Voditelj operacije ili kartograf odabire ekran "Statistika"
+							\item Prikazuje se broj završenih blokova, broj prijavljenih nestalih i broj pronađenih osoba, te broj pretraženih i nepretraženih građevina kroz vrijeme
+							
+						\end{packed_enum}
+					
+					\end{packed_item}
+					\noindent \underbar{\textbf{UC16 - Prikaz registriranih korisnika}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: }Administrator
+						\item  \textbf{Cilj:} Prikaz svih registriranih korisnika te njihovih osobnih podataka
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Administrator je prijavljen u sustav
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Administrator odabire ekran "Admin page"
+							\item Administratoru se prikazuje popis korisnika te njihovih osobnih podataka
+							
+						\end{packed_enum}
+					
+					\end{packed_item}
+					\noindent \underbar{\textbf{UC17 - Mijenjanje prava korisnicima}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: }Administrator
+						\item  \textbf{Cilj:} Mogućnost mijenjanja prava registriranim korisnicima
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Administrator je prijavljen u sustav
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Administrator odabire ekran "Admin page"
+							\item Administrator kod željenog korisnika odabire gumb "Promijeni prava"
+							\item Administrator bira novo pravo tom korisniku
+							\item Novi podaci o pravu korisnika spremaju se u bazu podataka
+						\end{packed_enum}
+
+					\end{packed_item}
+					\noindent \underbar{\textbf{UC18 - Prikaz profila}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: }Korisnik
+						\item  \textbf{Cilj:} Prikaz osobnih podataka korisnika
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Korisnik je prijavljen u sustav
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Korisnik odabire ekran "Profile page"
+							\item Korisniku se prikazuju njegovi osobni podaci
+						\end{packed_enum}
+					
+					\end{packed_item}
+					\noindent \underbar{\textbf{UC19 - Uređivanje profila}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: }Korisnik
+						\item  \textbf{Cilj:} Mogućnost uređivanja osobnih podataka
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Korisnik je prijavljen u sustav
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Korisnik odabire ekran "Profile page"
+							\item Korisnik kod podatka koji želi promijeniti odabire gumb "Uredi"
+							\item Korisnik unosi novi podatak na to mjesto
+							\item Novi podaci o korisniku spremaju se u bazu podataka
+						\end{packed_enum}
+						
+					\end{packed_item}
+					\noindent \underbar{\textbf{UC20 - Potvrda registracije}}
+					\begin{packed_item}
+						
+						\item \textbf{Glavni sudionik: }Administrator
+						\item  \textbf{Cilj:} Mogućnost potvrde ili odbijanja registracije korisnika
+						\item  \textbf{Sudionici:} Baza podataka
+						\item  \textbf{Preduvjet:} Administrator je prijavljen u sustav
+						\item  \textbf{Opis osnovnog tijeka:}
+						
+						\item[] \begin{packed_enum}
+							
+							\item Administrator odabire ekran "Admin page"
+							\item Administrator odabire gumb "Zahtjevi za registraciju"
+							\item Administrator odabire gumb "Potvrdi registraciju"
+							\item Podaci o korisniku spremaju se u bazu podataka
+						\end{packed_enum}
+						
+						\item  \textbf{Opis mogućih odstupanja:}
+						
+						\item[] \begin{packed_item}
+							
+							\item[3.a] Administrator ne želi potvrditi registraciju
+							\item[] \begin{packed_enum}
+								
+								\item Administrator odabire gumb "Odbij registraciju"
+								\item Zahtjev za registracijom je odbijen te se korisniku ispisuje prigodna poruka
+								
+							\end{packed_enum}
+							
+						\end{packed_item}
+					\end{packed_item}
+				
 				\subsubsection{Dijagrami obrazaca uporabe}
 					
 					\textit{Prikazati odnos aktora i obrazaca uporabe odgovarajućim UML dijagramom. Nije nužno nacrtati sve na jednom dijagramu. Modelirati po razinama apstrakcije i skupovima srodnih funkcionalnosti.}
