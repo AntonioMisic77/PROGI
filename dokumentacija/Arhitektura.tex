@@ -1,4 +1,4 @@
-\chapter{Arhitektura i dizajn sustava}
+Arhitektura i dizajn sustava}
 		
 		\textbf{\textit{dio 1. revizije}}\\
 
@@ -26,6 +26,8 @@
 
 				\textit{Svaku tablicu je potrebno opisati po zadanom predlošku. Lijevo se nalazi točno ime varijable u bazi podataka, u sredini se nalazi tip podataka, a desno se nalazi opis varijable. Svjetlozelenom bojom označite primarni ključ. Svjetlo plavom označite strani ključ}
 				
+
+\textbf{Users} Ovaj entitet sadrži sve važne informacije o korisniku aplikacije. Sadrži atribute: korisničko ime, OIB, ime, prezime, fotografiju, broj telefona, adresu elektroničke pošte, lozinku, ID uloge korisnika te status je li potvrđen. Ovaj entitet u vezi je \textit{Many-to-One} s entitetom Role preko atributa identifikatora uloge, u vezi \textit{One-To-Many} s entitetom Operation preko atributa identifikatora osobe i u vezi \textit{One-to-Many} s entitetom Comment preko atributa identifikatora osobe. 
 				
 				\begin{longtblr}[
 					label=none,
@@ -35,13 +37,81 @@
 						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
 						rowhead = 1,
 					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
-					\hline \multicolumn{3}{|c|}{\textbf{korisnik - ime tablice}}	 \\ \hline[3pt]
-					\SetCell{LightGreen}IDKorisnik & INT	&  	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  	\\ \hline
-					korisnickoIme	& VARCHAR &   	\\ \hline 
-					email & VARCHAR &   \\ \hline 
-					ime & VARCHAR	&  		\\ \hline 
-					\SetCell{LightBlue} primjer	& VARCHAR &   	\\ \hline 
+					\hline \multicolumn{3}{|c|}{\textbf{Users}}	 \\ \hline[3pt]
+					Username & VARCHAR	&  	korisničko ime korisnika  	\\ \hline
+					\SetCell{LightGreen}OIB	& BIGINT & jedinstveni identifikator osobe   	\\ \hline 
+					FirstName & VARCHAR & ime korisnika  \\ \hline 
+					LastName & VARCHAR	& prezime korisnika 		\\ \hline 
+				    PhoneNumber & VARCHAR & telefonski broj korisnika  	\\ \hline 
+					EMail & VARCHAR & adresa elektroničke pošte korisnika  	\\ \hline
+					Password & VARCHAR & hash lozinke  	\\ \hline
+                    \SetCell{LightBlue}RoleId & INT & identifikator uloge  	\\ \hline
+                    Confirmed & BIT & status je li administrator potvrdio korisnika  	\\ \hline
 				\end{longtblr}
+				
+\textbf{Role} Ovaj entitet sadrži sve važne informacije o ulogama korisnika aplikacije. Sadrži atribute ID uloge i ime uloge. Ovaj entitet u vezi je \textit{One-to-Many} s entitetom Users preko atributa identifikatora uloge. 
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \multicolumn{3}{|c|}{\textbf{Role}}	 \\ \hline[3pt]
+					\SetCell{LightGreen}Id & INT	&  jedinstveni identifikator uloge  	\\ \hline
+					Name	& VARCHAR &  naziv uloge 	\\ \hline
+				\end{longtblr}
+\textbf{Missing Report} Ovaj entitet sadrži sve važne informacije o prijavama nestalih osoba. Sadrži atribute: ID prijave, ime osobe, prezime osobe, OIB osobe, fotografiju osobe i opis prijave. Ovaj entitet u vezi je \textit{One-to-Many} s entitetom Comment preko atributa identifikatora prijave nestale osobe.  
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \multicolumn{3}{|c|}{\textbf{Missing Report}}	 \\ \hline[3pt]
+					\SetCell{LightGreen}Id & INT	&  jedinstveni identifikator prijave nestale osobe  	\\ \hline
+					FirstName	& VARCHAR &  ime nestale osobe 	\\ \hline
+                    LastName	& VARCHAR &  prezime nestale osobe 	\\ \hline
+                    OIB	& BIGINT &  jedinstveni identifikator nestale osobe 	\\ \hline
+                    Photo	& VARCHAR &  fotografija nestale osobe 	\\ \hline
+                    Description	& VARCHAR &  opis prijave nestale osobe 	\\ \hline
+                   
+				\end{longtblr}
+                \textbf{Comment} Ovaj entitet sadrži sve važne informacije o komentarima prijava nestalih osoba. Sadrži atribute ID komentara, ID prijave koja se komentira, sadržaj komentara, OIB korisnika. Ovaj entitet u vezi je \textit{Many-to-One} s entitetom Missing Report preko atributa identifikatora prijave nestale osobe i u vezi \textit{Many-to-One} s entitetom Users preko atributa identifikatora osobe. 
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \multicolumn{3}{|c|}{\textbf{Comment}}	 \\ \hline[3pt]
+					\SetCell{LightGreen}Id & INT	&  jedinstveni identifikator komentara  	\\ \hline
+					\SetCell{LightBlue}ReportId	& INT &  jedinstveni identifikator prijave nestale osobe 	\\ \hline
+                    Text & VARCHAR &  sadržaj komentara 	\\ \hline
+                   \SetCell{LightBlue} UserOIB	& BIGINT &  jedinstveni identifikator osobe koja komentira 	\\ \hline
+				\end{longtblr}
+\textbf{Operation} Ovaj entitet sadrži sve važne informacije o operacijama. Sadrži atribute: ID operacije, status operacije i OIB voditelja operacije. Ovaj entitet u vezi je \textit{Many-to-One} s entitetom Users preko atributa identifikatora osobe. 
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \multicolumn{3}{|c|}{\textbf{Operation}}	 \\ \hline[3pt]
+					\SetCell{LightGreen}Id & INT	&  jedinstveni identifikator operacije\\ \hline
+					Status	& VARCHAR &  status operacije 	\\ \hline
+                    \SetCell{LightBlue}LeaderOIB	& BIGINT & jedinstveni identifikator voditelja operacije 	\\ \hline
+                    
+				\end{longtblr}
+                
+            
 				
 				
 			
