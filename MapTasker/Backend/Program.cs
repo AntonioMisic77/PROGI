@@ -17,7 +17,8 @@ builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
     builder.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader();
 }));
 
-builder.Services.AddDbContext<MapTaskerDBContext>(options => options.UseSqlServer(builder.Configuration["ConnectionString"]));
+
+builder.Services.AddDbContext<MapTaskerDBContext>(options => options.UseSqlServer(builder.Configuration["ConnectionString:MapTaskerDbConnectionString"]));
 
 var app = builder.Build();
 
