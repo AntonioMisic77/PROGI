@@ -1,6 +1,6 @@
 ﻿using Backend.Services.Implementations;
 using Backend.Services.Interfaces;
-using System.Runtime.CompilerServices;
+using Backend.Services.SeedDb;
 
 namespace Backend
 {
@@ -9,6 +9,7 @@ namespace Backend
         public static void AddServices(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient<IUserService, UserService>();
+            serviceCollection.AddTransient<IDbSeeder, DbSeeder>();
         }
     }
 }
