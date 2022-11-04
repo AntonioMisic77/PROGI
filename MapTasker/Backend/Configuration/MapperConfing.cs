@@ -9,7 +9,7 @@ namespace Backend.Configuration
 
         public MapperConfing()
         {
-            CreateMap<User, RegisterDto>().ReverseMap();
+            CreateMap<User, UserDto>().ReverseMap();
         }
     }
 }
