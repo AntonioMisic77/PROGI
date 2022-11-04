@@ -19,9 +19,18 @@ namespace Backend.Controllers
 
         [HttpPost]
 
-        public async Task<string> Login([FromBody] LoginDto user)
+        public async Task<ActionResult<string>> Login([FromBody] LoginDto user)
         {
-            return await _loginService.Login(user);
+            var token = await _loginService.Login(user);
+           
+            if (token == null)
+            {
+                return Unauthorized("E-mail or password are inccorect");
+            }
+            else
+            {
+                return Ok(token);
+            }
         }
     }
 }

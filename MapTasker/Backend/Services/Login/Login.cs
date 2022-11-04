@@ -28,9 +28,11 @@ namespace Backend.Services.Login
 
             var user = _context.Users.FirstOrDefault(a=> a.Email == item.Email);
 
+            if (user == null) return null;
+
             var isUserValid = hasher.VerifyHashedPassword(user, user.Password, item.Password);
 
-            if (isUserValid == PasswordVerificationResult.Failed || user == null) return null;
+            if (isUserValid == PasswordVerificationResult.Failed) return null;
 
             var token = await CreateToken(user);
 
