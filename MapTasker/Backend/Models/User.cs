@@ -7,6 +7,8 @@ namespace Backend.Models
     {
         public User()
         {
+            Areas = new HashSet<Area>();
+            Blocks = new HashSet<Block>();
             Comments = new HashSet<Comment>();
             Operations = new HashSet<Operation>();
         }
@@ -23,6 +25,8 @@ namespace Backend.Models
         public bool Confirmed { get; set; }
 
         public virtual Role Role { get; set; } = null!;
+        public virtual ICollection<Area> Areas { get; set; }
+        public virtual ICollection<Block> Blocks { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Operation> Operations { get; set; }
     }

@@ -13,7 +13,9 @@ namespace Backend.Models
         public int AreaId { get; set; }
         public string Status { get; set; } = null!;
         public int RegionId { get; set; }
+        public long? ActiveForOib { get; set; }
 
+        public virtual User? ActiveForOibNavigation { get; set; }
         public virtual Area Area { get; set; } = null!;
         public virtual Region Region { get; set; } = null!;
         public virtual ICollection<Building> Buildings { get; set; }
