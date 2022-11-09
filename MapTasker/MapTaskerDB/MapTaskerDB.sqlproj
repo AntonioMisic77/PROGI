@@ -63,5 +63,17 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Users.sql" />
+    <Build Include="dbo\Tables\MissingReport.sql" />
+    <Build Include="dbo\Tables\Role.sql" />
+    <Build Include="dbo\Tables\Comment.sql" />
+    <Build Include="dbo\Tables\Area.sql" />
+    <Build Include="dbo\Tables\Point.sql" />
+    <Build Include="dbo\Tables\Block.sql" />
+    <Build Include="dbo\Tables\Region.sql" />
+    <Build Include="dbo\Tables\Operation.sql" />
+    <Build Include="dbo\Tables\Building.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="MapTaskerDB.refactorlog" />
   </ItemGroup>
 </Project>
