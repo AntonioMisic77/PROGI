@@ -75,8 +75,7 @@
 				\textit{Svaku tablicu je potrebno opisati po zadanom predlošku. Lijevo se nalazi točno ime varijable u bazi podataka, u sredini se nalazi tip podataka, a desno se nalazi opis varijable. Svjetlozelenom bojom označite primarni ključ. Svjetlo plavom označite strani ključ}
 				
 
-\textbf{Users} Ovaj entitet sadrži sve važne informacije o korisniku aplikacije. Sadrži atribute: korisničko ime, OIB, ime, prezime, fotografiju, broj telefona, adresu elektroničke pošte, lozinku, ID uloge korisnika te status je li potvrđen. Ovaj entitet u vezi je \textit{Many-to-One} s entitetom Role preko atributa identifikatora uloge, u vezi \textit{One-To-Many} s entitetom Operation preko atributa identifikatora osobe i u vezi \textit{One-to-Many} s entitetom Comment preko atributa identifikatora osobe. 
-				
+\textbf{Users} Ovaj entitet sadrži sve važne informacije o korisniku aplikacije. Sadrži atribute: korisničko ime, OIB, ime, prezime, fotografiju, broj telefona, adresu elektroničke pošte, lozinku, ID uloge korisnika te status je li potvrđen. Ovaj entitet u vezi je \textit{Many-to-One} s entitetom Role preko atributa identifikatora uloge, u vezi \textit{One-To-Many} s entitetom Operation preko atributa identifikatora osobe, u vezi \textit{One-to-Many} s entitetom Comment preko atributa identifikatora osobe, u vezi \textit{One-To-Many} s entitetom Area preko atributa identifikatora osobe te u vezi \textit{One-To-Many} s entitetom Block preko atributa identifikatora osobe. 
 				\begin{longtblr}[
 					label=none,
 					entry=none
@@ -89,7 +88,8 @@
 					Username & VARCHAR	&  	korisničko ime korisnika  	\\ \hline
 					\SetCell{LightGreen}OIB	& BIGINT & jedinstveni identifikator osobe   	\\ \hline 
 					FirstName & VARCHAR & ime korisnika  \\ \hline 
-					LastName & VARCHAR	& prezime korisnika 		\\ \hline 
+					LastName & VARCHAR	& prezime korisnika 		\\ \hline
+					Photo & VARCHAR & fotografija korisnika \\ \hline 
 				    PhoneNumber & VARCHAR & telefonski broj korisnika  	\\ \hline 
 					EMail & VARCHAR & adresa elektroničke pošte korisnika  	\\ \hline
 					Password & VARCHAR & hash lozinke  	\\ \hline
@@ -110,7 +110,8 @@
 					\SetCell{LightGreen}Id & INT	&  jedinstveni identifikator uloge  	\\ \hline
 					Name	& VARCHAR &  naziv uloge 	\\ \hline
 				\end{longtblr}
-\textbf{Missing Report} Ovaj entitet sadrži sve važne informacije o prijavama nestalih osoba. Sadrži atribute: ID prijave, ime osobe, prezime osobe, OIB osobe, fotografiju osobe i opis prijave. Ovaj entitet u vezi je \textit{One-to-Many} s entitetom Comment preko atributa identifikatora prijave nestale osobe.  
+			
+\textbf{Missing Report} Ovaj entitet sadrži sve važne informacije o prijavama nestalih osoba. Sadrži atribute: ID prijave, ime osobe, prezime osobe, OIB osobe, fotografiju osobe, opis prijave, datum i vrijeme prijave te datum i vrijeme pronalaska. Ovaj entitet u vezi je \textit{One-to-Many} s entitetom Comment preko atributa identifikatora prijave nestale osobe.  
 				\begin{longtblr}[
 					label=none,
 					entry=none
@@ -126,9 +127,11 @@
                     OIB	& BIGINT &  jedinstveni identifikator nestale osobe 	\\ \hline
                     Photo	& VARCHAR &  fotografija nestale osobe 	\\ \hline
                     Description	& VARCHAR &  opis prijave nestale osobe 	\\ \hline
-                   
+                    ReportedAt & DATETIME & datum i vrijeme prijave nestanka osobe   \\ \hline
+                    FoundAt & DATETIME & datum i vrijeme pronalaska nestale osobe \\ \hline
 				\end{longtblr}
-                \textbf{Comment} Ovaj entitet sadrži sve važne informacije o komentarima prijava nestalih osoba. Sadrži atribute ID komentara, ID prijave koja se komentira, sadržaj komentara, OIB korisnika. Ovaj entitet u vezi je \textit{Many-to-One} s entitetom Missing Report preko atributa identifikatora prijave nestale osobe i u vezi \textit{Many-to-One} s entitetom Users preko atributa identifikatora osobe. 
+			
+\textbf{Comment} Ovaj entitet sadrži sve važne informacije o komentarima prijava nestalih osoba. Sadrži atribute ID komentara, ID prijave koja se komentira, sadržaj komentara, OIB korisnika. Ovaj entitet u vezi je \textit{Many-to-One} s entitetom Missing Report preko atributa identifikatora prijave nestale osobe i u vezi \textit{Many-to-One} s entitetom Users preko atributa identifikatora osobe. 
 				\begin{longtblr}[
 					label=none,
 					entry=none
@@ -141,9 +144,10 @@
 					\SetCell{LightGreen}Id & INT	&  jedinstveni identifikator komentara  	\\ \hline
 					\SetCell{LightBlue}ReportId	& INT &  jedinstveni identifikator prijave nestale osobe 	\\ \hline
                     Text & VARCHAR &  sadržaj komentara 	\\ \hline
-                   \SetCell{LightBlue} UserOIB	& BIGINT &  jedinstveni identifikator osobe koja komentira 	\\ \hline
+                    \SetCell{LightBlue} UserOIB	& BIGINT &  jedinstveni identifikator osobe koja komentira 	\\ \hline
 				\end{longtblr}
-\textbf{Operation} Ovaj entitet sadrži sve važne informacije o operacijama. Sadrži atribute: ID operacije, status operacije i OIB voditelja operacije. Ovaj entitet u vezi je \textit{Many-to-One} s entitetom Users preko atributa identifikatora osobe. 
+
+\textbf{Operation} Ovaj entitet sadrži sve važne informacije o operacijama. Sadrži atribute: ID operacije, status operacije i OIB voditelja operacije. Ovaj entitet u vezi je \textit{Many-to-One} s entitetom Users preko atributa identifikatora osobe te u vezi \textit{One-To-Many} s entitetom Region preko atributa identifikatora operacije. 
 				\begin{longtblr}[
 					label=none,
 					entry=none
@@ -156,8 +160,88 @@
 					\SetCell{LightGreen}Id & INT	&  jedinstveni identifikator operacije\\ \hline
 					Status	& VARCHAR &  status operacije 	\\ \hline
                     \SetCell{LightBlue}LeaderOIB	& BIGINT & jedinstveni identifikator voditelja operacije 	\\ \hline
-                    
 				\end{longtblr}
+<<<<<<< HEAD
+=======
+
+\textbf{Area} Ovaj entitet sadrži sve važne informacije o područjima. Sadrži atribute: identifikator područja, datum i vrijeme nastanka područja, datum i vrijeme zatvaranja područja te identifikator osobe koja je zadnja uređivala područje. Ovaj entitet u vezi je \textit{Many-to-One} s entitetom Users preko atributa identifikatora osobe, u vezi \textit{One-To-Many} s entitetom Block preko atributa identifikatora područja, u vezi \textit{One-To-Many} s entitetom Building preko atributa identifikatora područja, u vezi \textit{One-To-Many} s entitetom Point preko atributa identifikatora područja te u vezi \textit{One-To-Many} s entitetom Region preko atributa identifikatora područja. 
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \multicolumn{3}{|c|}{\textbf{Area}}	 \\ \hline[3pt]
+					\SetCell{LightGreen}Id & INT	&  jedinstveni identifikator područja \\ \hline
+					CreatedAt & DATETIME & datum i vrijeme nastanka područja \\ \hline
+					ClosedAt & DATETIME & datum i vrijeme zatvaranja područja \\ \hline
+					\SetCell{LightBlue}UpdatedLastByOIB	& BIGINT &  identifikator osobe koja je zadnja uređivala područje 	\\ \hline
+				\end{longtblr}  
+                
+\textbf{Region} Ovaj entitet sadrži sve važne informacije o regiji. Sadrži atribute: identifikator regije te identifikator operacije. Ovaj entitet u vezi je \textit{Many-to-One} s entitetom Area preko atributa identifikatora regije, u vezi \textit{Many-To-One} s entitetom Operation preko atributa identifikatora operacije te u vezi \textit{One-To-Many} s entitetom Block preko atributa identifikatora regije. 
+				\begin{longtblr}[
+					label=none,
+					entry=none
+					]{
+						width = \textwidth,
+						colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+						rowhead = 1,
+					} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+					\hline \multicolumn{3}{|c|}{\textbf{Region}}	 \\ \hline[3pt]
+					\SetCell{LightGreen}AreaId & INT	&  jedinstveni identifikator regije \\ \hline
+					\SetCell{LightBlue}OperationId	& INT &  jedinstveni identifikator operacije 	\\ \hline
+				\end{longtblr}            
+				
+\textbf{Block} Ovaj entitet sadrži sve važne informacije o blokovima. Sadrži atribute: identifikator bloka, status bloka, identifikator regije te identifikator osobe koja uređuje blok. Ovaj entitet u vezi je \textit{Many-to-One} s entitetom Users preko atributa identifikatora osobe, u vezi \textit{Many-To-One} s entitetom Area preko atributa identifikatora bloka, u vezi \textit{Many-To-One} s entitetom Region preko atributa identifikatora regije te u vezi \textit{One-To-Many} s entitetom Building preko atributa identifikatora bloka. 
+	          \begin{longtblr}[
+	          	label=none,
+	          	entry=none
+	          	]{
+	          		width = \textwidth,
+	          		colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+	          		rowhead = 1,
+	          	} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+	          	\hline \multicolumn{3}{|c|}{\textbf{Block}}	 \\ \hline[3pt]
+	          	\SetCell{LightGreen}AreaId & INT	&  jedinstveni identifikator bloka \\ \hline
+	          	Status & VARCHAR & status bloka \\ \hline
+	          	\SetCell{LightBlue}RegionId & INT & jedinstveni identifikator regije \\ \hline
+	          	\SetCell{LightBlue}ActiveForOIB	& BIGINT &  identifikator kartografa koji trenutno uređuje blok 	\\ \hline
+	          \end{longtblr}  
+				
+\textbf{Building} Ovaj entitet sadrži sve važne informacije o građevinama. Sadrži atribute: identifikator građevine, identifikator bloka te status građevine. Ovaj entitet u vezi je \textit{Many-to-One} s entitetom Area preko atributa identifikatora građevine te u vezi \textit{Many-To-One} s entitetom Block preko atributa identifikatora bloka.
+			\begin{longtblr}[
+				label=none,
+				entry=none
+				]{
+					width = \textwidth,
+					colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+					rowhead = 1,
+				} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+				\hline \multicolumn{3}{|c|}{\textbf{Building}}	 \\ \hline[3pt]
+				\SetCell{LightGreen}AreaId & INT	&  jedinstveni identifikator građevine \\ \hline
+				\SetCell{LightBlue}BlockId & INT & jedinstveni identifikator bloka \\ \hline
+	          	Status & VARCHAR & status građevine \\ \hline
+			\end{longtblr}
+
+\textbf{Point} Ovaj entitet sadrži sve važne informacije o točkama i njihovim koordinatama. Sadrži atribute: identifikator točke, geografska širina, geografska dužina, identifikator područja te redni broj. Ovaj entitet u vezi je \textit{Many-to-One} s entitetom Area preko atributa identifikatora područja.
+			\begin{longtblr}[
+				label=none,
+				entry=none
+				]{
+					width = \textwidth,
+					colspec={|X[6,l]|X[6, l]|X[20, l]|}, 
+					rowhead = 1,
+				} %definicija širine tablice, širine stupaca, poravnanje i broja redaka naslova tablice
+				\hline \multicolumn{3}{|c|}{\textbf{Point}}	 \\ \hline[3pt]
+				\SetCell{LightGreen}Id & INT	&  jedinstveni identifikator točke \\ \hline
+				Latitude & FLOAT & geografska širina točke \\ \hline
+				Longitude & FLOAT & geografska dužina točke \\ \hline
+				\SetCell{LightBlue}AreaId & INT & jedinstveni identifikator područja \\ \hline
+				OrderNumber & INT & redni broj točke \\ \hline
+			\end{longtblr}
+>>>>>>> 075cef6 (popravljen opis tablica baze podataka 1-5 i dodan opis tablica baze podataka 6-10)
 			
 			\subsection{Dijagram baze podataka}
 				\begin{figure}[H]
