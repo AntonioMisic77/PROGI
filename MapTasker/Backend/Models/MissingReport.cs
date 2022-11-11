@@ -16,6 +16,8 @@ namespace Backend.Models
         public long Oib { get; set; }
         public string Photo { get; set; } = null!;
         public string? Description { get; set; }
+        public DateTime ReportedAt { get; set; }
+        public DateTime? FoundAt { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }
     }

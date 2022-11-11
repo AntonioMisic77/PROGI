@@ -43,6 +43,18 @@ namespace Backend.Data
                 entity.ToTable("Area");
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.ClosedAt).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+
+                entity.Property(e => e.UpdatedLastByOib).HasColumnName("UpdatedLastByOIB");
+
+                entity.HasOne(d => d.UpdatedLastByOibNavigation)
+                    .WithMany(p => p.Areas)
+                    .HasForeignKey(d => d.UpdatedLastByOib)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UpdatedLastByOIB");
             });
 
             modelBuilder.Entity<Block>(entity =>
@@ -54,7 +66,14 @@ namespace Backend.Data
 
                 entity.Property(e => e.AreaId).ValueGeneratedNever();
 
+                entity.Property(e => e.ActiveForOib).HasColumnName("ActiveForOIB");
+
                 entity.Property(e => e.Status).HasMaxLength(50);
+
+                entity.HasOne(d => d.ActiveForOibNavigation)
+                    .WithMany(p => p.Blocks)
+                    .HasForeignKey(d => d.ActiveForOib)
+                    .HasConstraintName("FK_ActiveForOIB");
 
                 entity.HasOne(d => d.Area)
                     .WithOne(p => p.Block)
@@ -121,9 +140,13 @@ namespace Backend.Data
 
                 entity.Property(e => e.FirstName).HasMaxLength(50);
 
+                entity.Property(e => e.FoundAt).HasColumnType("datetime");
+
                 entity.Property(e => e.LastName).HasMaxLength(50);
 
                 entity.Property(e => e.Oib).HasColumnName("OIB");
+
+                entity.Property(e => e.ReportedAt).HasColumnType("datetime");
             });
 
             modelBuilder.Entity<Operation>(entity =>
@@ -148,10 +171,6 @@ namespace Backend.Data
                 entity.ToTable("Point");
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.Property(e => e.Xcoordinate).HasColumnName("XCoordinate");
-
-                entity.Property(e => e.Ycoordinate).HasColumnName("YCoordinate");
 
                 entity.HasOne(d => d.Area)
                     .WithMany(p => p.Points)
