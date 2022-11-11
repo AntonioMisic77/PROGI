@@ -1,15 +1,20 @@
 import React from 'react';
-import './App.css';
-import { UserClient } from '../../Api/Api';
-import RegistrationForm from '../RegistrationForm/RegistrationForm';
+import {
+   BrowserRouter as Router,
+   Route,
+   Routes,
+ } from "react-router-dom";
+
+import RegisterPage from '../../pages/Registration/RegisterPage';
 
 function App() {
    return (
-      <div className="App">
-         <header className="App-header">
-            <RegistrationForm />
-         </header>
-      </div>
+      <Router>
+         <Routes>
+            <Route path="/register" element={<RegisterPage/>}/>
+            <Route path="/" element={<h1>Za Emin homepage</h1>}/>
+         </Routes>
+      </Router>
    );
 }
 
