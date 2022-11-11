@@ -1,21 +1,16 @@
 import React from 'react';
 import './App.css';
 import { UserClient } from '../../Api/Api';
-import Button from '../Button/Button';
+import RegistrationForm from '../RegistrationForm/RegistrationForm';
 
 function App() {
-  let handleClick = async () => {
-    let client = new UserClient("https://localhost:7270");
-    let response = await client.getAllUsers();
-    console.log(response);
-  }
-  return (
-    <div className="App">
-      <header className="App-header">
-          <Button onClick={handleClick} text="Klikni me"/>
-      </header>
-    </div>
-  );
+   return (
+      <div className="App">
+         <header className="App-header">
+            <RegistrationForm />
+         </header>
+      </div>
+   );
 }
 
 export default App;
