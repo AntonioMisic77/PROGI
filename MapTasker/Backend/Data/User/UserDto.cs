@@ -30,12 +30,5 @@ namespace Backend.Data.Register
 
         [Required]
         public int RoleId { get; set; }
-
-
-        // Navigation Properties
-        public virtual Role Role { get; set; } = null!;
-        public virtual ICollection<Comment> Comments { get; set; }
-        public virtual ICollection<Operation> Operations { get; set; }
-
     }
 }
