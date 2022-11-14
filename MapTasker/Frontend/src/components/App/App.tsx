@@ -1,21 +1,23 @@
 import React from 'react';
-import './App.css';
-import { UserClient } from '../../Api/Api';
-import Button from '../Button/Button';
+import {
+   BrowserRouter as Router,
+   Route,
+   Routes,
+ } from "react-router-dom";
+ 
+import LoginPage from '../../pages/Login/LoginPage';
+import RegisterPage from '../../pages/Registration/RegisterPage';
 
 function App() {
-  let handleClick = async () => {
-    let client = new UserClient("https://localhost:7270");
-    let response = await client.getAllUsers();
-    console.log(response);
-  }
-  return (
-    <div className="App">
-      <header className="App-header">
-          <Button onClick={handleClick} text="Klikni me"/>
-      </header>
-    </div>
-  );
+   return (
+      <Router>
+         <Routes>
+            <Route path="/login" element={<LoginPage/>}/>
+            <Route path="/register" element={<RegisterPage/>}/>
+            <Route path="/" element={<h1>Za Emin homepage</h1>}/>
+         </Routes>
+      </Router>
+   );
 }
 
 export default App;

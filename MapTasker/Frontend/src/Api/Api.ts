@@ -177,6 +177,8 @@ export interface User {
     roleId: number;
     confirmed: boolean;
     role: Role;
+    areas: Area[];
+    blocks: Block[];
     comments: Comment[];
     operations: Operation[];
 }
@@ -221,9 +223,12 @@ export interface Region {
     operation: Operation;
     blocks: Block[];
 }
-
 export interface Area {
     id: number;
+    createdAt: Date;
+    closedAt?: Date | undefined;
+    updatedLastByOib: number;
+    updatedLastByOibNavigation: User;
     block?: Block | undefined;
     building?: Building | undefined;
     region?: Region | undefined;
@@ -234,9 +239,27 @@ export interface Block {
     areaId: number;
     status: string;
     regionId: number;
+    activeForOib?: number | undefined;
+    activeForOibNavigation?: User | undefined;
     area: Area;
     region: Region;
     buildings: Building[];
+}
+
+export interface Region {
+    areaId: number;
+    operationId: number;
+    area: Area;
+    operation: Operation;
+    blocks: Block[];
+}
+
+export interface Operation {
+    id: number;
+    status: string;
+    leaderOib: number;
+    leaderOibNavigation: User;
+    regions: Region[];
 }
 
 export interface Building {
@@ -249,11 +272,32 @@ export interface Building {
 
 export interface Point {
     id: number;
-    xcoordinate: number;
-    ycoordinate: number;
+    latitude: number;
+    longitude: number;
     areaId: number;
     orderNumber: number;
     area: Area;
+}
+
+export interface Comment {
+    id: number;
+    reportId: number;
+    text: string;
+    userOib?: number | undefined;
+    report: MissingReport;
+    userOibNavigation?: User | undefined;
+}
+
+export interface MissingReport {
+    id: number;
+    firstName: string;
+    lastName: string;
+    oib: number;
+    photo: string;
+    description?: string | undefined;
+    reportedAt: Date;
+    foundAt?: Date | undefined;
+    comments: Comment[];
 }
 
 export class ApiException extends Error {
