@@ -1,10 +1,15 @@
 ﻿using Backend.Configuration;
+using Backend.Services.Block;
+using Backend.Services.Building;
 using Backend.Services.Implementations;
 using Backend.Services.Interfaces;
 using Backend.Services.Login;
 using Backend.Services.MissingReport;
+using Backend.Services.Operation;
+using Backend.Services.Region;
 using Backend.Services.Registration;
 using Backend.Services.SeedDb;
+using Backend.Services.Statistic;
 
 namespace Backend
 {
@@ -18,6 +23,11 @@ namespace Backend
             serviceCollection.AddTransient<ILogin, Login>();
             serviceCollection.AddTransient<IRegister, Register>();
             serviceCollection.AddTransient<IMissingReport,MissingReport>();
+            serviceCollection.AddTransient<IRegion, Region>();
+            serviceCollection.AddTransient<IOperation, Operation>();
+            serviceCollection.AddTransient<IBlock, Block>();
+            serviceCollection.AddTransient<IBuilding,Building>();
+            serviceCollection.AddTransient<IStatistic,Statistics>();
         }
     }
 }
