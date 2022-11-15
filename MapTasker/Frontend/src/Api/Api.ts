@@ -189,40 +189,6 @@ export interface Role {
     users: User[];
 }
 
-export interface Comment {
-    id: number;
-    reportId: number;
-    text: string;
-    userOib?: number | undefined;
-    report: MissingReport;
-    userOibNavigation?: User | undefined;
-}
-
-export interface MissingReport {
-    id: number;
-    firstName: string;
-    lastName: string;
-    oib: number;
-    photo: string;
-    description?: string | undefined;
-    comments: Comment[];
-}
-
-export interface Operation {
-    id: number;
-    status: string;
-    leaderOib: number;
-    leaderOibNavigation: User;
-    regions: Region[];
-}
-
-export interface Region {
-    areaId: number;
-    operationId: number;
-    area: Area;
-    operation: Operation;
-    blocks: Block[];
-}
 export interface Area {
     id: number;
     createdAt: Date;
