@@ -30,6 +30,5 @@ namespace Backend.Data.Register
 
         [Required]
         public int RoleId { get; set; }
-
     }
 }
