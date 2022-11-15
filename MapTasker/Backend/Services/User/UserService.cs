@@ -1,4 +1,5 @@
 ﻿using Backend.Data;
+using Backend.Data.Register;
 using Backend.Models;
 using Backend.Services.Interfaces;
 
@@ -12,7 +13,12 @@ namespace Backend.Services.Implementations
         public UserService(MapTaskerDBContext context)
         {
             _context = context;
-        }   
+        }
+
+        public Task<UserDto> ConfirmUser(int id)
+        {
+            throw new NotImplementedException();
+        }
 
         public IEnumerable<User> GetAllUsers()
         {

@@ -1,4 +1,5 @@
 
+using Backend.Data.Register;
 using Backend.Models;
 using Backend.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -22,6 +23,13 @@ namespace Backend.Controllers
         public IEnumerable<User> GetAllUsers()
         {
             return _userService.GetAllUsers();
+        }
+
+        [HttpPut] 
+
+        public async Task<ActionResult<UserDto>> ConfirmUser(int id)
+        {
+            return await _userService.ConfirmUser(id);
         }
     }
 }
