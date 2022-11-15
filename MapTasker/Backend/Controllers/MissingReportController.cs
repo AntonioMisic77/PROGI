@@ -1,5 +1,5 @@
 ﻿using System.Security.Policy;
-using Backend.Data.MissingReport;
+using Backend.Data.MissingReportDto;
 using Backend.Data.Register;
 using Backend.Models;
 using Backend.Services.MissingReport;

@@ -1,4 +1,4 @@
-﻿using Backend.Data.Comment;
+﻿using Backend.Data.CommentDto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Services.Comment

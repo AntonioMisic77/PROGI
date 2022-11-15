@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Backend.Data.Comment
+namespace Backend.Data.CommentDto
 {
     public class CommentDto
     {

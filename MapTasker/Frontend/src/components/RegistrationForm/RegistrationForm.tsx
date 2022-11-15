@@ -5,6 +5,7 @@ import { schema } from "../../validationSchema/schema.js";
 import { Button } from "@mui/material";
 
 import "./RegistrationForm.css"
+import { RegisterClient } from "../../Api/Api";
 
 const RegistrationForm = () => {
 
@@ -16,13 +17,26 @@ const RegistrationForm = () => {
    ]
 
    return (
-      <Formik initialValues={{ username: "", password: "", firstname: "", lastname: "", phonenum: "", email: "", role: "", photo: null }}
+      <Formik initialValues={{ username: "", password: "", firstname: "", lastname: "", phonenum: "", email: "", role: "", photo: null, OIB: null }}
          validationSchema={schema}
          onSubmit={async (values) => {
-            console.log(values);
+            let client = new RegisterClient("https://localhost:7270");
+            client.register(
+               {
+                  oib: values.OIB ?? 0,
+                  userName: values.username,
+                  password: values.password,
+                  firstName: values.firstname,
+                  lastName: values.lastname,
+                  phoneNumber: values.phonenum,
+                  email: values.email,
+                  roleId : options.findIndex(op => op.value === values.role),
+                  photo: "https://imgur.com/gallery/o0dYwkQ"
+               }).then(user => alert("Uspješna registracija"))
+               .catch(reason => alert("Korisnik već postoji"))
          }}
          >
-         <Form>
+         <Form> 
             <h1 className="register-header">Registracija</h1>
             <FormInput
                label="Korisničko ime:"
@@ -48,6 +62,13 @@ const RegistrationForm = () => {
                name="lastname"
                type="text"
                placeholder="Unesite svoje prezime"
+            />
+            <FormInput
+               label="OIB:"
+               name="OIB"
+               type="text"
+               inputMode="numeric"
+               placeholder="Unesite svoj OIB"
             />
             <FormInput
                label="Broj mobitela:"
