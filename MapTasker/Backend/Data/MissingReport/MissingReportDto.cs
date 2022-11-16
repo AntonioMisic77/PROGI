@@ -24,3 +24,4 @@ namespace Backend.Data.MissingReportDTO
         public DateTime? FoundAt { get; set; }
     }
 }
+

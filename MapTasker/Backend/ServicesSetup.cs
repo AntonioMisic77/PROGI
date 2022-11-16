@@ -1,6 +1,7 @@
 ﻿using Backend.Configuration;
 using Backend.Services.Block;
 using Backend.Services.Building;
+using Backend.Services.Comment;
 using Backend.Services.Implementations;
 using Backend.Services.Interfaces;
 using Backend.Services.Login;
@@ -28,6 +29,8 @@ namespace Backend
             serviceCollection.AddTransient<IBlock, Block>();
             serviceCollection.AddTransient<IBuilding,Building>();
             serviceCollection.AddTransient<IStatistic,Statistics>();
+            serviceCollection.AddTransient<IMissingReport,MissingReport>();
+            serviceCollection.AddTransient<IComment, Comment>();
         }
     }
 }

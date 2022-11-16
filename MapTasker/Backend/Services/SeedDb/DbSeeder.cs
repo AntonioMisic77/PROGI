@@ -39,6 +39,13 @@ namespace Backend.Services.SeedDb
                     Name = "Admin"
                 });
 
+                _context.Roles.Add(new Role
+                {
+                    Id = 2,
+                    Name = "Spasioc"
+                });
+
+
                 await _context.SaveChangesAsync();
 
                 _context.Roles.Add(new Role

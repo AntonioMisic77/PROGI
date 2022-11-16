@@ -3,22 +3,27 @@ import { Form, Formik } from "formik";
 import FormInput from "../FormInput/FormInput";
 
 import "./LoginForm.css"
+import { LoginClient } from '../../Api/Api';
 
 const LoginForm = () => {
 
    return (
-      <Formik initialValues={{ username: "", password: "" }}
+      <Formik initialValues={{ email: "", password: "" }}
          onSubmit={async (values) => {
-            console.log(values);
+            let client = new LoginClient("https://localhost:7270");
+            client.login(values).then(token => {
+               console.log(token);
+               alert("Uspješan login")
+            }).catch(err => alert("Neispravan email ili lozinka"))
          }}
          >
          <Form>
             <h1 className="login-header">Prijava</h1>
             <FormInput
-               label="Korisničko ime:"
-               name="username"
+               label="E-mail:"
+               name="email"
                type="text"
-               placeholder="Unesite korisničko ime"
+               placeholder="Unesite email"
             />
 
             <FormInput
