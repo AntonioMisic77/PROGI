@@ -9,5 +9,6 @@ namespace Backend.Services.Interfaces
 
         Task<UserDto> ConfirmUser(int id);
         Task<UserDto> UpdateUser(UserDto dto);
+        Task<UserDto> GetUser(int id);
     }
 }

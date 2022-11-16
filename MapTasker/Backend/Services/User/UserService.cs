@@ -24,9 +24,15 @@ namespace Backend.Services.Implementations
         {
             return _context.Users;
         }
+
         public Task<UserDto> UpdateUser(UserDto dto)
         {
             throw new NotImplementedException();
+        }
+
+        public Task<UserDto> GetUser(int id) 
+        {
+            throw new NotImplementedException(); 
         }
     }
 }

@@ -38,5 +38,11 @@ namespace Backend.Controllers
             return await _userService.UpdateUser(dto);
         }
 
+        [HttpGet]
+        public async Task<ActionResult<UserDto>> GetUser(int id) 
+        { 
+           return await _userService.GetUser(id); 
+        }
+
     }
 }
