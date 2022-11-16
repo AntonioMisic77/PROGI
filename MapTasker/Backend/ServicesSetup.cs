@@ -1,7 +1,9 @@
 ﻿using Backend.Configuration;
+using Backend.Services.Comment;
 using Backend.Services.Implementations;
 using Backend.Services.Interfaces;
 using Backend.Services.Login;
+using Backend.Services.MissingReport;
 using Backend.Services.Registration;
 using Backend.Services.SeedDb;
 
@@ -16,6 +18,8 @@ namespace Backend
             serviceCollection.AddTransient<IDbSeeder, DbSeeder>();
             serviceCollection.AddTransient<ILogin, Login>();
             serviceCollection.AddTransient<IRegister, Register>();
+            serviceCollection.AddTransient<IMissingReport,MissingReport>();
+            serviceCollection.AddTransient<IComment, Comment>();
         }
     }
 }

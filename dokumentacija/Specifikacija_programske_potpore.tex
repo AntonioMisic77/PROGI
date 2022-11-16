@@ -628,6 +628,19 @@
 		 
 			 \textit{Nefunkcionalni zahtjevi i zahtjevi domene primjene dopunjuju funkcionalne zahtjeve. Oni opisuju \textbf{kako se sustav treba ponašati} i koja \textbf{ograničenja} treba poštivati (performanse, korisničko iskustvo, pouzdanost, standardi kvalitete, sigurnost...). Primjeri takvih zahtjeva u Vašem projektu mogu biti: podržani jezici korisničkog sučelja, vrijeme odziva, najveći mogući podržani broj korisnika, podržane web/mobilne platforme, razina zaštite (protokoli komunikacije, kriptiranje...)... Svaki takav zahtjev potrebno je navesti u jednoj ili dvije rečenice.}
 			 
+			 \begin{itemize}
+			 	\item Učitavanje početne stranice, stranice prijave korisnika ili nestalih osoba ne smije trajati duže od nekoliko sekundi
+			 	\item Izgled aplikacije treba biti jednostavan kako bi se novi korisnici s lakoćom služili njezinim funkcionalnostima bez dodatnih pomagala (\textit{user-friendly})
+			 	\item Proces prijave ili registracije korisnika ne smije trajati duže od nekoliko sekundi
+			 	\item Sustav treba podržavati rad i operacije više korisnika u isto vrijeme bez ikakvih poteškoća
+			 	\item Operacije vezane uz baze podataka trebaju biti brzo i efikasno izvršene
+			 	\item Baza podataka treba biti pouzdana i dobro zaštićena
+			 	\item U bazi podataka ne smiju postojati više operacija, korisnika te prijavljenih nestalih osoba s istim imenom
+			 	\item Proces prijave nestale osobe ne smije predugo trajati
+			 	\item Sustav treba podržavati korištenje dijakritičkih znakova pri unosu imena osoba ili operacija
+			 	\item Promjena statusa ili faza blokova u bilo kojem smjeru ne smije narušavati funkcionalnost sustava
+			 \end{itemize}
+			 
 			 
 			 
 	

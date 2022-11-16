@@ -22,6 +22,7 @@ builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
     builder.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader();
 }));
 
+string pero = builder.Configuration["ConnectionString"];
 
 builder.Services.AddDbContext<MapTaskerDBContext>(options => options.UseSqlServer(builder.Configuration["ConnectionString"]));
 
@@ -49,7 +50,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-await SeedDb();
 
 app.UseCors("corsapp");
 
@@ -63,6 +63,7 @@ app.MapControllers();
 
 app.Run();
 
+await SeedDb();
 
 async Task SeedDb() 
 { 
