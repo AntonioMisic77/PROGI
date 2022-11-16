@@ -6,9 +6,10 @@ namespace Backend.Services.Interfaces
     public interface IUserService
     {
         public IEnumerable<User> GetAllUsers();
-
-        Task<UserDto> ConfirmUser(int id);
+        Task<UserDto> ConfirmUser(long oib,long requestOib);
         Task<UserDto> UpdateUser(UserDto dto);
-        Task<UserDto> GetUser(int id);
+        Task<UserDto> GetUser(long oib);
+
+        Task<UserDto> DeleteUser(long oib);
     }
 }

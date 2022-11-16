@@ -40,6 +40,14 @@ namespace Backend.Services.SeedDb
                 });
 
                 await _context.SaveChangesAsync();
+
+                _context.Roles.Add(new Role
+                {
+                    Id = 2,
+                    Name = "Spasionc"
+                });
+
+                await _context.SaveChangesAsync();
             }
 
         }

@@ -1,9 +1,12 @@
 
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using Backend.Data.Register;
 using Backend.Models;
 using Backend.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 
 namespace Backend.Controllers
 {
@@ -25,11 +28,25 @@ namespace Backend.Controllers
             return _userService.GetAllUsers();
         }
 
-        [HttpPut]
-
-        public async Task<ActionResult<UserDto>> ConfirmUser(int id)
+        [HttpPut("{oib}")]
+        public async Task<ActionResult<UserDto>> ConfirmUser(long oib)
         {
-            return await _userService.ConfirmUser(id);
+            var handler = new JwtSecurityTokenHandler();
+            string token = Request.Headers["Authorization"];
+            token = token.Replace("Bearer ", "");
+            var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
+
+            string requestedOib = jsonToken.Claims.FirstOrDefault(claim => claim.Type == "given_name").Value;
+
+            try
+            {
+                var user = await _userService.ConfirmUser(oib,long.Parse(requestedOib));
+                return Ok(user);
+            }
+            catch (Exception e)
+            {
+                return Unauthorized(e.Message);
+            }
         }
 
         [HttpPut]
@@ -38,11 +55,16 @@ namespace Backend.Controllers
             return await _userService.UpdateUser(dto);
         }
 
-        [HttpGet("id")]
-        public async Task<ActionResult<UserDto>> GetUser(int id) 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<UserDto>> GetUser(long oib) 
         { 
-           return await _userService.GetUser(id); 
+           return await _userService.GetUser(oib); 
         }
 
+        [HttpDelete("{oib}")]
+        public async Task<ActionResult<UserDto>> DeleteUser(long oib)
+        {
+            return await _userService.DeleteUser(oib);
+        }
     }
 }
