@@ -8,5 +8,6 @@ namespace Backend.Services.Interfaces
         public IEnumerable<User> GetAllUsers();
 
         Task<UserDto> ConfirmUser(int id);
+        Task<UserDto> UpdateUser(UserDto dto);
     }
 }
