@@ -1,8 +1,10 @@
-﻿using Backend.Data.Block;
-using Backend.Data.Building;
-using Backend.Data.MissingReport;
+﻿
 
-namespace Backend.Data.Statistic
+using Backend.Data.BlockDTO;
+using Backend.Data.BuildingDTO;
+using Backend.Data.MissingReportDTO;
+
+namespace Backend.Data.StatisticDto
 {
     public class StatisticDto
     {

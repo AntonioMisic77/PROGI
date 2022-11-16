@@ -1,5 +1,5 @@
-﻿using Backend.Data.Block;
-using Backend.Data.Building;
+﻿
+using Backend.Data.BuildingDTO;
 using Backend.Services.Building;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

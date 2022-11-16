@@ -1,4 +1,5 @@
-﻿using Backend.Data.Statistic;
+﻿
+using Backend.Data.StatisticDto;
 
 namespace Backend.Services.Statistic
 {

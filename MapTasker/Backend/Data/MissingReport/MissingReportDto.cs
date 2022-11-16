@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Backend.Data.MissingReport
+namespace Backend.Data.MissingReportDTO
 {
     public class MissingReportDto
     {

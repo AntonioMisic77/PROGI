@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Backend.Data.Region;
+using Backend.Data.RegionDTO;
 using Backend.Models;
 
-namespace Backend.Data.Operation
+namespace Backend.Data.OperationDTO
 {
     public class OperationDto
     {

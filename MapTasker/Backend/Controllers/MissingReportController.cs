@@ -1,4 +1,5 @@
-﻿using Backend.Data.MissingReport;
+﻿
+using Backend.Data.MissingReportDTO;
 using Backend.Data.Register;
 using Backend.Services.MissingReport;
 using Microsoft.AspNetCore.Http;

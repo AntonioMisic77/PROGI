@@ -1,4 +1,5 @@
-﻿using Backend.Data.Operation;
+﻿
+using Backend.Data.OperationDTO;
 using Backend.Data.Register;
 using Backend.Services.Operation;
 using Microsoft.AspNetCore.Http;

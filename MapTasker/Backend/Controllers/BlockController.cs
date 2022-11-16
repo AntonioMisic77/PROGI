@@ -1,4 +1,5 @@
-﻿using Backend.Data.Block;
+﻿
+using Backend.Data.BlockDTO;
 using Backend.Services.Block;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,8 @@ namespace Backend.Controllers
 
         public async  Task<ActionResult<BlockDto>> UpdateBlock(BlockDto block)
         {
-            return await _blockService.UpdateBlock(block);
+            return await _blockService.UpdateBlockStatus(block);
         }
+
     }
 }

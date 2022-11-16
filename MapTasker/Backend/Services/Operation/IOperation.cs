@@ -1,4 +1,5 @@
-﻿using Backend.Data.Operation;
+﻿
+using Backend.Data.OperationDTO;
 
 namespace Backend.Services.Operation
 {

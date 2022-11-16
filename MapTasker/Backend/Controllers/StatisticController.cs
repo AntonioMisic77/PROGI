@@ -1,5 +1,5 @@
 ﻿using Backend.Data.Register;
-using Backend.Data.Statistic;
+using Backend.Data.StatisticDto;
 using Backend.Services.Statistic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

@@ -11,7 +11,7 @@ namespace Backend.Controllers
     [Route("api/[controller]")]
     [Authorize]
     public class UserController : ControllerBase
-    { 
+    {
         private IUserService _userService;
 
         public UserController(IUserService userService)
@@ -25,7 +25,7 @@ namespace Backend.Controllers
             return _userService.GetAllUsers();
         }
 
-        [HttpPut] 
+        [HttpPut]
 
         public async Task<ActionResult<UserDto>> ConfirmUser(int id)
         {
@@ -38,7 +38,7 @@ namespace Backend.Controllers
             return await _userService.UpdateUser(dto);
         }
 
-        [HttpGet]
+        [HttpGet("id")]
         public async Task<ActionResult<UserDto>> GetUser(int id) 
         { 
            return await _userService.GetUser(id); 

@@ -1,4 +1,5 @@
-﻿using Backend.Data.Building;
+﻿
+using Backend.Data.BuildingDTO;
 
 namespace Backend.Services.Building
 {

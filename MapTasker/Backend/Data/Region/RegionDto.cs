@@ -1,7 +1,7 @@
 ﻿
 using Backend.Models;
 
-namespace Backend.Data.Region
+namespace Backend.Data.RegionDTO
 {
     public class RegionDto
     {
