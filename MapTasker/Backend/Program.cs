@@ -50,6 +50,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+//await SeedDb();
 
 app.UseCors("corsapp");
 
@@ -63,7 +64,6 @@ app.MapControllers();
 
 app.Run();
 
-await SeedDb();
 
 async Task SeedDb() 
 { 

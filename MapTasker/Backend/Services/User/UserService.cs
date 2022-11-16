@@ -3,6 +3,7 @@ using Backend.Data;
 using Backend.Data.Register;
 using Backend.Models;
 using Backend.Services.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Services.Implementations
@@ -40,9 +41,12 @@ namespace Backend.Services.Implementations
             return _mapper.Map<UserDto>(user);
         }
 
-        public IEnumerable<User> GetAllUsers()
+        public IEnumerable<UserDto> GetAllUsers()
         {
-            return _context.Users;
+            var users = _context.Users.ToList();
+            var userDtos = new List<UserDto>();
+            return _mapper.Map(users, userDtos);
+            
         }
 
         public Task<UserDto> UpdateUser(UserDto dto)

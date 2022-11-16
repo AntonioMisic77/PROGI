@@ -1,6 +1,4 @@
-﻿using Backend.Data.MissingReportDto;
-
-using Backend.Data.MissingReportDTO;
+﻿using Backend.Data.MissingReportDTO;
 
 namespace Backend.Services.MissingReport
 {

@@ -23,13 +23,13 @@ namespace Backend.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<User> GetAllUsers()
+        public IEnumerable<UserDto> GetAllUsers()
         {
             return _userService.GetAllUsers();
         }
 
-        [HttpPut("{oib}")]
-        public async Task<ActionResult<UserDto>> ConfirmUser(long oib)
+        [HttpPut("confirm")]
+        public async Task<ActionResult<UserDto>> ConfirmUser([FromQuery] long oib)
         {
             var handler = new JwtSecurityTokenHandler();
             string token = Request.Headers["Authorization"];
