@@ -31,7 +31,8 @@ const RegistrationForm = () => {
                   phoneNumber: values.phonenum,
                   email: values.email,
                   roleId : options.findIndex(op => op.value === values.role),
-                  photo: "https://imgur.com/gallery/o0dYwkQ"
+                  photo: "https://imgur.com/gallery/o0dYwkQ",
+                  confirmed: false
                }).then(user => alert("Uspješna registracija"))
                .catch(reason => alert("Korisnik već postoji"))
          }}

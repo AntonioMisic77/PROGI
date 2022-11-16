@@ -12,10 +12,19 @@ namespace Backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
     public class UserController : ControllerBase
     {
         private IUserService _userService;
+
+        private static long getRequesterOib(HttpRequest request)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            string token = request.Headers["Authorization"];
+            token = token.Replace("Bearer ", "");
+            var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
+
+            return long.Parse(jsonToken!.Claims.FirstOrDefault(claim => claim.Type == "given_name")!.Value);
+        }
 
         public UserController(IUserService userService)
         {
@@ -31,16 +40,11 @@ namespace Backend.Controllers
         [HttpPut("confirm")]
         public async Task<ActionResult<UserDto>> ConfirmUser([FromQuery] long oib)
         {
-            var handler = new JwtSecurityTokenHandler();
-            string token = Request.Headers["Authorization"];
-            token = token.Replace("Bearer ", "");
-            var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
-
-            string requestedOib = jsonToken.Claims.FirstOrDefault(claim => claim.Type == "given_name").Value;
+            long requesterOib = getRequesterOib(Request);
 
             try
             {
-                var user = await _userService.ConfirmUser(oib,long.Parse(requestedOib));
+                var user = await _userService.ConfirmUser(oib, requesterOib);
                 return Ok(user);
             }
             catch (Exception e)
@@ -65,6 +69,15 @@ namespace Backend.Controllers
         public async Task<ActionResult<UserDto>> DeleteUser(long oib)
         {
             return await _userService.DeleteUser(oib);
+        }
+
+        [HttpGet("role")]
+        public async Task<ActionResult<int>> GetRole()
+        {
+            long oib = getRequesterOib(Request);
+            var user = await _userService.GetUser(oib);
+            return user.RoleId;
+
         }
     }
 }

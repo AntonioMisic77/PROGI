@@ -2,26 +2,34 @@ import { Button } from '@mui/material';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { UserClient, UserDto } from '../../Api/Api';
-
-interface UserViewProps {
-   
-}
+import UserCard from '../UserCard/UserCard';
  
 const UserView = () => {
 
    let [users, setUsers] = useState<UserDto[]>([]);
+   let [isAdmin, setIsAdmin] = useState<boolean>(false);
 
    useEffect(
       () => {
-         let client = new UserClient("https://localhost/7270")
-         client.getAllUsers().then(users => setUsers(users));
-      } , [users]
+         let client = new UserClient("https://localhost:7270")
+         let roleId = /*await client.getRole();*/ 1;
+         if (roleId === 1) {
+            setIsAdmin(true);
+            client.getAllUsers().then(users => setUsers(users));
+         }
+      } , []
    )
 
+   const removeCard = (oib: number) => {
+      return () => {
+         setUsers(oldUsers => oldUsers.filter(user => user.oib !== oib));
+      }  
+   }
+
    return ( 
-      <Button onClick={() => console.log(users)}>
-         Svi korisnici
-      </Button>
+      <div className="user-container">
+         {users.map(user => <UserCard user={user} removeSelf = {removeCard(user.oib)}/>)}
+      </div>
    );
 }
  

@@ -19,7 +19,7 @@ const FormSelect = (props: FormSelectProps & FieldHookConfig<string>) => {
             className="form-select"
             style={{ borderColor: (meta.touched && meta.error) ? "#fc8181" : "white" }}
          >
-            {props.options.map(option => <option value={option.value}>{option.label}</option>)}
+            {props.options.map(option => <option value={option.value} key={option.value}>{option.label}</option>)}
          </select>
          {meta.touched && meta.error && <div className="error">{meta.error}</div>}
       </>
