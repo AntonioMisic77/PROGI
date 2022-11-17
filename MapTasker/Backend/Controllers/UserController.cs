@@ -12,6 +12,7 @@ namespace Backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private IUserService _userService;
@@ -37,8 +38,8 @@ namespace Backend.Controllers
             return _userService.GetAllUsers();
         }
 
-        [HttpPut("confirm")]
-        public async Task<ActionResult<UserDto>> ConfirmUser([FromQuery] long oib)
+        [HttpPut("confirm/{oib}")]
+        public async Task<ActionResult<UserDto>> ConfirmUser(long oib)
         {
             long requesterOib = getRequesterOib(Request);
 

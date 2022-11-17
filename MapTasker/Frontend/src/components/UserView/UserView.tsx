@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { UserClient, UserDto } from '../../Api/Api';
@@ -12,11 +12,14 @@ const UserView = () => {
    useEffect(
       () => {
          let client = new UserClient("https://localhost:7270")
-         let roleId = /*await client.getRole();*/ 1;
-         if (roleId === 1) {
-            setIsAdmin(true);
-            client.getAllUsers().then(users => setUsers(users));
-         }
+         client.getRole().then(
+            roleId => {
+               if (roleId === 0) {
+                  setIsAdmin(true);
+                  client.getAllUsers().then(users => setUsers(users));
+               }
+            }
+         )       
       } , []
    )
 
@@ -28,7 +31,12 @@ const UserView = () => {
 
    return ( 
       <div className="user-container">
-         {users.map(user => <UserCard user={user} removeSelf = {removeCard(user.oib)}/>)}
+         
+         {  isAdmin ?
+            users.map(user => <UserCard user={user} removeSelf = {removeCard(user.oib)} key={user.oib}/>)
+            :
+            <Typography>Samo za admine!</Typography>
+         }
       </div>
    );
 }

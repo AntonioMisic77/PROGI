@@ -12,7 +12,7 @@ const LoginForm = () => {
          onSubmit={async (values) => {
             let client = new LoginClient("https://localhost:7270");
             client.login(values).then(token => {
-               console.log(token);
+               localStorage.setItem("Bearer token", "Bearer " + token)
                alert("Uspješan login")
             }).catch(err => alert("Neispravan email ili lozinka"))
          }}
