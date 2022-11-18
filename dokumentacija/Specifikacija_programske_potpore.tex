@@ -1,4 +1,5 @@
 \chapter{Specifikacija programske potpore}
+    \graphicspath{./dijagrami/}
 		
 	\section{Funkcionalni zahtjevi}
 			
@@ -568,20 +569,81 @@
 				\subsubsection{Dijagrami obrazaca uporabe}
 					
 					\textit{Prikazati odnos aktora i obrazaca uporabe odgovarajućim UML dijagramom. Nije nužno nacrtati sve na jednom dijagramu. Modelirati po razinama apstrakcije i skupovima srodnih funkcionalnosti.}
+					
+					
+					\begin{figure}[H]      \includegraphics[width=\linewidth]{dijagrami/UML1.vpd.jpg}
+					\caption{Dijagram obrasca uporabe, funkcionalnost neregistriranih i registriranih korisnika aplikacije}
+	                \end{figure}
+	                
+				    \begin{figure}[h!] \includegraphics[width=\linewidth]{dijagrami/UML2.vpd.jpg}
+				    \caption{Dijagram obrasca uporabe, funkcionalnost spasioca, voditelja operacije i kartografa}
+				    \end{figure}
+				    
+				    \begin{figure}[h!] \includegraphics[width=\linewidth]{dijagrami/UML3.vpd.jpg} 
+				    \caption{Dijagram obrasca uporabe, funkcionalnost administratora}
+				    \end{figure} 
+					
 				\eject		
 				
-			\subsection{Sekvencijski dijagrami}
+				\subsection{Sekvencijski dijagrami}
 				
-				\textbf{\textit{dio 1. revizije}}\\
-				
-				\textit{Nacrtati sekvencijske dijagrame koji modeliraju najvažnije dijelove sustava (max. 4 dijagrama). Ukoliko postoji nedoumica oko odabira, razjasniti s asistentom. Uz svaki dijagram napisati detaljni opis dijagrama.}
-				\eject
+				\textbf{Obrazac uporabe UC4 - Prijava nestale osobe}
+    
+                Klijent šalje zahtjev za prijavu nestale osobe. Poslužitelj prikazuje obrazac za prijavu. Klijent ispunjava obrazac (ime, prezime, fotografija i opis) za prijavu nestale osobe. Poslužitelj dohvaća podatke iz baze te provjerava je li nova prijavljena osoba u bazi. Ako osoba dosad nije prijavljena, zapisuje se u bazu nestalih te sustav šalje potvrdu i prikaz prijave. Ukoliko je osoba već prijavljena, poslužitelj obavještava klijenta uz poruku.
+
+                \begin{figure}[H] \includegraphics[width=\linewidth]{./dijagrami/PrijavaNestalog.jpg}
+				    \caption{Sekvencijski dijagram za UC4 - Prijava nestale osobe}
+				    \end{figure}
+
+                \eject
+
+                \textbf{Obrazac uporabe UC10 - Stvaranje operacije}
+
+                Klijent šalje zahtjev za stvaranje operacije. Sustav provjerava je li korisnik voditelj. Ako korisnik nije voditelj, poslužitelj će ispisati poruku da nema ovlaštenje za stvaranje nove operacije, a ukoliko je, poslat će obrazac za stvaranje nove operacije. Klijent stvara novu operaciju, tj. upisuje ime operacije i područje (regije i blokove) koje je potrebno pretražiti. Poslužitelj dohvaća podatke iz baze te provjerava postoji li već operacija s tim imenom. Ako ne postoji, nova stvorena operacija se zapisuje u bazu podataka te sustav šalje potvrdu i prikaz nove operacije. Ukoliko  već postoji operacija s tim imenom, sustav javlja grešku da je stvorena operacija s već postojećim imenom.
+                
+                \begin{figure}[H] \includegraphics[width=\linewidth]{./dijagrami/StvaranjeOperacije.jpg}
+				    \caption{Sekvencijski dijagram za UC10 - Stvaranje operacije}
+				    \end{figure}
+
+            	\eject
+
+				\textbf{Obrazac uporabe UC11 - Mijenjanje statusa bloka}
+
+                Klijent šalje zahtjev za prikaz karte. Web poslužitelj prikazuje kartu s opcijama, oviseći o korisniku. Klijent šalje zahtjev za prikaz bloka koji želi uređivati. Sustav dohvaća iz baze taj blok i prikazuje ga klijentu. Klijent šalje zahtjev za promjenu statusa bloka. Web poslužitelj provjerava status bloka te ako je blok aktivan ispisuje poruku da nije dopušteno uređivanje bloka. Ako je blok u statusu "Nezapočeto", klijent šalje zahtjev za promjenu statusa u "Aktivan". Sustav zapisuje status u bazu te prikazuje potvrdu promjene statusa. Ako je blok u statusu "Provjera", kartograf može smatrati da je posao dobro obavljen ili nije. Ukoliko kartograf smatra da posao nije dobro obavljen, šalje zahtjev sustavu za promjenu statusa bloka u "Aktivan" koji se zapisuje u bazu. Ukoliko kartograf smatra da je posao dobro obavljen, potvrđuje blok. Ukoliko su 2 kartografa potvrdila blok, mijenja se status bloka u "Završeno" i zapisuje u bazu. Kad je status bloka aktivan klijent može uređivati blok što se nastavlja u UC12 - Dodavanje građevine u blok. Kad je kartograf gotov s uređivanjem bloka, šalje zahtjev za promjenu statusa u "Provjera". Sustav zapisuje promjenu u bazu te šalje potvrdu.
+
+                \begin{figure}[H] \includegraphics[width=\linewidth]{./dijagrami/MijenjanjeStatusaBloka.jpg}
+				    \caption{Sekvencijski dijagram za UC11 - Mijenjanje statusa bloka}
+				    \end{figure}
+                
+                \eject
+
+                \textbf{Obrazac uporabe UC20 - Potvrda registracije}
+
+                Klijent šalje zahtjev za otvaranjem ekrana admin. Sustav provjerava je li korisnik administrator te ako nije, web poslužitelj ispisuje poruku da nema ovlaštenja za pristup Admin pageu. Ukoliko je korisnik administrator, sustav prikazuje ekran Admin. Klijent šalje zahtjev za nepotvrđene registracije. Sustav dohvaća iz baze nepotvrđene korisnike te ih prikazuje. Ako administrator želi potvrditi registraciju, šalje zahtjev sustavu koji zapisuje zapisuje potvrdu korisnika u bazu. Sustav prikazuje potvrdu novog korisnika. Ukoliko administrator ne želi potvrditi registraciju, šalje zahtjev sustavu. Sustav briše korisnika iz baze te šalje potvrdu odbijene registracije. 
+
+                \begin{figure}[H] \includegraphics[width=\linewidth]{./dijagrami/PotvrdaRegistracije.jpg}
+				    \caption{Sekvencijski dijagram za UC20 - Potvrda registracije}
+				    \end{figure}
+            \eject
 	
 		\section{Ostali zahtjevi}
 		
 			\textbf{\textit{dio 1. revizije}}\\
 		 
 			 \textit{Nefunkcionalni zahtjevi i zahtjevi domene primjene dopunjuju funkcionalne zahtjeve. Oni opisuju \textbf{kako se sustav treba ponašati} i koja \textbf{ograničenja} treba poštivati (performanse, korisničko iskustvo, pouzdanost, standardi kvalitete, sigurnost...). Primjeri takvih zahtjeva u Vašem projektu mogu biti: podržani jezici korisničkog sučelja, vrijeme odziva, najveći mogući podržani broj korisnika, podržane web/mobilne platforme, razina zaštite (protokoli komunikacije, kriptiranje...)... Svaki takav zahtjev potrebno je navesti u jednoj ili dvije rečenice.}
+			 
+			 \begin{itemize}
+			 	\item Učitavanje početne stranice, stranice prijave korisnika ili nestalih osoba ne smije trajati duže od nekoliko sekundi
+			 	\item Izgled aplikacije treba biti jednostavan kako bi se novi korisnici s lakoćom služili njezinim funkcionalnostima bez dodatnih pomagala (\textit{user-friendly})
+			 	\item Proces prijave ili registracije korisnika ne smije trajati duže od nekoliko sekundi
+			 	\item Sustav treba podržavati rad i operacije više korisnika u isto vrijeme bez ikakvih poteškoća
+			 	\item Operacije vezane uz baze podataka trebaju biti brzo i efikasno izvršene
+			 	\item Baza podataka treba biti pouzdana i dobro zaštićena
+			 	\item U bazi podataka ne smiju postojati više operacija, korisnika te prijavljenih nestalih osoba s istim imenom
+			 	\item Proces prijave nestale osobe ne smije predugo trajati
+			 	\item Sustav treba podržavati korištenje dijakritičkih znakova pri unosu imena osoba ili operacija
+			 	\item Promjena statusa ili faza blokova u bilo kojem smjeru ne smije narušavati funkcionalnost sustava
+			 \end{itemize}
 			 
 			 
 			 

@@ -1,0 +1,10 @@
+﻿CREATE TABLE [dbo].[Block]
+(
+	[AreaId] INT NOT NULL PRIMARY KEY,
+	[Status] NVARCHAR(50) NOT NULL, 
+    [RegionId] INT NOT NULL, 
+    [ActiveForOIB] BIGINT NULL, 
+    CONSTRAINT [FKBlockId] FOREIGN KEY (AreaId) REFERENCES Area(Id),
+	CONSTRAINT [FKBlockRegionId] FOREIGN KEY (RegionId) REFERENCES Region(AreaId),
+	CONSTRAINT [FK_ActiveForOIB] FOREIGN KEY (ActiveForOIB) REFERENCES Users(OIB)
+)

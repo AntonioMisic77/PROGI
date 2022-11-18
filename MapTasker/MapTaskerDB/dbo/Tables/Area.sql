@@ -1,0 +1,8 @@
+﻿CREATE TABLE [dbo].[Area]
+(
+	[Id] INT NOT NULL PRIMARY KEY, 
+    [CreatedAt] DATETIME NOT NULL, 
+    [ClosedAt] DATETIME NULL, 
+    [UpdatedLastByOIB] BIGINT NOT NULL,
+    CONSTRAINT [FK_UpdatedLastByOIB] FOREIGN KEY (UpdatedLastByOIB) REFERENCES Users(OIB)
+)
