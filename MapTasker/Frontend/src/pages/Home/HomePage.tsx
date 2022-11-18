@@ -1,5 +1,4 @@
 import { Box, Button, CssBaseline } from "@mui/material";
-import { env } from "process";
 import Header from "../../components/Header/Header";
 
 import "./homePage.css";
@@ -21,9 +20,6 @@ function HomePage() {
             <div className="content">
                 <div className="textStyle">
                     Želite li prijaviti nestanak osobe?
-                </div>
-                <div className="textStyle">
-                    {process.env.API_BASE_URL + " " + process.env.REACT_APP_API_URL}
                 </div>
                 <Button variant="contained" href="#prijava-nestale-osobe" color="secondary">
                     PRIJAVI

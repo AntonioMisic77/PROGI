@@ -11,7 +11,7 @@ const UserView = () => {
 
    useEffect(
       () => {
-         let client = new UserClient("https://localhost:7270")
+         let client = new UserClient(process.env.REACT_APP_API_URL)
          client.getRole().then(
             roleId => {
                if (roleId === 0) {

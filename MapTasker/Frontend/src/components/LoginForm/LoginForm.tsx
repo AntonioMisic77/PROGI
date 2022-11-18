@@ -10,7 +10,7 @@ const LoginForm = () => {
    return (
       <Formik initialValues={{ email: "", password: "" }}
          onSubmit={async (values) => {
-            let client = new LoginClient("https://localhost:7270");
+            let client = new LoginClient(process.env.REACT_APP_API_URL);
             client.login(values).then(token => {
                localStorage.setItem("Bearer token", "Bearer " + token)
                alert("Uspješan login")
