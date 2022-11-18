@@ -1,0 +1,1 @@
+export let roles = ['Admin', 'Kartograf', 'Spasioc', 'Voditelj']

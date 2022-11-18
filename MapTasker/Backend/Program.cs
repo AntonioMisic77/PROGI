@@ -20,11 +20,20 @@ builder.Services.AddSwaggerDocument();
 builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
 {
     builder.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader();
+    builder.WithOrigins("https://https://maptasker.vercel.app").AllowAnyMethod().AllowAnyHeader();
 }));
 
-string pero = builder.Configuration["ConnectionString"];
+#if DEBUG 
 
 builder.Services.AddDbContext<MapTaskerDBContext>(options => options.UseSqlServer(builder.Configuration["ConnectionString"]));
+
+#endif
+
+#if (!DEBUG)
+
+builder.Services.AddDbContext<MapTaskerDBContext>(options => options.UseSqlServer(Environment.GetEnvironmentVariable("CONNECTION_STRING")!));
+
+#endif
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
@@ -50,6 +59,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+//await SeedDb();
 
 app.UseCors("corsapp");
 
@@ -63,7 +73,6 @@ app.MapControllers();
 
 app.Run();
 
-await SeedDb();
 
 async Task SeedDb() 
 { 

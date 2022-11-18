@@ -28,7 +28,7 @@ namespace Backend.Services.Login
 
             var user = _context.Users.FirstOrDefault(a=> a.Email == item.Email);
 
-            if (user == null) return null;
+            if (user == null || !user.Confirmed) throw new Exception("Korisnik ne postoji ili nije potvrđen");
 
             var isUserValid = hasher.VerifyHashedPassword(user, user.Password, item.Password);
 
@@ -51,6 +51,7 @@ namespace Backend.Services.Login
                 new Claim(JwtRegisteredClaimNames.Sub,user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Email,user.Email),
+                new Claim(JwtRegisteredClaimNames.GivenName,user.Oib.ToString())
             };
 
             var token = new JwtSecurityToken(

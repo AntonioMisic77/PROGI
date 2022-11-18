@@ -3,7 +3,6 @@ import FormSelect from "../FormSelect/FormSelect";
 import FormInput from "../FormInput/FormInput";
 import { schema } from "../../validationSchema/schema.js";
 import { Button } from "@mui/material";
-
 import "./RegistrationForm.css"
 import { RegisterClient } from "../../Api/Api";
 import { useState } from "react";
@@ -33,7 +32,7 @@ const RegistrationForm = () => {
 
    const [values, setValues] = useState(initialValues);
 
-   const uploadFile = (e) => {
+   const uploadFile = (e: any) => {
         if(e.target.files && e.target.files[0]) {
          let imageFile = e.target.files[0];
          const reader = new FileReader();
@@ -58,7 +57,7 @@ const RegistrationForm = () => {
       <Formik initialValues={initialValues}
          validationSchema={schema}
          onSubmit={async (values) => {
-            let client = new RegisterClient("https://localhost:7270");
+            let client = new RegisterClient(process.env.REACT_APP_API_URL);
             client.register(
                {
                   oib: values.OIB ?? 0,

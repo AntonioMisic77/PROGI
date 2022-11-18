@@ -64,6 +64,7 @@
   },
   "codeGenerators": {
     "openApiToTypeScriptClient": {
+      "clientBaseClass" : "ApiBase",
       "className": "{controller}Client",
       "moduleName": "",
       "namespace": "",
@@ -89,7 +90,7 @@
       "responseClass": "SwaggerResponse",
       "protectedMethods": [],
       "configurationClass": null,
-      "useTransformOptionsMethod": false,
+      "useTransformOptionsMethod": true,
       "useTransformResultMethod": false,
       "generateDtoTypes": true,
       "operationGenerationMode": "MultipleClientsFromOperationId",
@@ -100,7 +101,7 @@
       "useLeafType": false,
       "classTypes": [],
       "extendedClasses": [],
-      "extensionCode": null,
+      "extensionCode": "../Frontend/src/Api/ApiBase.ts",
       "generateDefaultValues": true,
       "excludedTypeNames": [],
       "excludedParameterNames": [],
