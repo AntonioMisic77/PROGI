@@ -6,6 +6,8 @@ import { Button } from "@mui/material";
 
 import "./RegistrationForm.css"
 import { RegisterClient } from "../../Api/Api";
+import { useState } from "react";
+import axios from "axios";
 
 const RegistrationForm = () => {
 
@@ -16,8 +18,44 @@ const RegistrationForm = () => {
       {value: "voditelj", label: "Voditelj"},
    ]
 
+   const initialValues ={
+      username: '', 
+      password: '', 
+      firstname: '', 
+      lastname: "", 
+      phonenum: "", 
+      email: "", 
+      role: "", 
+      photo: null,
+      OIB: null 
+   }
+
+
+   const [values, setValues] = useState(initialValues);
+
+   const uploadFile = (e) => {
+        if(e.target.files && e.target.files[0]) {
+         let imageFile = e.target.files[0];
+         const reader = new FileReader();
+         reader.onload = x => {
+            setValues({
+               ...values,
+               photo: imageFile
+            })
+         }
+         console.log(imageFile)
+         reader.readAsDataURL(imageFile)
+        } else {
+            setValues({
+               ...values,
+               photo: null,
+            })
+        }
+        console.log(values.photo)
+   }
+
    return (
-      <Formik initialValues={{ username: "", password: "", firstname: "", lastname: "", phonenum: "", email: "", role: "", photo: null, OIB: null }}
+      <Formik initialValues={initialValues}
          validationSchema={schema}
          onSubmit={async (values) => {
             let client = new RegisterClient("https://localhost:7270");
@@ -31,8 +69,8 @@ const RegistrationForm = () => {
                   phoneNumber: values.phonenum,
                   email: values.email,
                   roleId : options.findIndex(op => op.value === values.role),
-                  photo: "https://imgur.com/gallery/o0dYwkQ"
-               }).then(user => alert("Uspješna registracija"))
+                  photo: values.photo,
+               }).then(res => axios.post("/public/images", values.photo)).then(user => alert("Uspješna registracija"))
                .catch(reason => alert("Korisnik već postoji"))
          }}
          >
@@ -91,8 +129,9 @@ const RegistrationForm = () => {
             </FormSelect>
             <div className='photo'>
                <label>Fotografija</label>
-               <Button variant="contained" component="label" role="button" onClick={() => {}} style={{marginLeft:"1vw"}}>
+               <Button variant="contained" component="label">
                   Upload
+                  <input name="photo" hidden accept="image/*" type="file" onChange={uploadFile}/>
                </Button>
             </div>
             <button type='submit' className='submit-button'>Click to submit</button>
