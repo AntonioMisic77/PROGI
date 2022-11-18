@@ -1,0 +1,8 @@
+.user-container {
+   background-color: #888aa6;
+   display: grid;
+   column-gap: "10px";
+   row-gap: "3px";
+   grid-template-columns: 24% 24% 24% 24%;
+   justify-content: space-evenly;
+}

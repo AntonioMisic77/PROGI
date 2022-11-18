@@ -3,7 +3,6 @@ import FormSelect from "../FormSelect/FormSelect";
 import FormInput from "../FormInput/FormInput";
 import { schema } from "../../validationSchema/schema.js";
 import { Button } from "@mui/material";
-
 import "./RegistrationForm.css"
 import { RegisterClient } from "../../Api/Api";
 
@@ -33,7 +32,9 @@ const RegistrationForm = () => {
                   roleId : options.findIndex(op => op.value === values.role),
                   photo: "https://imgur.com/gallery/o0dYwkQ",
                   confirmed: false
-               }).then(user => alert("Uspješna registracija"))
+               }).then(user => {
+                  alert("Pričekajte odobrenje administratora");
+               })
                .catch(reason => alert("Korisnik već postoji"))
          }}
          >

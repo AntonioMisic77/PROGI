@@ -27,6 +27,5 @@ app.listen(PORT, HOST, () => {
 
 app.get("*", async (req, res) => {
         res.sendFile(path.join(__dirname, 'build', 'index.html'))
-        console.log(process.env.API_BASE_URL + " " + process.env.REACT_APP_API_URL);
     }
 );

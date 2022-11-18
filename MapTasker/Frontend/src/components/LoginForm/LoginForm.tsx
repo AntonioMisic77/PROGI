@@ -1,11 +1,13 @@
 import * as React from 'react';
 import { Form, Formik } from "formik";
 import FormInput from "../FormInput/FormInput";
-
 import "./LoginForm.css"
 import { LoginClient } from '../../Api/Api';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
+
+   const navigate = useNavigate();
 
    return (
       <Formik initialValues={{ email: "", password: "" }}
@@ -13,7 +15,7 @@ const LoginForm = () => {
             let client = new LoginClient(process.env.REACT_APP_API_URL);
             client.login(values).then(token => {
                localStorage.setItem("Bearer token", "Bearer " + token)
-               alert("Uspješan login")
+               navigate("/operations")
             }).catch(err => alert("Neispravan email ili lozinka"))
          }}
          >

@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { UserClient, UserDto } from '../../Api/Api';
 import UserCard from '../UserCard/UserCard';
  
+import "./UserView.css"
+
 const UserView = () => {
 
    let [users, setUsers] = useState<UserDto[]>([]);
@@ -30,14 +32,18 @@ const UserView = () => {
    }
 
    return ( 
-      <div className="user-container">
-         
-         {  isAdmin ?
-            users.map(user => <UserCard user={user} removeSelf = {removeCard(user.oib)} key={user.oib}/>)
-            :
-            <Typography>Samo za admine!</Typography>
-         }
-      </div>
+      <>
+         <Typography sx={{color: "white", margin: "0 0 1vh 1vw", paddingTop:"1vh"}} variant="h4"> Nepotvrđeni korisnici: </Typography>
+         <div className="user-container">
+            
+            {  isAdmin ?
+               users.filter(user => user.confirmed === false).
+               map(user => <UserCard user={user} removeSelf = {removeCard(user.oib)} key={user.oib}/>)
+               :
+               <Typography>Samo za admine!</Typography>
+            }
+         </div>
+      </>
    );
 }
  

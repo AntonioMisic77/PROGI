@@ -31,19 +31,25 @@ const UserCard = ({user, removeSelf} : UserCardProps) => {
    }
 
    return (
-      <Card sx={{width:"20%"}} variant="outlined">
-          <CardContent sx={{height:"4rem"}}>
+      <Card sx={{width:"100%", height:"auto"}} variant="outlined">
+          <CardContent sx={{height:"auto"}}>
             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-               {roles[user.roleId]}
+               {"Uloga: " + roles[user.roleId]}
             </Typography>
-            <Typography variant="h5" component="div">
+            <Typography sx={{ mb: 1.5 }} variant="h5" component="div">
                {user.firstName + ' ' + user.lastName}
             </Typography>
             <Typography sx={{ mb: 1.5 }} color="text.secondary">
-               {user.userName}
+               {"Username: " + user.userName}
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+               {"E-mail: " + user.email}
+            </Typography>
+            <Typography color="text.secondary">
+               {"Broj mobitela: " + user.phoneNumber}
             </Typography>
          </CardContent>
-         <CardActions sx={{height:"3rem"}}>
+         <CardActions sx={{pt:"0"}}>
             <Button size="small" onClick={confirmUser}>Potvrdi korisnika</Button>
             <Button size="small" color="error" onClick={deleteRequest}>Izbriši zahtjev</Button>
          </CardActions>
