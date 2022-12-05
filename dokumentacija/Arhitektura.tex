@@ -1,7 +1,4 @@
 \chapter{Arhitektura i dizajn sustava}
-		
-		\textbf{\textit{dio 1. revizije}}\\
-
 
 
                \textit{Arhitektura sustava može se podijeliti  na tri podsustava: }
@@ -65,15 +62,8 @@
 			
 		\section{Baza podataka}
 			
-			\textbf{\textit{dio 1. revizije}}\\
-			
-		\textit{Potrebno je opisati koju vrstu i implementaciju baze podataka ste odabrali, glavne komponente od kojih se sastoji i slično.}
-		
-			\subsection{Opis tablica}
-			
 
-				\textit{Svaku tablicu je potrebno opisati po zadanom predlošku. Lijevo se nalazi točno ime varijable u bazi podataka, u sredini se nalazi tip podataka, a desno se nalazi opis varijable. Svjetlozelenom bojom označite primarni ključ. Svjetlo plavom označite strani ključ}
-				
+			\subsection{Opis tablica}
 
 \textbf{Users} Ovaj entitet sadrži sve važne informacije o korisniku aplikacije. Sadrži atribute: korisničko ime, OIB, ime, prezime, fotografiju, broj telefona, adresu elektroničke pošte, lozinku, ID uloge korisnika te status je li potvrđen. Ovaj entitet u vezi je \textit{Many-to-One} s entitetom Role preko atributa identifikatora uloge, u vezi \textit{One-To-Many} s entitetom Operation preko atributa identifikatora osobe, u vezi \textit{One-to-Many} s entitetom Comment preko atributa identifikatora osobe, u vezi \textit{One-To-Many} s entitetom Area preko atributa identifikatora osobe te u vezi \textit{One-To-Many} s entitetom Block preko atributa identifikatora osobe. 
 				\begin{longtblr}[
