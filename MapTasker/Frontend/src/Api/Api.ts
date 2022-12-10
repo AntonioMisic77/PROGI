@@ -894,7 +894,7 @@ export class UserClient extends ApiBase {
         return Promise.resolve<UserDto>(null as any);
     }
 
-    getRole(): Promise<number> {
+    getUser2(): Promise<UserDto> {
         let url_ = this.baseUrl + "/api/User/role";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -908,17 +908,17 @@ export class UserClient extends ApiBase {
         return this.transformOptions(options_).then(transformedOptions_ => {
             return this.http.fetch(url_, transformedOptions_);
         }).then((_response: Response) => {
-            return this.processGetRole(_response);
+            return this.processGetUser2(_response);
         });
     }
 
-    protected processGetRole(response: Response): Promise<number> {
+    protected processGetUser2(response: Response): Promise<UserDto> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as number;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as UserDto;
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -926,7 +926,7 @@ export class UserClient extends ApiBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<number>(null as any);
+        return Promise.resolve<UserDto>(null as any);
     }
 }
 

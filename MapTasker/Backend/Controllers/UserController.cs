@@ -21,6 +21,7 @@ namespace Backend.Controllers
         {
             var handler = new JwtSecurityTokenHandler();
             string token = request.Headers["Authorization"];
+            if (token == null) throw new InvalidDataException("No such user");
             token = token.Replace("Bearer ", "");
             var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
 
@@ -73,12 +74,18 @@ namespace Backend.Controllers
         }
 
         [HttpGet("role")]
-        public async Task<ActionResult<int>> GetRole()
+        public async Task<ActionResult<UserDto>> GetUser()
         {
-            long oib = getRequesterOib(Request);
-            var user = await _userService.GetUser(oib);
-            return user.RoleId;
-
+            try
+            {
+                long oib = getRequesterOib(Request);
+                var user = await _userService.GetUser(oib);
+                return user;   
+            }
+            catch (InvalidDataException)
+            {
+                return null;
+            }
         }
     }
 }
