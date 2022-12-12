@@ -20,7 +20,7 @@ const LoginForm = () => {
                localStorage.setItem("Bearer token", "Bearer " + token)
                let client = new UserClient(process.env.REACT_APP_API_URL);
                client.getUser2().then(user => setUser(user));
-               navigate("/operations");
+               navigate("/users");
             }).catch(err => alert("Neispravan email ili lozinka"))
          }}
          >

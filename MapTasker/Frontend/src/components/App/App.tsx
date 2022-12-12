@@ -13,17 +13,17 @@ import UserContextProvider from '../../store/UserContextProvider';
 
 function App() {
    return (
-      
-         <Router><UserContextProvider>
+      <UserContextProvider>
+         <Router>
             <Routes>
                <Route path="/login" element={<LoginPage/>}/>
                <Route path="/register" element={<RegisterPage/>}/>
                <Route path="/" element={<HomePage/>}/>
                <Route path="/users" element={<UserViewPage/>}/> 
                <Route path="/operations" element={<OperationsPage/>}/>
-            </Routes></UserContextProvider>
+            </Routes>
          </Router>
-      
+      </UserContextProvider>
    );
 }
 
