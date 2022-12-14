@@ -38,7 +38,34 @@ namespace Backend.Services.Operation
             
             foreach(var region in dto.Regions)
             {
-                operation.Regions.Add(region); 
+                 var newRegion = new Backend.Models.Region()
+                 {
+                     AreaId = region.AreaId,
+                     OperationId = region.OperationId,
+                 }
+                 foreach(var block in region.Blocks)
+                 {
+                    newBlock = new Backend.Models.Block()
+                    {
+                        AreaId = block.AreaId,
+                        Status = block.Status,
+                        RegionId = block.RegionId,
+                        ActiveForOib = block.ActiveForOib,
+                    } 
+                    foreach(var building in block.Buildings)
+                    {
+                        newBuilding = new Backend.Models.Building()
+                        {
+                            AreaId = building.AreaId,
+                            BlockId = building.BlockId,
+                            Status = building.Status,
+                        }
+                        newBlock.Buildings.Add(newBuilding); 
+                    }
+                    newRegion.Blocks.Add(newBlock);
+                 }
+                 operation.Regions.Add(newRegion);
+                 
             }
 
             await _context.AddAsync(operation);
