@@ -8,7 +8,7 @@ namespace Backend.Services.Region
         private readonly IMapper _mapper;
         private readonly MapTaskerDBContext _context;
 
-        public Operation(IMapper mapper, MapTaskerDBContext context)
+        public Region(IMapper mapper, MapTaskerDBContext context)
         {
             _mapper = mapper;
             _context = context;
