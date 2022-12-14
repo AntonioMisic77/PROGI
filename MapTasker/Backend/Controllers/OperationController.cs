@@ -39,7 +39,7 @@ namespace Backend.Controllers
         {   
             try
             {
-                 return Ok(await _operationService.UpdateOperationStatus(operation));
+                 return Ok(await _operationService.UpdateOperation(operation));
             } 
             catch (Exception e) 
             { 
