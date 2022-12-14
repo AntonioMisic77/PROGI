@@ -1,27 +1,81 @@
-﻿using Backend.Data.MissingReportDTO;
+﻿using AutoMapper;
+using Backend.Data;
+using Backend.Data.MissingReportDTO;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Services.MissingReport
 {
     public class MissingReport : IMissingReport
     {
-        public Task<List<MissingReportDto>> CreateMissingReport()
+
+        private MapTaskerDBContext _context;
+        private readonly IMapper _mapper;
+
+        public MissingReport(MapTaskerDBContext context, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _context = context;
+            _mapper = mapper;
         }
 
-        public Task<List<MissingReportDto>> DeleteMissingReport(int id)
+        public async Task<MissingReportDto> CreateMissingReport(MissingReportDto dto)
         {
-            throw new NotImplementedException();
+            var missingReport = new Models.MissingReport
+            {
+                Id = dto.Id,
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                Oib = dto.Oib,
+                Photo = dto.Photo,
+                Description = dto.Description,
+                ReportedAt = dto.ReportedAt,
+                FoundAt = dto.FoundAt
+            };
+
+            await _context.AddAsync(missingReport);
+            await _context.SaveChangesAsync();
+
+            return _mapper.Map<MissingReportDto>(missingReport);
         }
 
-        public Task<List<MissingReportDto>> GetAllMissingReports()
+        public async Task<MissingReportDto> DeleteMissingReport(int id)
         {
-            throw new NotImplementedException();
+            var missingReport = _context.MissingReports.FindAsync(id);
+            _context.Remove(missingReport);
+            await _context.SaveChangesAsync();
+            return _mapper.Map<MissingReportDto>(missingReport);
         }
 
-        public Task<List<MissingReportDto>> UpdateMissingReport(MissingReportDto dto)
+        public List<MissingReportDto> GetAllMissingReports()
         {
-            throw new NotImplementedException();
+            var missingReports = _context.MissingReports;
+
+            return _mapper.Map<List<MissingReportDto>>(missingReports);
+        }
+
+        public async Task<MissingReportDto> UpdateMissingReport(MissingReportDto dto)
+        {
+            var missingReport = _context.MissingReports.Find(dto.Id);
+
+            if (missingReport == null)
+            {
+                throw new InvalidDataException("No such missing report");
+            }
+
+            missingReport.Id = dto.Id;
+            missingReport.FirstName = dto.FirstName;
+            missingReport.LastName = dto.LastName;
+            missingReport.Oib = dto.Oib;
+            missingReport.Photo = dto.Photo;
+            missingReport.Description = dto.Description;
+            missingReport.ReportedAt = dto.ReportedAt;
+            missingReport.FoundAt = dto.FoundAt;
+
+            _context.Attach(missingReport);
+            _context.Entry(missingReport).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return _mapper.Map<MissingReportDto>(missingReport);
+
         }
     }
 }

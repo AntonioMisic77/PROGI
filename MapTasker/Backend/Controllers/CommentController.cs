@@ -17,16 +17,30 @@ namespace Backend.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<CommentDto>> CreateComment()
+        public async Task<ActionResult<CommentDto>> CreateComment(CommentDto dto)
         {
-            return await _commentService.CreateComment();
+            try
+            {
+                return Ok(await _commentService.CreateComment(dto));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
         }
 
         [HttpDelete]
 
         public async Task<ActionResult<CommentDto>> DeleteComment(int id)
         {
-            return await _commentService.DeleteComment(id);
+            try
+            {
+                return Ok(await _commentService.DeleteComment(id));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
         }
     }
 
