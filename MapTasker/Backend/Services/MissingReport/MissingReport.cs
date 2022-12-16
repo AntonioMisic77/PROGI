@@ -21,7 +21,7 @@ namespace Backend.Services.MissingReport
         {
             var missingReport = new Models.MissingReport
             {
-                Id = dto.Id,
+                //Id = dto.Id,
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
                 Oib = dto.Oib,
@@ -61,14 +61,9 @@ namespace Backend.Services.MissingReport
                 throw new InvalidDataException("No such missing report");
             }
 
-            missingReport.Id = dto.Id;
-            missingReport.FirstName = dto.FirstName;
-            missingReport.LastName = dto.LastName;
-            missingReport.Oib = dto.Oib;
-            missingReport.Photo = dto.Photo;
+            
             missingReport.Description = dto.Description;
-            missingReport.ReportedAt = dto.ReportedAt;
-            missingReport.FoundAt = dto.FoundAt;
+            missingReport.FoundAt = DateTime.UtcNow;
 
             _context.Attach(missingReport);
             _context.Entry(missingReport).State = EntityState.Modified;

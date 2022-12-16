@@ -20,7 +20,7 @@ namespace Backend.Services.Comment
         {
             var comment = new Models.Comment
             {
-                Id = dto.Id,
+            
                 ReportId = dto.ReportId,
                 Text = dto.Text,
                 UserOib = dto.UserOib
