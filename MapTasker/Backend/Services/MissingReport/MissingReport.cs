@@ -27,7 +27,7 @@ namespace Backend.Services.MissingReport
                 Oib = dto.Oib,
                 Photo = dto.Photo,
                 Description = dto.Description,
-                ReportedAt = dto.ReportedAt,
+                ReportedAt = DateTime.UtcNow,
                 FoundAt = dto.FoundAt
             };
 
