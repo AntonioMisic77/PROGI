@@ -12,15 +12,11 @@ interface OperationsProps {
    
 }
 
-const testPoints = [
-   new LatLng(45, 15),
-   new LatLng(46, 15)
-]
-
 const Operations = () => {
 
+   let [polygons, setPolygons] = useState<LatLng[][]>([])
    let [selecting, setSelecting] = useState<boolean>(false);
-   let [points, setPoints] = useState<LatLng[]>(testPoints);
+   let [points, setPoints] = useState<LatLng[]>([]);
    let [point, setPoint] = useState<LatLng | undefined>(undefined);
 
    let updatePoint = (point: LatLng) => {
@@ -50,6 +46,18 @@ const Operations = () => {
       setPoint(undefined);
    }
 
+   let addPolygon = () => {
+      if (points.length < 3) alert("Not enough points!")
+      else {
+         setPolygons(oldPolygons => {
+            oldPolygons.push(points);
+            return oldPolygons;
+         })
+         resetPoints();
+         alert("Regija stvorena")
+      }
+   }
+
    return (
       <div className="operations-container">
          <MapContainer center={[45.33, 14.445]} zoom={13} scrollWheelZoom={true}>
@@ -67,6 +75,9 @@ const Operations = () => {
             {
                points.length > 2 && <Polygon positions={points} key={points[points.length-1].lat}/>
             }
+            {
+               polygons.map(polygon => <Polygon positions={polygon} key={polygon[0].lat}/>)
+            }
          </MapContainer>
          <div className="actions-container">
             <Button variant="outlined" onClick={confirmPoint}>
@@ -75,7 +86,7 @@ const Operations = () => {
             <Button variant="outlined" onClick={resetPoints}>
                Resetiraj točke
             </Button>
-            <Button variant="outlined">
+            <Button variant="outlined" onClick={addPolygon}>
                Stvori regiju
             </Button>
          </div>
