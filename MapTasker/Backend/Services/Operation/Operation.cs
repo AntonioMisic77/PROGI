@@ -36,30 +36,33 @@ namespace Backend.Services.Operation
                 LeaderOib = dto.LeaderOib,
             };
             
+            await _context.AddAsync(operation);
+            await _context.SaveChangesAsync();
+
             foreach(var region in dto.Regions)
             {
                  var newRegion = new Backend.Models.Region()
                  {
                      AreaId = region.AreaId,
                      OperationId = region.OperationId,
-                 }
+                 };
                  foreach(var block in region.Blocks)
                  {
-                    newBlock = new Backend.Models.Block()
+                    var newBlock = new Backend.Models.Block()
                     {
                         AreaId = block.AreaId,
                         Status = block.Status,
                         RegionId = block.RegionId,
                         ActiveForOib = block.ActiveForOib,
-                    } 
+                    };
                     foreach(var building in block.Buildings)
                     {
-                        newBuilding = new Backend.Models.Building()
+                        var newBuilding = new Backend.Models.Building()
                         {
                             AreaId = building.AreaId,
                             BlockId = building.BlockId,
                             Status = building.Status,
-                        }
+                        };
                         newBlock.Buildings.Add(newBuilding); 
                     }
                     newRegion.Blocks.Add(newBlock);
@@ -68,8 +71,6 @@ namespace Backend.Services.Operation
                  
             }
 
-            await _context.AddAsync(operation);
-            await _context.SaveChangesAsync();
 
             return _mapper.Map<OperationDto>(operation);
         }
@@ -85,11 +86,73 @@ namespace Backend.Services.Operation
 
             operation.Status = dto.Status;
             operation.LeaderOib = dto.LeaderOib;
-            operation.Regions = dto.Regions;
             
             _context.Attach(operation); 
             _context.Entry(operation).State = EntityState.Modified; 
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(); 
+
+            foreach(var region in dto.Regions)
+            {
+                var newRegion = _context.Regions.FirstOrDefault(a => a.AreaId == region.AreaId); 
+
+                if(newRegion == null)
+                {
+                    newRegion = new Backend.Models.Region()
+                    {
+                        AreaId = region.AreaId,
+                        OperationId = region.OperationId,
+                    };
+                    _context.Regions.Add(newRegion);
+                } else
+                {
+                     newRegion.OperationId = region.OperationId;
+                }
+                foreach (var block in region.Blocks)
+                {
+                    var newBlock = _context.Blocks.FirstOrDefault(a => a.AreaId == block.AreaId);
+
+                    if (newBlock == null)
+                    {
+                        newBlock = new Backend.Models.Block()
+                        {
+                            AreaId = block.AreaId,
+                            Status = block.Status,
+                            RegionId = block.RegionId,
+                            ActiveForOib = block.ActiveForOib,
+                        };
+                        _context.Blocks.Add(newBlock);
+                    } else
+                    {
+                        newBlock.Status = block.Status;
+                        newBlock.RegionId = block.RegionId;
+                        newBlock.ActiveForOib = block.ActiveForOib;
+                    }
+                    foreach (var building in block.Buildings)
+                    {
+                        var newBuilding = _context.Buildings.FirstOrDefault(a => a.AreaId == building.AreaId);
+                        
+                        if(newBuilding == null)
+                        {
+                            newBuilding = new Backend.Models.Building()
+                            {
+                                AreaId = building.AreaId,
+                                BlockId = building.BlockId,
+                                Status = building.Status,
+                            };
+                            _context.Buildings.Add(newBuilding);
+                        } else
+                        {
+                            newBuilding.BlockId = building.BlockId;
+                            newBuilding.Status = building.Status;
+                        }
+
+                    }
+                }
+            }
+            
+
+
+            
 
             return _mapper.Map<OperationDto>(operation); 
         }
