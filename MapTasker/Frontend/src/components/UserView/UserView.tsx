@@ -3,6 +3,8 @@ import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserClient, UserDto } from '../../Api/Api';
+import { useUserData } from '../../hooks/useUserData';
+import { roles } from '../../models/Role';
 import { UserContext } from '../../store/UserContextProvider';
 import UserCard from '../UserCard/UserCard';
  
@@ -10,12 +12,10 @@ import "./UserView.css"
 
 const UserView = () => {
 
+   
    const navigate = useNavigate();
 
    let [users, setUsers] = useState<UserDto[]>([]);
-   let [isAdmin, setIsAdmin] = useState<boolean>(false);
-
-   let {user} = useContext(UserContext);
 
    const removeCard = (oib: number) => {
       return () => {
@@ -23,18 +23,21 @@ const UserView = () => {
       }  
    }
 
+   let {user, userLoaded} = useUserData();
    useEffect(
       () => {
-         if (!user || user.roleId !== 0) navigate("/login")
-         else {
-            let client = new UserClient(process.env.REACT_APP_API_URL)
-            client.getAllUsers().then(users => setUsers(users));
+         if (userLoaded) {
+            if (!user || roles[user.roleId] !== 'Admin') navigate("/login")
+            else {
+               let client = new UserClient(process.env.REACT_APP_API_URL)
+               client.getAllUsers().then(users => setUsers(users));
+            }
          }
-      } , []
+      }, [userLoaded]
    )
 
    return ( 
-      (user && user.roleId === 0)  ?
+      (user && roles[user.roleId] === 'Admin')  ?
          <>
             <Typography sx={{color: "white", margin: "0 0 1vh 1vw", paddingTop:"1vh"}} variant="h4"> Nepotvrđeni korisnici: </Typography>
             <div className="user-container">
