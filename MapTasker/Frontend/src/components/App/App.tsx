@@ -9,9 +9,7 @@ import LoginPage from '../../pages/Login/LoginPage';
 import OperationsPage from '../../pages/Operations/OperationsPage';
 import RegisterPage from '../../pages/Registration/RegisterPage';
 import UserViewPage from '../../pages/UserView/UserViewPage';
-import MissingReportsPage from '../../pages/MissingReports/MissingReportsPage';
 import UserContextProvider from '../../store/UserContextProvider';
-
 
 function App() {
    return (
@@ -23,7 +21,6 @@ function App() {
                <Route path="/" element={<HomePage/>}/>
                <Route path="/users" element={<UserViewPage/>}/> 
                <Route path="/operations" element={<OperationsPage/>}/>
-               <Route path="/missing-reports" element={<MissingReportsPage/>}/>
             </Routes>
          </Router>
       </UserContextProvider>
