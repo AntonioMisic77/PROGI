@@ -21,14 +21,12 @@ namespace Backend.Services.MissingReport
         {
             var missingReport = new Models.MissingReport
             {
-                //Id = dto.Id,
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
                 Oib = dto.Oib,
                 Photo = dto.Photo,
                 Description = dto.Description,
                 ReportedAt = DateTime.UtcNow,
-                FoundAt = dto.FoundAt
             };
 
             await _context.AddAsync(missingReport);
@@ -39,15 +37,22 @@ namespace Backend.Services.MissingReport
 
         public async Task<MissingReportDto> DeleteMissingReport(int id)
         {
-            var missingReport = _context.MissingReports.FindAsync(id);
+            var missingReport = await _context.MissingReports.FindAsync(id);
+
+            if (missingReport == null)
+            {
+                throw new InvalidDataException("No such missing report");
+            }
             _context.Remove(missingReport);
+
             await _context.SaveChangesAsync();
+
             return _mapper.Map<MissingReportDto>(missingReport);
         }
 
         public List<MissingReportDto> GetAllMissingReports()
         {
-            var missingReports = _context.MissingReports;
+            var missingReports = _context.MissingReports.Include(a => a.Comments);
 
             return _mapper.Map<List<MissingReportDto>>(missingReports);
         }

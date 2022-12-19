@@ -35,9 +35,33 @@ namespace Backend.Services.Comment
 
         public async Task<CommentDto> DeleteComment(int id)
         {
-            var comment = _context.Comments.FindAsync(id);
+            var comment = await _context.Comments.FindAsync(id);
+
+            if (comment == null)
+            {
+                return null;
+            }
 
             _context.Remove(comment);
+
+            await _context.SaveChangesAsync();
+
+            return _mapper.Map<CommentDto>(comment);
+        }
+
+        public async Task<CommentDto> UpdateComment(CommentDto dto)
+        {
+            var comment = await _context.Comments.FindAsync(dto.Id);
+
+            if (comment == null)
+            {
+                throw new InvalidDataException("No such comment");
+            }
+
+            comment.Text = dto.Text;
+
+            _context.Attach(comment);
+            _context.Entry(comment).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
             await _context.SaveChangesAsync();
 
