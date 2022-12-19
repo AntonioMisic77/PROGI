@@ -19,8 +19,13 @@ namespace Backend.Services.MissingReport
 
         public async Task<MissingReportDto> CreateMissingReport(MissingReportDto dto)
         {
+            byte[] newGuid = Guid.NewGuid().ToByteArray();
+
+            int id = Math.Abs(BitConverter.ToInt32(newGuid, 0));
+
             var missingReport = new Models.MissingReport
             {
+                Id = id,
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
                 Oib = dto.Oib,

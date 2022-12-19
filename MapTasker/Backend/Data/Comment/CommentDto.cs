@@ -9,7 +9,7 @@ namespace Backend.Data.CommentDto
         public int ReportId { get; set; }
         [Required]
         public string Text { get; set; } = null!;
-        [Required]
+
         public long? UserOib { get; set; }
 
 

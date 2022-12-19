@@ -62,8 +62,7 @@ namespace Backend.Controllers
             }
         }
 
-        [HttpDelete]
-
+        [HttpDelete("{id}")]
         public async Task<ActionResult<List<MissingReportDto>>> DeleteMissingReport(int id)
         {
             try

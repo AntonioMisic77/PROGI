@@ -18,9 +18,13 @@ namespace Backend.Services.Comment
         }
         public async Task<CommentDto> CreateComment(CommentDto dto)
         {
+            byte[] newGuid = Guid.NewGuid().ToByteArray();
+
+            int id = Math.Abs(BitConverter.ToInt32(newGuid, 0));
+
             var comment = new Models.Comment
             {
-            
+                Id = id,
                 ReportId = dto.ReportId,
                 Text = dto.Text,
                 UserOib = dto.UserOib
