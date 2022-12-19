@@ -1,0 +1,20 @@
+.leaflet-container {
+  width: 100%; 
+  height: 80vh;
+}
+
+.operations-container {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.actions-container {
+  display: flex;
+  width: 100%;
+  height: 20vh;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
