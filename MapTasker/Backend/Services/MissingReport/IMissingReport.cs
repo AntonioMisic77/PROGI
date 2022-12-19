@@ -4,13 +4,13 @@ namespace Backend.Services.MissingReport
 {
     public interface IMissingReport
     {
-        Task<List<MissingReportDto>> GetAllMissingReports();
+        List<MissingReportDto> GetAllMissingReports();
 
-        Task<List<MissingReportDto>> CreateMissingReport();
+        Task<MissingReportDto> CreateMissingReport(MissingReportDto dto);
 
-        Task<List<MissingReportDto>> UpdateMissingReport(MissingReportDto dto);
+        Task<MissingReportDto> UpdateMissingReport(MissingReportDto dto);
 
-        Task<List<MissingReportDto>> DeleteMissingReport(int id);
+        Task<MissingReportDto> DeleteMissingReport(int id);
     }
 }
 
