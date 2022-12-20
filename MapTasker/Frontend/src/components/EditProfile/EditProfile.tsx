@@ -10,17 +10,17 @@ import { Button } from "@mui/material";
 
 const EditProfile = () => {
 
-    let {user} = useUserData();
+   let { user } = useUserData();
 
-    const options = [
-        {value: "", label: "Odabir uloge"},
-        {value: "kartograf", label: "Kartograf"},
-        {value: "spasioc", label: "Spasioc"},
-        {value: "voditelj", label: "Voditelj"},
-     ]
+   const options = [
+      { value: "", label: "Odabir uloge" },
+      { value: "kartograf", label: "Kartograf" },
+      { value: "spasioc", label: "Spasioc" },
+      { value: "voditelj", label: "Voditelj" },
+   ]
 
-    return (
-        <Formik initialValues={{ username: user?.userName, password: user?.password, firstname: user?.firstName, lastname: user?.lastName, phonenum: user?.phoneNumber, email: user?.email, role: user?.roleId, photo: user?.photo, OIB: user?.oib }}
+   return (
+      <Formik initialValues={{ username: user?.userName, password: user?.password, firstname: user?.firstName, lastname: user?.lastName, phonenum: user?.phoneNumber, email: user?.email, role: user?.roleId, photo: user?.photo, OIB: user?.oib }}
          validationSchema={schema}
          onSubmit={async (values) => {
             let client = new UserClient(process.env.REACT_APP_API_URL);
@@ -29,20 +29,19 @@ const EditProfile = () => {
                   oib: values.OIB ?? 0,
                   userName: values.username,
                   password: values.password !== undefined ? values.password : '',
-                  firstName: values.firstname !== undefined ? user.firstName : '',
-                  lastName: values.lastname !== undefined ? user.lastname : '',
+                  firstName: values.firstname !== undefined ? values.firstname : '',
+                  lastName: values.lastname !== undefined ? values.lastname : '',
                   phoneNumber: values.phonenum !== undefined ? values.phonenum : '',
                   email: values.email !== undefined ? values.email : '',
-                  roleId : options.findIndex(op => op.value === "" + values.role),
+                  roleId: options.findIndex(op => op.value === "" + values.role),
                   photo: "https://imgur.com/gallery/o0dYwkQ",
-                  confirmed: true   
-               }).then(user => {    
+                  confirmed: true
+               }).then(user => {
                   alert("Uspješno promijenjeni podatci");
-               }).catch(reason => alert("Korisnik s tim podatcima već postoji"))
-               
+               })
          }}
-        >
-            <Form> 
+      >
+         <Form>
             <h1>Uredi profil</h1>
             <FormInput
                label="Korisničko ime:"
@@ -82,7 +81,7 @@ const EditProfile = () => {
                inputMode="numeric"
                readOnly={true}
                disabled={true}
-               placeholder={""+user?.oib}
+               placeholder={"" + user?.oib}
             />
             <FormInput
                label="Broj mobitela:"
@@ -103,17 +102,17 @@ const EditProfile = () => {
                readOnly={true}
                disabled={true}
                options={options}
-               > 
+            >
             </FormSelect>
             <div className='photo'>
                <label>Fotografija</label>
-               <Button variant="contained" component="label" role="button" onClick={() => {}} style={{marginLeft:"1vw"}}>
+               <Button variant="contained" component="label" role="button" onClick={() => { }} style={{ marginLeft: "1vw" }}>
                   Upload
                </Button>
             </div>
             <button type='submit' className='submit-button'>Click to submit</button>
          </Form>
-            </Formik>
-    )
+      </Formik>
+   )
 };
 export default EditProfile;
