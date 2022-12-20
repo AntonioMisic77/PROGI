@@ -1,7 +1,4 @@
 import React, { useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../../store/UserContextProvider';
-import { useContext } from 'react';
 import { useUserData } from '../../hooks/useUserData';
 import { schema } from "../../validationSchema/schema.js";
 import { Form, Formik, FormikProps } from "formik";
@@ -40,7 +37,7 @@ const EditProfile = () => {
                   lastName: values.lastname !== undefined ? values.lastname : '',
                   phoneNumber: values.phonenum !== undefined ? values.phonenum : '',
                   email: values.email !== undefined ? values.email : '',
-                  roleId : options.findIndex(op => op.value === " " + values.role),
+                  roleId : options.findIndex(op => op.value === "" + values.role),
                   photo: "https://imgur.com/gallery/o0dYwkQ",
                   confirmed: true   
                }).then(user => {    
@@ -57,7 +54,7 @@ const EditProfile = () => {
                type="text"
                readOnly={true}
                disabled={true}
-               placeholder="Unesite korisničko ime"
+               placeholder={user?.userName}
             />
 
             <FormInput
@@ -72,7 +69,7 @@ const EditProfile = () => {
                type="text"
                readOnly={true}
                disabled={true}
-               placeholder="Unesite svoje ime"
+               placeholder={user?.firstName}
             />
             <FormInput
                label="Prezime:"
@@ -80,7 +77,7 @@ const EditProfile = () => {
                type="text"
                readOnly={true}
                disabled={true}
-               placeholder="Unesite svoje prezime"
+               placeholder={user?.lastName}
             />
             <FormInput
                label="OIB:"
@@ -89,7 +86,7 @@ const EditProfile = () => {
                inputMode="numeric"
                readOnly={true}
                disabled={true}
-               placeholder="Unesite svoj OIB"
+               placeholder={""+user?.oib}
             />
             <FormInput
                label="Broj mobitela:"
