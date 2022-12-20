@@ -6,6 +6,8 @@ import { UserClient, UserDto } from "../../Api/Api";
 import FormSelect from "../FormSelect/FormSelect";
 import FormInput from "../FormInput/FormInput";
 import { Button } from "@mui/material";
+import "./ProfilePage.css"
+
 
 
 const EditProfile = () => {
@@ -42,7 +44,7 @@ const EditProfile = () => {
          }}
       >
          <Form>
-            <h1>Uredi profil</h1>
+            <h1 className="profile-header">Uredi profil</h1>
             <FormInput
                label="Korisničko ime:"
                name="username"
