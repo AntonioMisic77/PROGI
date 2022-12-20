@@ -10,5 +10,6 @@ namespace Backend.Services.Interfaces
         Task<UserDto> UpdateUser(UserDto dto);
         Task<UserDto> GetUser(long oib);
         Task<UserDto> DeleteUser(long oib);
+        Task<UserDto> ChangePassword(UserDto dto);
     }
 }

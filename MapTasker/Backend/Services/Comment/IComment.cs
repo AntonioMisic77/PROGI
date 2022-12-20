@@ -5,8 +5,10 @@ namespace Backend.Services.Comment
 {
     public interface IComment
     {
-        Task<ActionResult<CommentDto>> CreateComment();
+        Task<CommentDto> CreateComment(CommentDto dto);
 
-        Task<ActionResult<CommentDto>> DeleteComment(int id);
+        Task<CommentDto> DeleteComment(int id);
+
+        Task<CommentDto> UpdateComment(CommentDto dto);
     }
 }
