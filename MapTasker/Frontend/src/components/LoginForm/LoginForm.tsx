@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Form, Formik } from "formik";
+import { Form, Formik } from 'formik';
 import FormInput from "../FormInput/FormInput";
 import "./LoginForm.css"
 import { LoginClient, UserClient } from '../../Api/Api';
@@ -14,7 +14,7 @@ const LoginForm = () => {
 
    return (
       <Formik initialValues={{ email: "", password: "" }}
-         onSubmit={async (values) => {
+         onSubmit={async (values:any) => {
             let client = new LoginClient(process.env.REACT_APP_API_URL);
             client.login(values).then(token => {
                localStorage.setItem("Bearer token", "Bearer " + token)
