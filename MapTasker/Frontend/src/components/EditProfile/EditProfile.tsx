@@ -8,8 +8,6 @@ import FormInput from "../FormInput/FormInput";
 import { Button } from "@mui/material";
 
 
-
-
 const EditProfile = () => {
 
     let {user} = useUserData();
@@ -20,8 +18,6 @@ const EditProfile = () => {
         {value: "spasioc", label: "Spasioc"},
         {value: "voditelj", label: "Voditelj"},
      ]
-    
-    
 
     return (
         <Formik initialValues={{ username: user?.userName, password: user?.password, firstname: user?.firstName, lastname: user?.lastName, phonenum: user?.phoneNumber, email: user?.email, role: user?.roleId, photo: user?.photo, OIB: user?.oib }}
@@ -33,8 +29,8 @@ const EditProfile = () => {
                   oib: values.OIB ?? 0,
                   userName: values.username,
                   password: values.password !== undefined ? values.password : '',
-                  firstName: values.firstname !== undefined ? values.firstname : '',
-                  lastName: values.lastname !== undefined ? values.lastname : '',
+                  firstName: values.firstname !== undefined ? user.firstName : '',
+                  lastName: values.lastname !== undefined ? user.lastname : '',
                   phoneNumber: values.phonenum !== undefined ? values.phonenum : '',
                   email: values.email !== undefined ? values.email : '',
                   roleId : options.findIndex(op => op.value === "" + values.role),
