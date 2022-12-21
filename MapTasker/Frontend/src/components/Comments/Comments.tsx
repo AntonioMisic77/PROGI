@@ -2,7 +2,7 @@ import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { List, ListItemButton, ListItemText, Collapse, ListItem, ListItemAvatar, Avatar, Typography, Divider } from '@mui/material';
 import * as React from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { CommentDto, UserClient } from '../../Api/Api';
+import { CommentDto, UserClient, UserDto } from '../../Api/Api';
 
 interface CommentProps {
     comment: CommentDto,
@@ -16,16 +16,19 @@ const Comments = ({comment} : CommentProps) => {
         setOpen(!open);
     }
 
-    const[user, setUser] = React.useState();
+    const[user, setUser] = React.useState<UserDto>();
 
     /* za dohvacanje usera koji je komentirao
-    dodati ako je userOib undefined, anonymous je komentirao objavu
+    dodati ako je userOib undefined, anonymous je komentirao objavu*/
+
     React.useEffect(
         () => {
          let client = new UserClient("https://localhost:7270");
-         client.getUser(comment.userOib).then(user => setUser(user));
+         if(comment.userOib !== undefined) {
+            client.getUser(comment.userOib).then(user => setUser(user));
+         }
         }, []
-     )*/
+     )
     
 
     return(
@@ -33,10 +36,10 @@ const Comments = ({comment} : CommentProps) => {
                 <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
                     <ListItem alignItems="flex-start">
                         <ListItemAvatar>
-                        <Avatar  />
+                        <Avatar />
                         </ListItemAvatar>
                         <ListItemText
-                        primary={comment.userOib}
+                        primary={user !== undefined ? user.firstName + ' ' + user.lastName : 'Anonymous'}
                         secondary={
                             <React.Fragment>
                             {comment.text}

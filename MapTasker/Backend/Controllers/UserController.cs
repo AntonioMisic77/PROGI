@@ -85,7 +85,7 @@ namespace Backend.Controllers
             
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{oib}")]
         public async Task<ActionResult<UserDto>> GetUser(long oib) 
         { 
            return await _userService.GetUser(oib); 

@@ -901,15 +901,11 @@ export class UserClient extends ApiBase {
         return Promise.resolve<UserDto>(null as any);
     }
 
-    getUser(oib: number | undefined, id: string): Promise<UserDto> {
-        let url_ = this.baseUrl + "/api/User/{id}?";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
-        if (oib === null)
-            throw new Error("The parameter 'oib' cannot be null.");
-        else if (oib !== undefined)
-            url_ += "oib=" + encodeURIComponent("" + oib) + "&";
+    getUser(oib: number): Promise<UserDto> {
+        let url_ = this.baseUrl + "/api/User/{oib}";
+        if (oib === undefined || oib === null)
+            throw new Error("The parameter 'oib' must be defined.");
+        url_ = url_.replace("{oib}", encodeURIComponent("" + oib));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: RequestInit = {
