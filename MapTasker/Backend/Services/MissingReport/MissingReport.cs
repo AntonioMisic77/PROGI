@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Backend.Data;
 using Backend.Data.MissingReportDTO;
+using Backend.Services.IdGenerator;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Services.MissingReport
@@ -10,22 +11,20 @@ namespace Backend.Services.MissingReport
 
         private MapTaskerDBContext _context;
         private readonly IMapper _mapper;
+        private readonly IGenerator _generator;
 
-        public MissingReport(MapTaskerDBContext context, IMapper mapper)
+        public MissingReport(MapTaskerDBContext context, IMapper mapper, IGenerator generator)
         {
             _context = context;
             _mapper = mapper;
+            _generator = generator;
         }
 
         public async Task<MissingReportDto> CreateMissingReport(MissingReportDto dto)
         {
-            byte[] newGuid = Guid.NewGuid().ToByteArray();
-
-            int id = Math.Abs(BitConverter.ToInt32(newGuid, 0));
-
             var missingReport = new Models.MissingReport
             {
-                Id = id,
+                Id = _generator.generateId(),
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
                 Oib = dto.Oib,
