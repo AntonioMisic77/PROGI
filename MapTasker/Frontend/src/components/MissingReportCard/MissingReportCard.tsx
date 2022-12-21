@@ -100,7 +100,7 @@ const MissingReportCard = ({missingReport} : ReportsProps) => {
                         <ExpandMoreIcon />
                     </ListItemButton>
                     <Collapse in={open} timeout="auto" unmountOnExit>
-                        { missingReport.comments.map(comment => <Comments comment={comment} key={comment.id}/>)}
+                        { missingReport.comments !== undefined ? missingReport.comments.map(comment => <Comments comment={comment} key={comment.id}/>) : ''}
                     </Collapse>
                 </List>
             </div>
