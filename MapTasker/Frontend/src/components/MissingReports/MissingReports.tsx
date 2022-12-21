@@ -14,22 +14,12 @@ const MissingReports = () =>  {
 
     useEffect(
        () => {
-        let client = new MissingReportClient(process.env.REACT_APP_API_URL);
+        let client = new MissingReportClient("https://localhost:7270");
         client.getAllMissingReports().then(missingReports => setMissingReports(missingReports));
        }, []
     )
 
     console.log(missingReports)
-
-    let missingReport = {
-        id: 123,
-        oib: 67324678933,
-        firstName: "Ana", 
-        lastName: "Anic", 
-        description: "white dress, blue shoes, blonde hair, brown eyes", 
-        reportedAt: new Date(2022, 12, 5),
-        photo: require("./dwayne-the-rock-.jpg")
-    }
 
 
     return(
@@ -42,9 +32,10 @@ const MissingReports = () =>  {
                 Nestale osobe
             </Typography>
             <div className="card-container">
-                <MissingReportCard missingReport={missingReport} />
+                {missingReports.map(missingReport => <MissingReportCard missingReport={missingReport} key={missingReport.id}/>)}
             </div>
        </div>
+
     );
 }
 
