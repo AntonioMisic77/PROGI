@@ -1,5 +1,8 @@
 ﻿
 using Backend.Data.RegionDTO;
+using Backend.Data;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Services.Region
 {
@@ -18,7 +21,7 @@ namespace Backend.Services.Region
         {
             var regions = await _context.Regions.ToListAsync();
 
-            return _mapper.Map<IList<RegionDto>>(regions);
+            return _mapper.Map<List<RegionDto>>(regions);
         }
     }
 }

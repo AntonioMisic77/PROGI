@@ -1,6 +1,10 @@
 ﻿
 using Backend.Data.OperationDTO;
-using Backend.Models;
+using Backend.Data;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+
+
 
 namespace Backend.Services.Operation
 {
@@ -77,7 +81,8 @@ namespace Backend.Services.Operation
 
         public async Task<OperationDto> UpdateOperation(OperationDto dto)
         {
-            var operation = await _context.FirstOrDefaultAsync(a => a.id == dto.id); 
+   
+            var operation = await _context.Operations.FirstOrDefaultAsync(a => a.Id == dto.Id); 
 
             if (operation == null)
             {
