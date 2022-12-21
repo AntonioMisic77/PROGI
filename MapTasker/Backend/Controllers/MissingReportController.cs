@@ -22,30 +22,57 @@ namespace Backend.Controllers
 
         [HttpGet]
 
-        public async Task<ActionResult<List<MissingReportDto>>> GetAllMissingReports()
+        public ActionResult<List<MissingReportDto>> GetAllMissingReports()
         {
-            return await _missingReportService.GetAllMissingReports();
+            try
+            {
+                return Ok(_missingReportService.GetAllMissingReports());
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
         }
 
         [HttpPost]
 
-        public async Task<ActionResult<List<MissingReportDto>>> CreateMissingReport()
+        public async Task<ActionResult<MissingReportDto>> CreateMissingReport(MissingReportDto dto)
         {
-            return await _missingReportService.CreateMissingReport();
+            try
+            {
+                return Ok(await _missingReportService.CreateMissingReport(dto));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
         }
 
         [HttpPut]
 
-        public async Task<ActionResult<List<MissingReportDto>>> UpdateMissingReport(MissingReportDto dto)
+        public async Task<ActionResult<MissingReportDto>> UpdateMissingReport(MissingReportDto dto)
         {
-            return await _missingReportService.UpdateMissingReport(dto);
+            try
+            {
+                return Ok(await _missingReportService.UpdateMissingReport(dto));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
         }
 
-        [HttpDelete]
-
+        [HttpDelete("{id}")]
         public async Task<ActionResult<List<MissingReportDto>>> DeleteMissingReport(int id)
         {
-            return await _missingReportService.DeleteMissingReport(id);
+            try
+            {
+                return Ok(await _missingReportService.DeleteMissingReport(id));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
         }
     }
 }

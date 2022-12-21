@@ -55,10 +55,34 @@ namespace Backend.Controllers
             }
         }
 
+        [HttpPut("password/{oib}")]
+        public async Task<ActionResult<UserDto>> ChangePassword(UserDto dto)
+        {
+            try
+            {
+                return await _userService.ChangePassword(dto);
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            
+        }
+
         [HttpPut]
         public async Task<ActionResult<UserDto>> UpdateUser(UserDto dto)
         {
-            return await _userService.UpdateUser(dto);
+            try
+            {
+                return await _userService.UpdateUser(dto);
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            
         }
 
         [HttpGet("{id}")]
@@ -84,7 +108,7 @@ namespace Backend.Controllers
             }
             catch (InvalidDataException)
             {
-                return null;
+                return BadRequest();
             }
         }
     }

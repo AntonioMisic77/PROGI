@@ -49,11 +49,45 @@ namespace Backend.Services.Implementations
             
         }
 
-        public Task<UserDto> UpdateUser(UserDto dto)
+        public async Task<UserDto> UpdateUser(UserDto dto)
         {
-            throw new NotImplementedException();
+            var user = _context.Users.FirstOrDefault(a => a.Oib == dto.OIB);
+
+            if (user == null)
+            {
+                throw new InvalidDataException("No such user.");
+            }
+
+            user.Photo = dto.Photo;
+            user.PhoneNumber = dto.PhoneNumber;
+            user.Username = dto.UserName;
+
+            _context.Attach(user);
+            _context.Entry(user).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return _mapper.Map<UserDto>(user);
         }
 
+        public async Task<UserDto> ChangePassword(UserDto dto)
+        {
+            IPasswordHasher<User> hasher = new PasswordHasher<User>();
+
+            var user = _context.Users.FirstOrDefault(a => a.Oib == dto.OIB);
+
+            if (user == null)
+            {
+                throw new InvalidDataException("No such user");
+            }
+
+            user.Password = hasher.HashPassword(user,dto.Password);
+
+            _context.Attach(user);
+            _context.Entry(user).State= EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return _mapper.Map<UserDto>(user);
+        }
         public async Task<UserDto> GetUser(long oib) 
         {
             var user = await _context.Users.FindAsync(oib);
