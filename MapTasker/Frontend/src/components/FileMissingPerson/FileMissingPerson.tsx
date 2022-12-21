@@ -2,19 +2,26 @@ import * as React from 'react';
 import { Form, Formik, FormikProps } from "formik";
 import FormInput from "../FormInput/FormInput";
 import { schemaMR } from "../../validationSchema/schemaMR.js";
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import { MissingReportClient } from '../../Api/Api';
-import { isDate } from 'util/types';
-import { format } from 'date-fns'
+import { format } from 'date-fns';
 
 
-let date = new Date();
 
-//dodati argumente kod createMissingReport
+
+
+const maskMap = {
+    hrv:"____-__-__"
+  };
+
 
 const FileMissingPerson = () => {
+
+
+     const [value, setValue] = React.useState<Date>(new Date());
+
     return(
-        <Formik initialValues={{ firstName: "", lastName: "", OIB: null, photo: "", description: null, reportedAt: null, foundAt: null}}
+        <Formik initialValues={{ firstName: "", lastName: "", OIB: null, photo: "", description: null, reportedAt: null, foundAt: undefined}}
          validationSchema={schemaMR}
          onSubmit={async (values) => {
             let client = new MissingReportClient('https://localhost:7270');
@@ -25,8 +32,8 @@ const FileMissingPerson = () => {
                 oib: values.OIB ?? 0,
                 photo: "./dwayne-the-rock-.jpg",
                 description: values.description ?? '',
-                reportedAt: values.reportedAt ?? date,
-                foundAt: values.foundAt ?? date,
+                reportedAt: values.reportedAt ?? value,
+                foundAt: values.foundAt,
                 comments: []
 
 
@@ -43,14 +50,14 @@ const FileMissingPerson = () => {
                     label="Ime:"
                     name="firstName"
                     type="text"
-                    placeholder="Unesite svoje ime"
+                    placeholder="Unesite ime"
                     />
 
                 <FormInput
                     label="Prezime:"
                     name="lastname"
                     type="text"
-                    placeholder="Unesite svoje prezime"
+                    placeholder="Unesite prezime"
                 />
 
                 <FormInput
@@ -58,7 +65,7 @@ const FileMissingPerson = () => {
                     name="OIB"
                     type="text"
                     inputMode="numeric"
-                    placeholder="Unesite svoj OIB"
+                    placeholder="Unesite OIB"
                 />
 
                 <FormInput
@@ -69,11 +76,13 @@ const FileMissingPerson = () => {
                 />
 
                 <FormInput
-                    label="Zadnje viđen/a:"
+                    label="Zadnje viđen/a"
                     name="reportedAt"
                     type="date"
                     placeholder="Unesite datum nestanka"
                 />
+                
+                
 
                 <div className='photo'>
                     <label>Fotografija</label>
