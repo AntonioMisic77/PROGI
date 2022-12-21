@@ -23,7 +23,7 @@ namespace Backend.Data.MissingReportDTO
 
         public DateTime? FoundAt { get; set; }
 
-        public virtual ICollection<Backend.Data.CommentDto.CommentDto> Comments { get; set; }
+        public virtual ICollection<Backend.Data.CommentDto.CommentDto>? Comments { get; set; }
     }
 }
 
