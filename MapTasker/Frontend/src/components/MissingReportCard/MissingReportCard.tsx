@@ -49,6 +49,7 @@ const MissingReportCard = ({missingReport} : ReportsProps) => {
         <Card sx={{
             height:"auto",
             width:"100%",
+            marginBottom: "1px"
 
         }}>
             <CardContent>
@@ -100,7 +101,7 @@ const MissingReportCard = ({missingReport} : ReportsProps) => {
                         <ExpandMoreIcon />
                     </ListItemButton>
                     <Collapse in={open} timeout="auto" unmountOnExit>
-                        { missingReport.comments !== undefined ? missingReport.comments.map(comment => <Comments comment={comment} key={comment.id}/>) : ''}
+                        {missingReport.comments !== undefined ? missingReport.comments.map(comment => <Comments comment={comment} key={comment.id}/>) : <List sx={{ width: '100%', bgcolor: 'background.paper' }}/> }
                     </Collapse>
                 </List>
             </div>

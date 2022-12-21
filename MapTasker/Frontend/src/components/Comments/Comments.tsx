@@ -19,7 +19,7 @@ const Comments = ({comment} : CommentProps) => {
     const[user, setUser] = React.useState<UserDto>();
 
     /* za dohvacanje usera koji je komentirao
-    dodati ako je userOib undefined, anonymous je komentirao objavu*/
+    dodati ako je userOib undefined, anonymous je komentirao objavu
 
     React.useEffect(
         () => {
@@ -28,8 +28,8 @@ const Comments = ({comment} : CommentProps) => {
             client.getUser(comment.userOib).then(user => setUser(user));
          }
         }, []
-     )
-    
+     )*/
+    console.log(comment)
 
     return(
        
@@ -39,7 +39,7 @@ const Comments = ({comment} : CommentProps) => {
                         <Avatar />
                         </ListItemAvatar>
                         <ListItemText
-                        primary={user !== undefined ? user.firstName + ' ' + user.lastName : 'Anonymous'}
+                        primary={comment.userOib !== null ? comment.userOib : 'Anonymous'}
                         secondary={
                             <React.Fragment>
                             {comment.text}
