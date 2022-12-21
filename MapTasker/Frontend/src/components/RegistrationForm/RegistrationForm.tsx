@@ -19,7 +19,7 @@ const RegistrationForm = () => {
       <Formik initialValues={{ username: "", password: "", firstname: "", lastname: "", phonenum: "", email: "", role: "", photo: null, OIB: null }}
          validationSchema={schema}
          onSubmit={async (values) => {
-            let client = new RegisterClient(process.env.REACT_APP_API_URL);
+            let client = new RegisterClient("https://localhost:7270");
             client.register(
                {
                   oib: values.OIB ?? 0,

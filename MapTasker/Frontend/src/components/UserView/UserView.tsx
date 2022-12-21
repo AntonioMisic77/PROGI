@@ -27,9 +27,12 @@ const UserView = () => {
    useEffect(
       () => {
          if (userLoaded) {
-            if (!user || roles[user.roleId] !== 'Admin') navigate("/login")
+            if (!user || roles[user.roleId-1] !== 'Admin'){
+               console.log(roles)
+               navigate("/login")
+            } 
             else {
-               let client = new UserClient(process.env.REACT_APP_API_URL)
+               let client = new UserClient("https://localhost:7270")
                client.getAllUsers().then(users => setUsers(users));
             }
          }
@@ -37,7 +40,7 @@ const UserView = () => {
    )
 
    return ( 
-      (user && roles[user.roleId] === 'Admin')  ?
+      (user && roles[user.roleId-1] === 'Admin')  ?
          <>
             <Typography sx={{color: "white", margin: "0 0 1vh 1vw", paddingTop:"1vh"}} variant="h4"> Nepotvrđeni korisnici: </Typography>
             <div className="user-container">

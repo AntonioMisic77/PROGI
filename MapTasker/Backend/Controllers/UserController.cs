@@ -12,7 +12,6 @@ namespace Backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
     public class UserController : ControllerBase
     {
         private IUserService _userService;
@@ -34,12 +33,14 @@ namespace Backend.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IEnumerable<UserDto> GetAllUsers()
         {
             return _userService.GetAllUsers();
         }
 
         [HttpPut("confirm/{oib}")]
+        [Authorize]
         public async Task<ActionResult<UserDto>> ConfirmUser(long oib)
         {
             long requesterOib = getRequesterOib(Request);
@@ -56,6 +57,7 @@ namespace Backend.Controllers
         }
 
         [HttpPut("password/{oib}")]
+        [Authorize]
         public async Task<ActionResult<UserDto>> ChangePassword(UserDto dto)
         {
             try
@@ -71,6 +73,7 @@ namespace Backend.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<ActionResult<UserDto>> UpdateUser(UserDto dto)
         {
             try
@@ -85,13 +88,14 @@ namespace Backend.Controllers
             
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{oib}")]
         public async Task<ActionResult<UserDto>> GetUser(long oib) 
         { 
            return await _userService.GetUser(oib); 
         }
 
         [HttpDelete("{oib}")]
+        [Authorize]
         public async Task<ActionResult<UserDto>> DeleteUser(long oib)
         {
             return await _userService.DeleteUser(oib);

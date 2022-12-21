@@ -7,6 +7,6 @@ namespace Backend.Services.Operation
     {
         Task<OperationDto> CreateOperation(OperationDto operation);
 
-        Task<OperationDto> UpdateOperationStatus(OperationDto operation);
+        Task<OperationDto> UpdateOperation(OperationDto operation);
     }
 }

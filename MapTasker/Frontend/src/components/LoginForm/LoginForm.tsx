@@ -15,10 +15,10 @@ const LoginForm = () => {
    return (
       <Formik initialValues={{ email: "", password: "" }}
          onSubmit={async (values) => {
-            let client = new LoginClient(process.env.REACT_APP_API_URL);
+            let client = new LoginClient("https://localhost:7270");
             client.login(values).then(token => {
                localStorage.setItem("Bearer token", "Bearer " + token)
-               let client = new UserClient(process.env.REACT_APP_API_URL);
+               let client = new UserClient("https://localhost:7270");
                client.getUser2().then(user => setUser(user));
                navigate("/users");
             }).catch(err => alert("Neispravan email ili lozinka"))
