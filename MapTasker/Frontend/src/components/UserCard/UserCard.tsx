@@ -11,7 +11,7 @@ interface UserCardProps {
 const UserCard = ({user, removeSelf} : UserCardProps) => {
 
    const confirmUser = () => {
-      let client = new UserClient(process.env.REACT_APP_API_URL);
+      let client = new UserClient("https://localhost:7270");
       client.confirmUser(user.oib).then(
          resp => {
             alert("Korisnik uspješno potvrđen")
@@ -21,7 +21,7 @@ const UserCard = ({user, removeSelf} : UserCardProps) => {
    }
 
    const deleteRequest = () => {
-      let client = new UserClient(process.env.REACT_APP_API_URL);
+      let client = new UserClient("https://localhost:7270");
       client.deleteUser(user.oib).then(
          resp => {
             alert("Zahtjev uspješno izbrisan")
