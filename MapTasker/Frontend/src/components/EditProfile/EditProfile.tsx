@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { useUserData } from '../../hooks/useUserData';
-import { schema } from "../../validationSchema/schema.js";
 import { Form, Formik, FormikProps } from "formik";
 import { UserClient, UserDto } from "../../Api/Api";
 import FormSelect from "../FormSelect/FormSelect";
 import FormInput from "../FormInput/FormInput";
 import { Button } from "@mui/material";
-import "./ProfilePage.css"
+import "./EditProfile.css"
+import { schema } from "../../validationSchema/schema.js";
+import { schema2 } from "../../validationSchema/schema2.js";
 
 
 
@@ -23,7 +24,7 @@ const EditProfile = () => {
 
    return (
       <Formik initialValues={{ username: user?.userName, password: user?.password, firstname: user?.firstName, lastname: user?.lastName, phonenum: user?.phoneNumber, email: user?.email, role: user?.roleId, photo: user?.photo, OIB: user?.oib }}
-         validationSchema={schema}
+         validationSchema={schema2}
          onSubmit={async (values) => {
             let client = new UserClient(process.env.REACT_APP_API_URL);
             client.updateUser(
@@ -45,14 +46,7 @@ const EditProfile = () => {
       >
          <Form>
             <h1 className="profile-header">Uredi profil</h1>
-            <FormInput
-               label="Korisničko ime:"
-               name="username"
-               type="text"
-               readOnly={true}
-               disabled={true}
-               placeholder={user?.userName}
-            />
+            <div className="profile-unmodifiable">Korisničko ime: {user?.userName}</div>
 
             <FormInput
                label="Lozinka:"
@@ -60,31 +54,12 @@ const EditProfile = () => {
                type="password"
                placeholder="Unesite lozinku"
             />
-            <FormInput
-               label="Ime:"
-               name="firstname"
-               type="text"
-               readOnly={true}
-               disabled={true}
-               placeholder={user?.firstName}
-            />
-            <FormInput
-               label="Prezime:"
-               name="lastname"
-               type="text"
-               readOnly={true}
-               disabled={true}
-               placeholder={user?.lastName}
-            />
-            <FormInput
-               label="OIB:"
-               name="OIB"
-               type="text"
-               inputMode="numeric"
-               readOnly={true}
-               disabled={true}
-               placeholder={"" + user?.oib}
-            />
+            <div className="profile-unmodifiable">Ime: {user?.firstName}</div>
+
+            <div className="profile-unmodifiable">Prezime: {user?.lastName}</div>
+
+            <div className="profile-unmodifiable">OIB: {user?.oib}</div>
+
             <FormInput
                label="Broj mobitela:"
                name="phonenum"
@@ -97,15 +72,9 @@ const EditProfile = () => {
                type="email"
                placeholder="Unesite svoju E-mail adresu"
             />
-            <FormSelect
-               label="Uloga:"
-               name="role"
-               placeholder="Odaberite ulogu za koju se prijavljujete"
-               readOnly={true}
-               disabled={true}
-               options={options}
-            >
-            </FormSelect>
+            <div className="profile-unmodifiable">Uloga: {user?.roleId}</div>
+
+            
             <div className='photo'>
                <label>Fotografija</label>
                <Button variant="contained" component="label" role="button" onClick={() => { }} style={{ marginLeft: "1vw" }}>
