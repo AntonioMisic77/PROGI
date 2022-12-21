@@ -25,7 +25,7 @@ namespace Backend.Services.Implementations
            
             var admin = await GetUser(requestedOib);
 
-            if (admin.RoleId != 0)
+            if (admin.RoleId != 1)
             {
                 throw new Exception("Ne mozes pristupiti ovome");
             }
