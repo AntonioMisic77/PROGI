@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Backend.Data;
 using Backend.Data.CommentDto;
+using Backend.Services.IdGenerator;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Services.Comment
@@ -10,21 +11,19 @@ namespace Backend.Services.Comment
 
         private MapTaskerDBContext _context;
         private readonly IMapper _mapper;
+        private readonly IGenerator _generator;
 
-        public Comment(MapTaskerDBContext context, IMapper mapper)
+        public Comment(MapTaskerDBContext context, IMapper mapper, IGenerator generator)
         {
             _context = context;
             _mapper = mapper;
+            _generator = generator;
         }
         public async Task<CommentDto> CreateComment(CommentDto dto)
         {
-            byte[] newGuid = Guid.NewGuid().ToByteArray();
-
-            int id = Math.Abs(BitConverter.ToInt32(newGuid, 0));
-
             var comment = new Models.Comment
             {
-                Id = id,
+                Id = _generator.generateId(),
                 ReportId = dto.ReportId,
                 Text = dto.Text,
                 UserOib = dto.UserOib
