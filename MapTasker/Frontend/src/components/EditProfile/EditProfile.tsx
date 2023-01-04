@@ -8,6 +8,7 @@ import { Button } from "@mui/material";
 import "./EditProfile.css"
 import { schema } from "../../validationSchema/schema.js";
 import { schema2 } from "../../validationSchema/schema2.js";
+import { roles } from "../../models/Role";
 
 
 
@@ -72,7 +73,7 @@ const EditProfile = () => {
                type="email"
                placeholder="Unesite svoju E-mail adresu"
             />
-            <div className="profile-unmodifiable">Uloga: {user?.roleId}</div>
+            <div className="profile-unmodifiable">Uloga: {roles[user?.roleId ?? 0]}</div>
 
             
             <div className='photo'>
