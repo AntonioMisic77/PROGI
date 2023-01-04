@@ -1029,7 +1029,7 @@ export interface User {
     oib: number;
     firstName: string;
     lastName: string;
-    photo: string;
+    photo?: string | undefined;
     phoneNumber: string;
     email: string;
     password: string;

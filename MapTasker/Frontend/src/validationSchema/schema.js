@@ -13,5 +13,4 @@ export const schema =  yup.object().shape({
     phonenum: yup.string().matches(phoneRegExp, {message: "Unesen je neispravan broj mobitela"}).required("Ovo polje je obavezno"),
     email: yup.string().email("Unesena je neispravna e-mail adresa").required("Ovo polje je obavezno"),
     role: yup.string().oneOf(["kartograf", "spasioc", "voditelj"], "Invalid role").required("Ovo polje je obavezno"),
-    photo: yup.mixed().nullable(),
 });

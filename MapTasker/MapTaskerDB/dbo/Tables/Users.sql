@@ -3,7 +3,7 @@
     [OIB]  BIGINT           NOT NULL,
     [FirstName] NVARCHAR(50) NOT NULL, 
     [LastName] NVARCHAR(50) NOT NULL, 
-    [Photo] NVARCHAR(MAX) NOT NULL, 
+    [Photo] NVARCHAR(MAX) NULL, 
     [PhoneNumber] NVARCHAR(20) NOT NULL, 
     [EMail] NVARCHAR(50) NOT NULL, 
     [Password] NVARCHAR(MAX) NOT NULL, 

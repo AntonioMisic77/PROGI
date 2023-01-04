@@ -6,9 +6,21 @@ import { Button } from "@mui/material";
 import "./RegistrationForm.css"
 import { RegisterClient } from "../../Api/Api";
 import { useState } from "react";
-import axios from "axios";
+
+interface RegistrationValues {
+   username: string, 
+   password: string, 
+   firstname: string, 
+   lastname: string, 
+   phonenum: string, 
+   email: string, 
+   role: string, 
+   OIB: number | null
+}
 
 const RegistrationForm = () => {
+
+   let [image, setImage] = useState<string>("")
 
    const options = [
       {value: "", label: "Odabir uloge"},
@@ -17,46 +29,35 @@ const RegistrationForm = () => {
       {value: "voditelj", label: "Voditelj"},
    ]
 
-   const initialValues ={
-      username: '', 
-      password: '', 
-      firstname: '', 
+   const initialValues : RegistrationValues = {
+      username: "", 
+      password: "", 
+      firstname: "", 
       lastname: "", 
       phonenum: "", 
       email: "", 
       role: "", 
-      photo: null,
       OIB: null 
    }
 
-
-   const [values, setValues] = useState(initialValues);
-
-   const uploadFile = (e: any) => {
-        if(e.target.files && e.target.files[0]) {
+   const uploadImage = (e: any) => {
+      if(e.target.files && e.target.files[0]) {
          let imageFile = e.target.files[0];
+         console.log(imageFile);
          const reader = new FileReader();
-         reader.onload = x => {
-            setValues({
-               ...values,
-               photo: imageFile
-            })
-         }
-         console.log(imageFile)
-         reader.readAsDataURL(imageFile)
-        } else {
-            setValues({
-               ...values,
-               photo: null,
-            })
-        }
-        console.log(values.photo)
+         reader.onloadend = () => {
+            if (typeof reader.result === 'string'){
+               setImage(reader.result);
+            }
+         };
+         reader.readAsDataURL(imageFile);
+      }
    }
 
    return (
       <Formik initialValues={initialValues}
          validationSchema={schema}
-         onSubmit={async (values) => {
+         onSubmit={ async (values) => {
             let client = new RegisterClient("https://localhost:7270");
             client.register(
                {
@@ -68,9 +69,9 @@ const RegistrationForm = () => {
                   phoneNumber: values.phonenum,
                   email: values.email,
                   roleId : options.findIndex(op => op.value === values.role),
-                  photo: values.photo,
-               }).then(res => axios.post("/public/images", values.photo)).then(user => alert("Uspješna registracija"))
-               .catch(reason => alert("Korisnik već postoji"))
+                  photo: image,
+                  confirmed: false
+               })
          }}
          >
          <Form> 
@@ -126,30 +127,10 @@ const RegistrationForm = () => {
                options={options}
                > 
             </FormSelect>
-            <div className='photo'>
-               <label>Fotografija</label>
-               <Button variant="contained" component="label">
-                  Upload
-                  <input name="photo" hidden accept="image/*" type="file" onChange={uploadFile}/>
-               </Button>
-            </div>
+            <input name="photo" accept="image/png" type="file" onChange={uploadImage}/>
             <button type='submit' className='submit-button'>Click to submit</button>
          </Form>
       </Formik>
-
    )
 }
-
-export default RegistrationForm;
-
-
-
-
-
-
-
-
-
-
-
-
+export default RegistrationForm

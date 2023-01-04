@@ -11,7 +11,6 @@ import { schema2 } from "../../validationSchema/schema2.js";
 import { roles } from "../../models/Role";
 
 
-
 const EditProfile = () => {
 
    let { user } = useUserData();
