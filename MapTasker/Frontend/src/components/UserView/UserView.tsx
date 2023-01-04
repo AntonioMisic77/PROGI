@@ -28,7 +28,6 @@ const UserView = () => {
       () => {
          if (userLoaded) {
             if (!user || roles[user.roleId-1] !== 'Admin'){
-               console.log(roles)
                navigate("/login")
             } 
             else {
