@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using AutoMapper;
 using Backend.Data;
-using Backend.Data.Register;
+using Backend.Data.UserDtos;
 using Backend.Models;
 using Microsoft.AspNetCore.Identity;
 

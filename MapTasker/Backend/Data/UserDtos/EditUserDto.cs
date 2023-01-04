@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Backend.Data.User
+namespace Backend.Data.UserDtos
 {
     public class EditUserDto
     {

@@ -1,7 +1,7 @@
 ﻿
 using Backend.Data.MissingReportDTO;
 using System.Security.Policy;
-using Backend.Data.Register;
+using Backend.Data.UserDtos;
 using Backend.Models;
 using Backend.Services.MissingReport;
 using Microsoft.AspNetCore.Http;
