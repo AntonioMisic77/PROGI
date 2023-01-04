@@ -12,7 +12,6 @@ namespace Backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
     public class UserController : ControllerBase
     {
         private IUserService _userService;
@@ -34,12 +33,14 @@ namespace Backend.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IEnumerable<UserDto> GetAllUsers()
         {
             return _userService.GetAllUsers();
         }
 
         [HttpPut("confirm/{oib}")]
+        [Authorize]
         public async Task<ActionResult<UserDto>> ConfirmUser(long oib)
         {
             long requesterOib = getRequesterOib(Request);
@@ -55,19 +56,46 @@ namespace Backend.Controllers
             }
         }
 
-        [HttpPut]
-        public async Task<ActionResult<UserDto>> UpdateUser(UserDto dto)
+        [HttpPut("password/{oib}")]
+        [Authorize]
+        public async Task<ActionResult<UserDto>> ChangePassword(UserDto dto)
         {
-            return await _userService.UpdateUser(dto);
+            try
+            {
+                return await _userService.ChangePassword(dto);
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            
         }
 
-        [HttpGet("{id}")]
+        [HttpPut]
+        [Authorize]
+        public async Task<ActionResult<UserDto>> UpdateUser(UserDto dto)
+        {
+            try
+            {
+                return await _userService.UpdateUser(dto);
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            
+        }
+
+        [HttpGet("{oib}")]
         public async Task<ActionResult<UserDto>> GetUser(long oib) 
         { 
            return await _userService.GetUser(oib); 
         }
 
         [HttpDelete("{oib}")]
+        [Authorize]
         public async Task<ActionResult<UserDto>> DeleteUser(long oib)
         {
             return await _userService.DeleteUser(oib);
@@ -84,7 +112,7 @@ namespace Backend.Controllers
             }
             catch (InvalidDataException)
             {
-                return null;
+                return BadRequest();
             }
         }
     }

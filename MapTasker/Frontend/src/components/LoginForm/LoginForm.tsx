@@ -14,11 +14,16 @@ const LoginForm = () => {
 
    return (
       <Formik initialValues={{ email: "", password: "" }}
+<<<<<<< HEAD
          onSubmit={async (values:any) => {
             let client = new LoginClient(process.env.REACT_APP_API_URL);
+=======
+         onSubmit={async (values) => {
+            let client = new LoginClient("https://localhost:7270");
+>>>>>>> 3619c5cfc3aa4b98c01953f46ab11a5e4de7cf4b
             client.login(values).then(token => {
                localStorage.setItem("Bearer token", "Bearer " + token)
-               let client = new UserClient(process.env.REACT_APP_API_URL);
+               let client = new UserClient("https://localhost:7270");
                client.getUser2().then(user => setUser(user));
                navigate("/users");
             }).catch(err => alert("Neispravan email ili lozinka"))
