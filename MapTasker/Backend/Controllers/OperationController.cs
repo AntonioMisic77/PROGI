@@ -1,6 +1,6 @@
 ﻿
 using Backend.Data.OperationDTO;
-using Backend.Data.Register;
+using Backend.Data.UserDtos;
 using Backend.Services.Operation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,14 +22,30 @@ namespace Backend.Controllers
 
         public async Task<ActionResult<OperationDto>> CreateOperation(OperationDto operation)
         {
-            return await _operationService.CreateOperation(operation);
+            try
+            {
+                 return Ok(await _operationService.CreateOperation(operation));
+            } 
+            catch (Exception e) 
+            { 
+                 return BadRequest(e);
+            }
+           
         }
 
         [HttpPut]
 
         public async Task<ActionResult<OperationDto>> UpdateOperation(OperationDto operation)
-        {
-            return await _operationService.UpdateOperationStatus(operation);
+        {   
+            try
+            {
+                 return Ok(await _operationService.UpdateOperation(operation));
+            } 
+            catch (Exception e) 
+            { 
+                 return BadRequest(e);
+            }
+           
         }
     }
 }

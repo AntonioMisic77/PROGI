@@ -1,29 +1,21 @@
-import { Button, Typography } from '@mui/material';
+import { Button, Typography, useRadioGroup } from '@mui/material';
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { UserClient, UserDto } from '../../Api/Api';
+import { useUserData } from '../../hooks/useUserData';
+import { roles } from '../../models/Role';
+import { UserContext } from '../../store/UserContextProvider';
 import UserCard from '../UserCard/UserCard';
  
 import "./UserView.css"
 
 const UserView = () => {
 
-   let [users, setUsers] = useState<UserDto[]>([]);
-   let [isAdmin, setIsAdmin] = useState<boolean>(false);
+   
+   const navigate = useNavigate();
 
-   useEffect(
-      () => {
-         let client = new UserClient(process.env.REACT_APP_API_URL)
-         client.getRole().then(
-            roleId => {
-               if (roleId === 0) {
-                  setIsAdmin(true);
-                  client.getAllUsers().then(users => setUsers(users));
-               }
-            }
-         )       
-      } , []
-   )
+   let [users, setUsers] = useState<UserDto[]>([]);
 
    const removeCard = (oib: number) => {
       return () => {
@@ -31,20 +23,33 @@ const UserView = () => {
       }  
    }
 
-   return ( 
-      <>
-         <Typography sx={{color: "white", margin: "0 0 1vh 1vw", paddingTop:"1vh"}} variant="h4"> Nepotvrđeni korisnici: </Typography>
-         <div className="user-container">
-            
-            {  isAdmin ?
-               users.filter(user => user.confirmed === false).
-               map(user => <UserCard user={user} removeSelf = {removeCard(user.oib)} key={user.oib}/>)
-               :
-               <Typography>Samo za admine!</Typography>
+   let {user, userLoaded} = useUserData();
+   useEffect(
+      () => {
+         if (userLoaded) {
+            if (!user || roles[user.roleId-1] !== 'Admin'){
+               console.log(roles)
+               navigate("/login")
+            } 
+            else {
+               let client = new UserClient("https://localhost:7270")
+               client.getAllUsers().then(users => setUsers(users));
             }
-         </div>
-      </>
-   );
+         }
+      }, [userLoaded]
+   )
+
+   return ( 
+      (user && roles[user.roleId-1] === 'Admin')  ?
+         <>
+            <Typography sx={{color: "white", margin: "0 0 1vh 1vw", paddingTop:"1vh"}} variant="h4"> Nepotvrđeni korisnici: </Typography>
+            <div className="user-container">
+               {
+               users.filter(user => user.confirmed === false).
+                  map(user => <UserCard user={user} removeSelf = {removeCard(user.oib)} key={user.oib}/>)}
+            </div>
+         </> : <div/>
+      )
 }
  
 export default UserView;

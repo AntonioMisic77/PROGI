@@ -170,13 +170,17 @@ export class CommentClient extends ApiBase {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    createComment(): Promise<CommentDto> {
+    createComment(dto: CommentDto): Promise<CommentDto> {
         let url_ = this.baseUrl + "/api/Comment";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(dto);
+
         let options_: RequestInit = {
+            body: content_,
             method: "POST",
             headers: {
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             }
         };
@@ -205,12 +209,50 @@ export class CommentClient extends ApiBase {
         return Promise.resolve<CommentDto>(null as any);
     }
 
-    deleteComment(id: number | undefined): Promise<CommentDto> {
-        let url_ = this.baseUrl + "/api/Comment?";
-        if (id === null)
-            throw new Error("The parameter 'id' cannot be null.");
-        else if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&";
+    updateComment(dto: CommentDto): Promise<CommentDto> {
+        let url_ = this.baseUrl + "/api/Comment";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(dto);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processUpdateComment(_response);
+        });
+    }
+
+    protected processUpdateComment(response: Response): Promise<CommentDto> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as CommentDto;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<CommentDto>(null as any);
+    }
+
+    deleteComment(id: number): Promise<CommentDto> {
+        let url_ = this.baseUrl + "/api/Comment/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: RequestInit = {
@@ -389,13 +431,17 @@ export class MissingReportClient extends ApiBase {
         return Promise.resolve<MissingReportDto[]>(null as any);
     }
 
-    createMissingReport(): Promise<MissingReportDto[]> {
+    createMissingReport(dto: MissingReportDto): Promise<MissingReportDto> {
         let url_ = this.baseUrl + "/api/MissingReport";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(dto);
+
         let options_: RequestInit = {
+            body: content_,
             method: "POST",
             headers: {
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             }
         };
@@ -407,13 +453,13 @@ export class MissingReportClient extends ApiBase {
         });
     }
 
-    protected processCreateMissingReport(response: Response): Promise<MissingReportDto[]> {
+    protected processCreateMissingReport(response: Response): Promise<MissingReportDto> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as MissingReportDto[];
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as MissingReportDto;
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -421,10 +467,10 @@ export class MissingReportClient extends ApiBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<MissingReportDto[]>(null as any);
+        return Promise.resolve<MissingReportDto>(null as any);
     }
 
-    updateMissingReport(dto: MissingReportDto): Promise<MissingReportDto[]> {
+    updateMissingReport(dto: MissingReportDto): Promise<MissingReportDto> {
         let url_ = this.baseUrl + "/api/MissingReport";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -446,13 +492,13 @@ export class MissingReportClient extends ApiBase {
         });
     }
 
-    protected processUpdateMissingReport(response: Response): Promise<MissingReportDto[]> {
+    protected processUpdateMissingReport(response: Response): Promise<MissingReportDto> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as MissingReportDto[];
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as MissingReportDto;
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -460,15 +506,14 @@ export class MissingReportClient extends ApiBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<MissingReportDto[]>(null as any);
+        return Promise.resolve<MissingReportDto>(null as any);
     }
 
-    deleteMissingReport(id: number | undefined): Promise<MissingReportDto[]> {
-        let url_ = this.baseUrl + "/api/MissingReport?";
-        if (id === null)
-            throw new Error("The parameter 'id' cannot be null.");
-        else if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&";
+    deleteMissingReport(id: number): Promise<MissingReportDto[]> {
+        let url_ = this.baseUrl + "/api/MissingReport/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: RequestInit = {
@@ -737,7 +782,7 @@ export class UserClient extends ApiBase {
         return Promise.resolve<UserDto[]>(null as any);
     }
 
-    updateUser(dto: UserDto): Promise<UserDto> {
+    updateUser(dto: EditUserDto): Promise<UserDto> {
         let url_ = this.baseUrl + "/api/User";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -814,15 +859,53 @@ export class UserClient extends ApiBase {
         return Promise.resolve<UserDto>(null as any);
     }
 
-    getUser(oib: number | undefined, id: string): Promise<UserDto> {
-        let url_ = this.baseUrl + "/api/User/{id}?";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
-        if (oib === null)
-            throw new Error("The parameter 'oib' cannot be null.");
-        else if (oib !== undefined)
-            url_ += "oib=" + encodeURIComponent("" + oib) + "&";
+    changePassword(dto: UserDto, oib: string): Promise<UserDto> {
+        let url_ = this.baseUrl + "/api/User/password/{oib}";
+        if (oib === undefined || oib === null)
+            throw new Error("The parameter 'oib' must be defined.");
+        url_ = url_.replace("{oib}", encodeURIComponent("" + oib));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(dto);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processChangePassword(_response);
+        });
+    }
+
+    protected processChangePassword(response: Response): Promise<UserDto> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as UserDto;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<UserDto>(null as any);
+    }
+
+    getUser(oib: number): Promise<UserDto> {
+        let url_ = this.baseUrl + "/api/User/{oib}";
+        if (oib === undefined || oib === null)
+            throw new Error("The parameter 'oib' must be defined.");
+        url_ = url_.replace("{oib}", encodeURIComponent("" + oib));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: RequestInit = {
@@ -894,7 +977,7 @@ export class UserClient extends ApiBase {
         return Promise.resolve<UserDto>(null as any);
     }
 
-    getRole(): Promise<number> {
+    getUser2(): Promise<UserDto> {
         let url_ = this.baseUrl + "/api/User/role";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -908,17 +991,17 @@ export class UserClient extends ApiBase {
         return this.transformOptions(options_).then(transformedOptions_ => {
             return this.http.fetch(url_, transformedOptions_);
         }).then((_response: Response) => {
-            return this.processGetRole(_response);
+            return this.processGetUser2(_response);
         });
     }
 
-    protected processGetRole(response: Response): Promise<number> {
+    protected processGetUser2(response: Response): Promise<UserDto> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as number;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as UserDto;
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -926,7 +1009,7 @@ export class UserClient extends ApiBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<number>(null as any);
+        return Promise.resolve<UserDto>(null as any);
     }
 }
 
@@ -1054,7 +1137,7 @@ export interface CommentDto {
     id: number;
     reportId: number;
     text: string;
-    userOib: number;
+    userOib?: number | undefined;
 }
 
 export interface LoginDto {
@@ -1079,6 +1162,7 @@ export interface MissingReportDto {
     description?: string | undefined;
     reportedAt: Date;
     foundAt?: Date | undefined;
+    comments?: CommentDto[] | undefined;
 }
 
 export interface OperationDto {
@@ -1106,6 +1190,11 @@ export interface StatisticDto {
     missingReports: MissingReportDto[];
     blocks: BlockDto[];
     buildings: BuildingDto[];
+}
+
+export interface EditUserDto {
+    phoneNumber: string;
+    email: string;
 }
 
 export class ApiException extends Error {

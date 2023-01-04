@@ -1,6 +1,6 @@
 ﻿
 using Backend.Data.RegionDTO;
-using Backend.Data.Register;
+using Backend.Data.UserDtos;
 using Backend.Services.Region;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +22,15 @@ namespace Backend.Controllers
 
         public async Task<ActionResult<List<RegionDto>>> getMap()
         {
-            return await _regionService.getAllRegions();
+            try
+            {
+                return Ok(await _regionService.getAllRegions());
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e);
+            }
+            
         }
     }
 }

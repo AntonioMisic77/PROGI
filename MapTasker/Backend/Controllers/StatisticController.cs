@@ -1,4 +1,4 @@
-﻿using Backend.Data.Register;
+﻿using Backend.Data.UserDtos;
 using Backend.Data.StatisticDto;
 using Backend.Services.Statistic;
 using Microsoft.AspNetCore.Http;

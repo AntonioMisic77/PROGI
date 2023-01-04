@@ -1,7 +1,7 @@
 
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using Backend.Data.Register;
+using Backend.Data.UserDtos;
 using Backend.Models;
 using Backend.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -12,7 +12,6 @@ namespace Backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
     public class UserController : ControllerBase
     {
         private IUserService _userService;
@@ -21,6 +20,7 @@ namespace Backend.Controllers
         {
             var handler = new JwtSecurityTokenHandler();
             string token = request.Headers["Authorization"];
+            if (token == null) throw new InvalidDataException("No such user");
             token = token.Replace("Bearer ", "");
             var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
 
@@ -33,12 +33,14 @@ namespace Backend.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IEnumerable<UserDto> GetAllUsers()
         {
             return _userService.GetAllUsers();
         }
 
         [HttpPut("confirm/{oib}")]
+        [Authorize]
         public async Task<ActionResult<UserDto>> ConfirmUser(long oib)
         {
             long requesterOib = getRequesterOib(Request);
@@ -54,31 +56,64 @@ namespace Backend.Controllers
             }
         }
 
-        [HttpPut]
-        public async Task<ActionResult<UserDto>> UpdateUser(UserDto dto)
+        [HttpPut("password/{oib}")]
+        [Authorize]
+        public async Task<ActionResult<UserDto>> ChangePassword(UserDto dto)
         {
-            return await _userService.UpdateUser(dto);
+            try
+            {
+                return await _userService.ChangePassword(dto);
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            
         }
 
-        [HttpGet("{id}")]
+        [HttpPut]
+        [Authorize]
+        public async Task<ActionResult<UserDto>> UpdateUser(EditUserDto dto)
+        {
+            try
+            {
+                return await _userService.UpdateUser(dto, getRequesterOib(Request));
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            
+        }
+
+        [HttpGet("{oib}")]
         public async Task<ActionResult<UserDto>> GetUser(long oib) 
         { 
            return await _userService.GetUser(oib); 
         }
 
         [HttpDelete("{oib}")]
+        [Authorize]
         public async Task<ActionResult<UserDto>> DeleteUser(long oib)
         {
             return await _userService.DeleteUser(oib);
         }
 
         [HttpGet("role")]
-        public async Task<ActionResult<int>> GetRole()
+        public async Task<ActionResult<UserDto>> GetUser()
         {
-            long oib = getRequesterOib(Request);
-            var user = await _userService.GetUser(oib);
-            return user.RoleId;
-
+            try
+            {
+                long oib = getRequesterOib(Request);
+                var user = await _userService.GetUser(oib);
+                return user;   
+            }
+            catch (InvalidDataException)
+            {
+                return BadRequest();
+            }
         }
     }
 }

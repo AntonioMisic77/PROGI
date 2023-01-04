@@ -21,7 +21,7 @@ function HomePage() {
                 <div className="textStyle">
                     Želite li prijaviti nestanak osobe?
                 </div>
-                <Button variant="contained" href="#prijava-nestale-osobe" color="secondary">
+                <Button variant="contained" href="/missing-person" color="secondary">
                     PRIJAVI
                 </Button>
             </div>

@@ -1,5 +1,5 @@
 ﻿using System.Web.Mvc;
-using Backend.Data.Register;
+using Backend.Data.UserDtos;
 using Microsoft.AspNetCore.Identity;
 
 namespace Backend.Services.Registration
