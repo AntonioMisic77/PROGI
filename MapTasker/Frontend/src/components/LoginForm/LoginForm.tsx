@@ -20,7 +20,7 @@ const LoginForm = () => {
                localStorage.setItem("Bearer token", "Bearer " + token)
                let client = new UserClient("https://localhost:7270");
                client.getUser2().then(user => setUser(user));
-               navigate("/users");
+               navigate("/operations");
             }).catch(err => alert("Neispravan email ili lozinka"))
          }}
          >

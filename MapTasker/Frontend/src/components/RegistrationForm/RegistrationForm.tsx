@@ -127,7 +127,11 @@ const RegistrationForm = () => {
                options={options}
                > 
             </FormSelect>
-            <input name="photo" accept="image/png" type="file" onChange={uploadImage}/>
+            <label className="form-label"> Fotografija: </label>
+            <div style={{display:"flex", flexDirection:"column", marginTop: "10px"}}>
+               <input name="photo" accept="image/*" type="file" onChange={uploadImage}/>
+               <img src={image === "" ? "blank-profile-photo.jpeg" : image} style={{maxHeight: "100px", maxWidth: "100px", marginTop: "10px"}}/>
+            </div> 
             <button type='submit' className='submit-button'>Click to submit</button>
          </Form>
       </Formik>

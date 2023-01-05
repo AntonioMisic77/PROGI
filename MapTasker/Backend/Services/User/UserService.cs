@@ -61,6 +61,7 @@ namespace Backend.Services.Implementations
             
             user.PhoneNumber = dto.PhoneNumber;
             user.Email = dto.Email;
+            user.Photo = dto.Photo;
 
             _context.Attach(user);
             _context.Entry(user).State = EntityState.Modified;

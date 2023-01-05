@@ -1195,6 +1195,7 @@ export interface StatisticDto {
 export interface EditUserDto {
     phoneNumber: string;
     email: string;
+    photo: string;
 }
 
 export class ApiException extends Error {
