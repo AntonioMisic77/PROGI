@@ -11,5 +11,6 @@ namespace Backend.Data.RegionDTO
         public virtual Area Area { get; set; } = null!;
         public virtual Backend.Models.Operation Operation { get; set; } = null!;
         public virtual ICollection<Block> Blocks { get; set; }
+        public virtual ICollection<Tuple<double, double>> Coordinates { get; set;}
     }
 }

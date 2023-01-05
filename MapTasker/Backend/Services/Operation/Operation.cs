@@ -3,8 +3,8 @@ using Backend.Data.OperationDTO;
 using Backend.Data;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-
-
+using Backend.Models;
+using Backend.Services.IdGenerator;
 
 namespace Backend.Services.Operation
 {
@@ -12,11 +12,13 @@ namespace Backend.Services.Operation
     {
         private readonly IMapper _mapper;
         private readonly MapTaskerDBContext _context;
+        private readonly IGenerator _generator;
 
-        public Operation(IMapper mapper, MapTaskerDBContext context)
+        public Operation(IMapper mapper, MapTaskerDBContext context, IGenerator generator)
         {
             _mapper = mapper;
             _context = context;
+            _generator = generator;
         }
 
 
@@ -34,47 +36,52 @@ namespace Backend.Services.Operation
                 throw new Exception("Osoba nije voditelj grupe"); 
             }
 
+
             var operation = new Backend.Models.Operation() 
             { 
+                Id = _generator.generateId(),
                 Status = dto.Status,
                 LeaderOib = dto.LeaderOib,
             };
             
             await _context.AddAsync(operation);
-            await _context.SaveChangesAsync();
+        
 
-            foreach(var region in dto.Regions)
+            foreach (var region in dto.Regions)
             {
-                 var newRegion = new Backend.Models.Region()
-                 {
-                     AreaId = region.AreaId,
-                     OperationId = region.OperationId,
-                 };
-                 foreach(var block in region.Blocks)
-                 {
-                    var newBlock = new Backend.Models.Block()
-                    {
-                        AreaId = block.AreaId,
-                        Status = block.Status,
-                        RegionId = block.RegionId,
-                        ActiveForOib = block.ActiveForOib,
-                    };
-                    foreach(var building in block.Buildings)
-                    {
-                        var newBuilding = new Backend.Models.Building()
-                        {
-                            AreaId = building.AreaId,
-                            BlockId = building.BlockId,
-                            Status = building.Status,
-                        };
-                        newBlock.Buildings.Add(newBuilding); 
-                    }
-                    newRegion.Blocks.Add(newBlock);
-                 }
-                 operation.Regions.Add(newRegion);
-                 
-            }
+                var area = new Backend.Models.Area()
+                {
+                    Id = _generator.generateId(),
+                    CreatedAt = DateTime.Now,
+                    UpdatedLastByOib = dto.LeaderOib,
+                };
+                await _context.AddAsync(area);
 
+                int i = 0;
+                foreach(var point in region.Coordinates)
+                {
+                    i++;
+                    var newPoint = new Backend.Models.Point()
+                    {
+                        Id = _generator.generateId(),
+                        Latitude = point.Item1,
+                        Longitude = point.Item2,
+                        AreaId = area.Id,
+                        OrderNumber = i,
+                    };
+                    await _context.Points.AddAsync(newPoint);
+                    area.Points.Add(newPoint);
+                }
+
+                
+                var newRegion = new Backend.Models.Region()
+                {
+                    AreaId = area.Id,
+                    OperationId = operation.Id,
+                };
+                operation.Regions.Add(newRegion);
+            }
+            await _context.SaveChangesAsync();
 
             return _mapper.Map<OperationDto>(operation);
         }
