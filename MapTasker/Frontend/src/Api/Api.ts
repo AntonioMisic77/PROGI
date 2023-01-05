@@ -782,7 +782,7 @@ export class UserClient extends ApiBase {
         return Promise.resolve<UserDto[]>(null as any);
     }
 
-    updateUser(dto: UserDto): Promise<UserDto> {
+    updateUser(dto: EditUserDto): Promise<UserDto> {
         let url_ = this.baseUrl + "/api/User";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1029,7 +1029,7 @@ export interface User {
     oib: number;
     firstName: string;
     lastName: string;
-    photo: string;
+    photo?: string | undefined;
     phoneNumber: string;
     email: string;
     password: string;
@@ -1190,6 +1190,12 @@ export interface StatisticDto {
     missingReports: MissingReportDto[];
     blocks: BlockDto[];
     buildings: BuildingDto[];
+}
+
+export interface EditUserDto {
+    phoneNumber: string;
+    email: string;
+    photo: string;
 }
 
 export class ApiException extends Error {

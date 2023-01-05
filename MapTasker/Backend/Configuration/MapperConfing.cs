@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Backend.Data.CommentDto;
 using Backend.Data.MissingReportDTO;
-using Backend.Data.Register;
+using Backend.Data.UserDtos;
 using Backend.Models;
 
 namespace Backend.Configuration

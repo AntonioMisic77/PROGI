@@ -1,4 +1,4 @@
-﻿using Backend.Data.Register;
+﻿using Backend.Data.UserDtos;
 using Backend.Services.Registration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

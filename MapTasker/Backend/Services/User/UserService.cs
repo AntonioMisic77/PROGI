@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Backend.Data;
-using Backend.Data.Register;
+using Backend.Data.UserDtos;
 using Backend.Models;
 using Backend.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -49,18 +49,19 @@ namespace Backend.Services.Implementations
             
         }
 
-        public async Task<UserDto> UpdateUser(UserDto dto)
+        public async Task<UserDto> UpdateUser(EditUserDto dto, long oib)
         {
-            var user = _context.Users.FirstOrDefault(a => a.Oib == dto.OIB);
+            var user = _context.Users.FirstOrDefault(a => a.Oib == oib);
 
             if (user == null)
             {
                 throw new InvalidDataException("No such user.");
             }
 
-            user.Photo = dto.Photo;
+            
             user.PhoneNumber = dto.PhoneNumber;
-            user.Username = dto.UserName;
+            user.Email = dto.Email;
+            user.Photo = dto.Photo;
 
             _context.Attach(user);
             _context.Entry(user).State = EntityState.Modified;

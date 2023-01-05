@@ -5,8 +5,22 @@ import { schema } from "../../validationSchema/schema.js";
 import { Button } from "@mui/material";
 import "./RegistrationForm.css"
 import { RegisterClient } from "../../Api/Api";
+import { useState } from "react";
+
+interface RegistrationValues {
+   username: string, 
+   password: string, 
+   firstname: string, 
+   lastname: string, 
+   phonenum: string, 
+   email: string, 
+   role: string, 
+   OIB: number | null
+}
 
 const RegistrationForm = () => {
+
+   let [image, setImage] = useState<string>("")
 
    const options = [
       {value: "", label: "Odabir uloge"},
@@ -15,10 +29,35 @@ const RegistrationForm = () => {
       {value: "voditelj", label: "Voditelj"},
    ]
 
+   const initialValues : RegistrationValues = {
+      username: "", 
+      password: "", 
+      firstname: "", 
+      lastname: "", 
+      phonenum: "", 
+      email: "", 
+      role: "", 
+      OIB: null 
+   }
+
+   const uploadImage = (e: any) => {
+      if(e.target.files && e.target.files[0]) {
+         let imageFile = e.target.files[0];
+         console.log(imageFile);
+         const reader = new FileReader();
+         reader.onloadend = () => {
+            if (typeof reader.result === 'string'){
+               setImage(reader.result);
+            }
+         };
+         reader.readAsDataURL(imageFile);
+      }
+   }
+
    return (
-      <Formik initialValues={{ username: "", password: "", firstname: "", lastname: "", phonenum: "", email: "", role: "", photo: null, OIB: null }}
+      <Formik initialValues={initialValues}
          validationSchema={schema}
-         onSubmit={async (values) => {
+         onSubmit={ async (values) => {
             let client = new RegisterClient("https://localhost:7270");
             client.register(
                {
@@ -30,12 +69,9 @@ const RegistrationForm = () => {
                   phoneNumber: values.phonenum,
                   email: values.email,
                   roleId : options.findIndex(op => op.value === values.role),
-                  photo: "https://imgur.com/gallery/o0dYwkQ",
+                  photo: image,
                   confirmed: false
-               }).then(user => {
-                  alert("Pričekajte odobrenje administratora");
                })
-               .catch(reason => alert("Korisnik već postoji"))
          }}
          >
          <Form> 
@@ -91,29 +127,14 @@ const RegistrationForm = () => {
                options={options}
                > 
             </FormSelect>
-            <div className='photo'>
-               <label>Fotografija</label>
-               <Button variant="contained" component="label" role="button" onClick={() => {}} style={{marginLeft:"1vw"}}>
-                  Upload
-               </Button>
-            </div>
+            <label className="form-label"> Fotografija: </label>
+            <div style={{display:"flex", flexDirection:"column", marginTop: "10px"}}>
+               <input name="photo" accept="image/*" type="file" onChange={uploadImage}/>
+               <img src={image === "" ? "blank-profile-photo.jpeg" : image} style={{maxHeight: "100px", maxWidth: "100px", marginTop: "10px"}}/>
+            </div> 
             <button type='submit' className='submit-button'>Click to submit</button>
          </Form>
       </Formik>
-
    )
 }
-
-export default RegistrationForm;
-
-
-
-
-
-
-
-
-
-
-
-
+export default RegistrationForm

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Backend.Models;
 
-namespace Backend.Data.Register
+namespace Backend.Data.UserDtos
 {
     public class UserDto
     {
