@@ -1,5 +1,5 @@
 ﻿
-using Backend.Data.OperationDTO;
+using Backend.Data.OperationDtos;
 using Backend.Data;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -86,85 +86,28 @@ namespace Backend.Services.Operation
             return _mapper.Map<OperationDto>(operation);
         }
 
-        public async Task<OperationDto> UpdateOperation(OperationDto dto)
+        public async Task<OperationDto> UpdateOperation(OperationStatusDto dto)
         {
    
-            var operation = await _context.Operations.FirstOrDefaultAsync(a => a.Id == dto.Id); 
+            var operation = await _context.Operations.FirstOrDefaultAsync(a => a.Id == dto.OperationId); 
 
             if (operation == null)
             {
                 throw new Exception("Ne postoji operacija s tim id-om.");
             }
 
+            if (operation.LeaderOib != dto.LeaderOib)
+            {
+                throw new Exception("Osoba nije voditelj operacije.");
+            }
+
             operation.Status = dto.Status;
-            operation.LeaderOib = dto.LeaderOib;
+
             
             _context.Attach(operation); 
             _context.Entry(operation).State = EntityState.Modified; 
             await _context.SaveChangesAsync(); 
 
-            foreach(var region in dto.Regions)
-            {
-                var newRegion = _context.Regions.FirstOrDefault(a => a.AreaId == region.AreaId); 
-
-                if(newRegion == null)
-                {
-                    newRegion = new Backend.Models.Region()
-                    {
-                        AreaId = region.AreaId,
-                        OperationId = region.OperationId,
-                    };
-                    _context.Regions.Add(newRegion);
-                } else
-                {
-                     newRegion.OperationId = region.OperationId;
-                }
-                foreach (var block in region.Blocks)
-                {
-                    var newBlock = _context.Blocks.FirstOrDefault(a => a.AreaId == block.AreaId);
-
-                    if (newBlock == null)
-                    {
-                        newBlock = new Backend.Models.Block()
-                        {
-                            AreaId = block.AreaId,
-                            Status = block.Status,
-                            RegionId = block.RegionId,
-                            ActiveForOib = block.ActiveForOib,
-                        };
-                        _context.Blocks.Add(newBlock);
-                    } else
-                    {
-                        newBlock.Status = block.Status;
-                        newBlock.RegionId = block.RegionId;
-                        newBlock.ActiveForOib = block.ActiveForOib;
-                    }
-                    foreach (var building in block.Buildings)
-                    {
-                        var newBuilding = _context.Buildings.FirstOrDefault(a => a.AreaId == building.AreaId);
-                        
-                        if(newBuilding == null)
-                        {
-                            newBuilding = new Backend.Models.Building()
-                            {
-                                AreaId = building.AreaId,
-                                BlockId = building.BlockId,
-                                Status = building.Status,
-                            };
-                            _context.Buildings.Add(newBuilding);
-                        } else
-                        {
-                            newBuilding.BlockId = building.BlockId;
-                            newBuilding.Status = building.Status;
-                        }
-
-                    }
-                }
-            }
-            
-
-
-            
 
             return _mapper.Map<OperationDto>(operation); 
         }

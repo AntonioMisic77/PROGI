@@ -1,5 +1,5 @@
 ﻿
-using Backend.Data.OperationDTO;
+using Backend.Data.OperationDtos;
 
 namespace Backend.Services.Operation
 {
@@ -7,6 +7,6 @@ namespace Backend.Services.Operation
     {
         Task<OperationDto> CreateOperation(OperationDto operation);
 
-        Task<OperationDto> UpdateOperation(OperationDto operation);
+        Task<OperationDto> UpdateOperation(OperationStatusDto operation);
     }
 }
