@@ -4,7 +4,7 @@ import FormInput from "../FormInput/FormInput";
 import { schemaMR } from "../../validationSchema/schemaMR.js";
 import { Button, TextField } from "@mui/material";
 import { MissingReportClient } from '../../Api/Api';
-import { format } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -19,6 +19,7 @@ const FileMissingPerson = () => {
 
 
      const [value, setValue] = React.useState<Date>(new Date());
+     const navigate = useNavigate();
 
     return(
         <Formik initialValues={{ firstName: "", lastName: "", OIB: null, photo: "", description: null, reportedAt: null, foundAt: undefined}}
@@ -39,6 +40,7 @@ const FileMissingPerson = () => {
 
             }).then(missingReport => {
                 alert("Uspješna prijava nestale osobe!");
+                navigate('/missing-reports');
              }).catch(reason => alert("Prijava osobe već postoji"))
          }}
          >
@@ -55,7 +57,7 @@ const FileMissingPerson = () => {
 
                 <FormInput
                     label="Prezime:"
-                    name="lastname"
+                    name="lastName"
                     type="text"
                     placeholder="Unesite prezime"
                 />
