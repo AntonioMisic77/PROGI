@@ -636,6 +636,41 @@ export class OperationClient extends ApiBase {
         }
         return Promise.resolve<OperationDto>(null as any);
     }
+
+    getAllAreas(): Promise<AllAreasDto> {
+        let url_ = this.baseUrl + "/api/Operation";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetAllAreas(_response);
+        });
+    }
+
+    protected processGetAllAreas(response: Response): Promise<AllAreasDto> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as AllAreasDto;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<AllAreasDto>(null as any);
+    }
 }
 
 export class RegisterClient extends ApiBase {
@@ -1083,6 +1118,7 @@ export interface Operation {
     id: number;
     status: string;
     leaderOib: number;
+    name: string;
     leaderOibNavigation: User;
     regions: Region[];
 }
@@ -1171,6 +1207,44 @@ export interface OperationDto {
     leaderOib: number;
     leaderOibNavigation: User;
     regions: RegionDto[];
+}
+
+export interface AllAreasDto {
+    operations: GetOperationDto[];
+    regions: GetRegionDto[];
+    blocks: GetBlockDto[];
+    buildings: GetBuildingDto[];
+}
+
+export interface GetOperationDto {
+    id: number;
+    status: string;
+    leaderOib: number;
+    name: string;
+}
+
+export interface BaseAreaDto {
+    id: number;
+    points: PointDto[];
+}
+
+export interface GetRegionDto extends BaseAreaDto {
+    operationId: number;
+}
+
+export interface PointDto {
+    latitude: number;
+    longitude: number;
+}
+
+export interface GetBlockDto extends BaseAreaDto {
+    regionId: number;
+    status: string;
+}
+
+export interface GetBuildingDto extends BaseAreaDto {
+    blockId: number;
+    status: string;
 }
 
 export interface UserDto {

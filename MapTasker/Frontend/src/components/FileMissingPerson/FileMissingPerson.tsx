@@ -11,9 +11,8 @@ const maskMap = {
 
 
 const FileMissingPerson = () => {
-
-
-     const [value, setValue] = React.useState<Date>(new Date());
+    
+    const [value, setValue] = React.useState<Date>(new Date());
 
     return(
         <Formik initialValues={{ firstName: "", lastName: "", OIB: null, photo: "", description: null, reportedAt: null, foundAt: undefined}}

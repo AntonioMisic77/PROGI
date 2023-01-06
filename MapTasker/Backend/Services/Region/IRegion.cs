@@ -1,5 +1,5 @@
 ﻿
-using Backend.Data.RegionDTO;
+using Backend.Data.RegionDtos;
 
 namespace Backend.Services.Region
 {

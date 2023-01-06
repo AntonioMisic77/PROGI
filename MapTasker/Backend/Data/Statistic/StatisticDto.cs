@@ -1,6 +1,6 @@
 ﻿
 
-using Backend.Data.BlockDTO;
+using Backend.Data.BlockDtos;
 using Backend.Data.BuildingDTO;
 using Backend.Data.MissingReportDTO;
 

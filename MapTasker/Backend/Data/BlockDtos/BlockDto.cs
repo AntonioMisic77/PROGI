@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Backend.Models;
 
-namespace Backend.Data.BlockDTO
+namespace Backend.Data.BlockDtos
 {
     public class BlockDto
     {

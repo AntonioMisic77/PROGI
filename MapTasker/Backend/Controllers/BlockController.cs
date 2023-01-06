@@ -1,5 +1,4 @@
-﻿
-using Backend.Data.BlockDTO;
+﻿using Backend.Data.BlockDtos;
 using Backend.Services.Block;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

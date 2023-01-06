@@ -1,5 +1,5 @@
 ﻿
-using Backend.Data.RegionDTO;
+using Backend.Data.RegionDtos;
 using Backend.Data;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;

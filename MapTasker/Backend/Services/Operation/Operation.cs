@@ -3,8 +3,12 @@ using Backend.Data.OperationDTO;
 using Backend.Data;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-
-
+using Backend.Data.Areas;
+using Backend.Data.OperationDtos;
+using Backend.Data.BlockDtos;
+using Backend.Data.RegionDtos;
+using Backend.Data.BuildingDtos;
+using Backend.Data.PointDtos;
 
 namespace Backend.Services.Operation
 {
@@ -77,6 +81,89 @@ namespace Backend.Services.Operation
 
 
             return _mapper.Map<OperationDto>(operation);
+        }
+
+        public AllAreasDto GetAllAreas()
+        {
+            List<GetOperationDto> operationDtos = new List<GetOperationDto>();
+            List<GetRegionDto> regionDtos = new List<GetRegionDto>();
+            List<GetBlockDto> blockDtos = new List<GetBlockDto>();
+            List<GetBuildingDto> buildingDtos = new List<GetBuildingDto>();
+
+            var operations = _context.Operations.ToList();
+
+            foreach (var operation in operations)
+            {
+                operationDtos.Add(new GetOperationDto
+                {
+                    Id = operation.Id,
+                    Name = operation.Name,
+                    LeaderOib = operation.LeaderOib,
+                    Status = operation.Status,
+                });
+            }
+
+            var regions = _context.Regions.ToList();
+
+            foreach (var region in regions)
+            {
+                var points = _context.Points.Where(p => p.AreaId == region.AreaId)
+                                            .OrderBy(p => p.OrderNumber)
+                                            .Select(p => new PointDto { Latitude = p.Latitude, Longitude = p.Longitude})
+                                            .ToList();
+
+                regionDtos.Add(new GetRegionDto
+                {
+                    OperationId = region.OperationId,
+                    Id = region.AreaId,
+                    Points = points,
+                });
+            }
+
+            var blocks = _context.Blocks.ToList();
+
+            foreach (var block in blocks)
+            {
+                var points = _context.Points.Where(p => p.AreaId == block.AreaId)
+                                            .OrderBy(p => p.OrderNumber)
+                                            .Select(p => new PointDto { Latitude = p.Latitude, Longitude = p.Longitude })
+                                            .ToList();
+
+                blockDtos.Add(new GetBlockDto
+                {
+                    RegionId = block.RegionId,
+                    Id = block.AreaId,
+                    Points = points,
+                    Status = block.Status,
+                });
+            }
+
+            var buildings = _context.Buildings.ToList();
+
+            foreach (var building in buildings)
+            {
+                var points = _context.Points.Where(p => p.AreaId == building.AreaId)
+                                            .OrderBy(p => p.OrderNumber)
+                                            .Select(p => new PointDto { Latitude = p.Latitude, Longitude = p.Longitude })
+                                            .ToList();
+
+                buildingDtos.Add(new GetBuildingDto
+                {
+                    BlockId = building.BlockId,
+                    Id = building.AreaId,
+                    Points = points,
+                    Status = building.Status,
+                });
+            }
+
+            return new AllAreasDto
+            {
+                Operations = operationDtos,
+                Regions = regionDtos,
+                Blocks = blockDtos,
+                Buildings = buildingDtos,
+
+            };
         }
 
         public async Task<OperationDto> UpdateOperation(OperationDto dto)
@@ -154,10 +241,6 @@ namespace Backend.Services.Operation
                     }
                 }
             }
-            
-
-
-            
 
             return _mapper.Map<OperationDto>(operation); 
         }

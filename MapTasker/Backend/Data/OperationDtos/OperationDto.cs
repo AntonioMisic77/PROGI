@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Backend.Data.RegionDTO;
+using Backend.Data.RegionDtos;
 using Backend.Models;
 
 namespace Backend.Data.OperationDTO

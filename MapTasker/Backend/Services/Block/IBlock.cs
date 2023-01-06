@@ -1,5 +1,5 @@
 ﻿
-using Backend.Data.BlockDTO;
+using Backend.Data.BlockDtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Services.Block

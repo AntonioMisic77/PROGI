@@ -1,4 +1,5 @@
 ﻿
+using Backend.Data.Areas;
 using Backend.Data.OperationDTO;
 using Backend.Data.UserDtos;
 using Backend.Services.Operation;
@@ -46,6 +47,12 @@ namespace Backend.Controllers
                  return BadRequest(e);
             }
            
+        }
+
+        [HttpGet]
+        public ActionResult<AllAreasDto> GetAllAreas()
+        {
+            return Ok(_operationService.GetAllAreas());
         }
     }
 }
