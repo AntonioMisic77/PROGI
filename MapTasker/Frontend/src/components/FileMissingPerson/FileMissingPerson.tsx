@@ -4,15 +4,31 @@ import FormInput from "../FormInput/FormInput";
 import { schemaMR } from "../../validationSchema/schemaMR.js";
 import { Button, TextField } from "@mui/material";
 import { MissingReportClient } from '../../Api/Api';
-
-const maskMap = {
-    hrv:"____-__-__"
-  };
+import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
 
 
 const FileMissingPerson = () => {
     
-    const [value, setValue] = React.useState<Date>(new Date());
+    let [image, setImage] = useState<string>("")
+
+    const uploadImage = (e: any) => {
+        if(e.target.files && e.target.files[0]) {
+           let imageFile = e.target.files[0];
+           console.log(imageFile);
+           const reader = new FileReader();
+           reader.onloadend = () => {
+              if (typeof reader.result === 'string'){
+                 setImage(reader.result);
+              }
+           };
+           reader.readAsDataURL(imageFile);
+        }
+     }
+
+
+     const [value, setValue] = React.useState<Date>(new Date());
+     const navigate = useNavigate();
 
     return(
         <Formik initialValues={{ firstName: "", lastName: "", OIB: null, photo: "", description: null, reportedAt: null, foundAt: undefined}}
@@ -24,7 +40,7 @@ const FileMissingPerson = () => {
                 firstName: values.firstName,
                 lastName: values.lastName,
                 oib: values.OIB ?? 0,
-                photo: "./dwayne-the-rock-.jpg",
+                photo: image,
                 description: values.description ?? '',
                 reportedAt: values.reportedAt ?? value,
                 foundAt: values.foundAt,
@@ -33,6 +49,7 @@ const FileMissingPerson = () => {
 
             }).then(missingReport => {
                 alert("Uspješna prijava nestale osobe!");
+                navigate('/missing-reports');
              }).catch(reason => alert("Prijava osobe već postoji"))
          }}
          >
@@ -49,7 +66,7 @@ const FileMissingPerson = () => {
 
                 <FormInput
                     label="Prezime:"
-                    name="lastname"
+                    name="lastName"
                     type="text"
                     placeholder="Unesite prezime"
                 />
@@ -77,13 +94,12 @@ const FileMissingPerson = () => {
                 />
                 
                 
+                <label className="form-label"> Fotografija: </label>
+                <div style={{display:"flex", flexDirection:"column", marginTop: "10px"}}>
+                    <input name="photo" accept="image/*" type="file" onChange={uploadImage}/>
+                    <img src={image === "" ? "blank-profile-photo.jpeg" : image} style={{maxHeight: "100px", maxWidth: "100px", marginTop: "10px"}}/>
+                </div> 
 
-                <div className='photo'>
-                    <label>Fotografija</label>
-                    <Button variant="contained" component="label" role="button" onClick={() => {}} style={{marginLeft:"1vw"}}>
-                        Upload
-                    </Button>
-                </div>
 
                 <button type='submit' className='submit-button'>Click to submit</button>
 

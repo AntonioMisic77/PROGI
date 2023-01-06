@@ -2,7 +2,7 @@
 using Backend.Data.RegionDtos;
 using Backend.Models;
 
-namespace Backend.Data.OperationDTO
+namespace Backend.Data.OperationDtos
 {
     public class OperationDto
     {

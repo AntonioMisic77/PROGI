@@ -3,6 +3,7 @@ import { List, ListItemButton, ListItemText, Collapse, ListItem, ListItemAvatar,
 import * as React from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { CommentDto, UserClient, UserDto } from '../../Api/Api';
+import { useState } from "react";
 
 interface CommentProps {
     comment: CommentDto,
@@ -10,36 +11,38 @@ interface CommentProps {
  }
 
 const Comments = ({comment} : CommentProps) => {
-    const[open, setOpen] = React.useState(false);
+    const[open, setOpen] = useState(false);
 
     const handleClick = () => {
         setOpen(!open);
     }
 
-    const[user, setUser] = React.useState<UserDto>();
+    const[user, setUser] = useState<UserDto>();
 
     /* za dohvacanje usera koji je komentirao
-    dodati ako je userOib undefined, anonymous je komentirao objavu
+    dodati ako je userOib undefined, anonymous je komentirao objavu*/
 
     React.useEffect(
         () => {
          let client = new UserClient("https://localhost:7270");
-         if(comment.userOib !== undefined) {
+         if(comment.userOib != null) {
             client.getUser(comment.userOib).then(user => setUser(user));
          }
+
+
         }, []
-     )*/
+     )
     console.log(comment)
 
     return(
        
-                <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+                <List sx={{ width: '100%', minWidth: 500, bgcolor: 'background.paper' }}>
                     <ListItem alignItems="flex-start">
                         <ListItemAvatar>
-                        <Avatar />
+                            <Avatar alt={user?.userName} src={user?.photo} />
                         </ListItemAvatar>
                         <ListItemText
-                        primary={comment.userOib !== null ? comment.userOib : 'Anonymous'}
+                        primary={comment.userOib !== null ? user?.userName : 'Anonymous'}
                         secondary={
                             <React.Fragment>
                             {comment.text}
