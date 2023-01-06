@@ -77,7 +77,7 @@ namespace Backend.Services.SeedDb
                         FirstName = "Admin",
                         LastName = "Administrator",
                         Email = "admin@fer.hr",
-                        Photo = "https://mojaslika.hr",
+                        Photo = null,
                         PhoneNumber = "+385 097 451 789",
                         RoleId = 1,
                         Confirmed = true,

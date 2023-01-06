@@ -11,12 +11,32 @@ import { schema2 } from "../../validationSchema/schema2.js";
 import { roles } from "../../models/Role";
 
 
-
 const EditProfile = () => {
 
-   let { user } = useUserData();
+   let { user, userLoaded } = useUserData();
 
+   let [image, setImage] = useState<string>("")
    let [editing, setEditing] = useState<boolean>(false);
+
+   useEffect(()=>{
+      if (userLoaded){
+         setImage(user?.photo ?? "")
+      }
+   }, [image, userLoaded])
+
+   const uploadImage = (e: any) => {
+      if(e.target.files && e.target.files[0]) {
+         let imageFile = e.target.files[0];
+         console.log(imageFile);
+         const reader = new FileReader();
+         reader.onloadend = () => {
+            if (typeof reader.result === 'string'){
+               setImage(reader.result);
+            }
+         };
+         reader.readAsDataURL(imageFile);
+      }
+   }
 
    const options = [
       { value: "", label: "Odabir uloge" },
@@ -33,7 +53,8 @@ const EditProfile = () => {
             client.updateUser(
                {
                   phoneNumber: values.phonenum ?? '',
-                  email: values.email ?? ''
+                  email: values.email ?? '',
+                  photo: image
                }).then(user => {
                   alert("Uspješno promijenjeni podatci");
                   window.location.reload();
@@ -80,14 +101,20 @@ const EditProfile = () => {
                </>  
             }
             
-            
-            <div className='photo'>
-               <label>Fotografija</label>
-               <Button variant="contained" component="label" role="button" onClick={() => { }} style={{ marginLeft: "1vw" }}>
-                  Upload
-               </Button>
-            </div>
-            <button type='submit' className='submit-button'>Click to submit</button>
+            {
+            editing ? <>
+               <label className="form-label"> Fotografija: </label>
+               <div style={{display:"flex", flexDirection:"column", marginTop: "10px"}}>
+                  <input name="photo" accept="image/*" type="file" onChange={uploadImage}/>
+                  <img src={image === "" ? "blank-profile-photo.jpeg" : image} style={{maxHeight: "100px", maxWidth: "100px", marginTop: "10px"}}/>
+               </div> 
+               <button type='submit' className='submit-button'>Click to submit</button>
+            </> :
+            <>
+               <label className="form-label"> Fotografija: </label>
+               <img src={image === "" ? "blank-profile-photo.jpeg" : image} style={{maxHeight: "100px", maxWidth: "100px", marginTop: "10px"}}/>
+            </>
+            }
          </Form>
       </Formik>
    )

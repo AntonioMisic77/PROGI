@@ -1,11 +1,12 @@
 import * as yup from "yup";
 
-const OIBRules = /^\d{11}$/;
 
 export const schemaMR =  yup.object().shape({
-    firstname: yup.string().required("Ovo polje je obavezno"),
-    lastname: yup.string().required("Ovo polje je obavezno"),
-    OIB: yup.string().matches(OIBRules, {message: "Unesite ispravan OIB"}),
+    firstName: yup.string().required("Ovo polje je obavezno"),
+    lastName: yup.string().required("Ovo polje je obavezno"),
+    OIB: yup.number().moreThan(10000000000, "Unesite ispravan OIB").lessThan(99999999999, "Unesite ispravan OIB").required("Ovo polje je obavezno"),
     photo: yup.mixed().nullable(),
-    reportedAt: yup.date().required("Ovo polje je obavezno")
+    reportedAt: yup.date().default(function () {
+        return new Date();
+      })
 });

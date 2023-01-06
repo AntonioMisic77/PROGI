@@ -9,5 +9,8 @@ namespace Backend.Data.UserDtos
 
         [Required]
         public string Email { get; set; }
+
+        [Required]
+        public string Photo { get; set; }
     }
 }

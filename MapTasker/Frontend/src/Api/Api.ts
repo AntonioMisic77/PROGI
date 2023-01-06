@@ -1029,7 +1029,7 @@ export interface User {
     oib: number;
     firstName: string;
     lastName: string;
-    photo: string;
+    photo?: string | undefined;
     phoneNumber: string;
     email: string;
     password: string;
@@ -1195,6 +1195,7 @@ export interface StatisticDto {
 export interface EditUserDto {
     phoneNumber: string;
     email: string;
+    photo: string;
 }
 
 export class ApiException extends Error {
