@@ -1,7 +1,7 @@
 
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using Backend.Data.Register;
+using Backend.Data.UserDtos;
 using Backend.Models;
 using Backend.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -74,11 +74,11 @@ namespace Backend.Controllers
 
         [HttpPut]
         [Authorize]
-        public async Task<ActionResult<UserDto>> UpdateUser(UserDto dto)
+        public async Task<ActionResult<UserDto>> UpdateUser(EditUserDto dto)
         {
             try
             {
-                return await _userService.UpdateUser(dto);
+                return await _userService.UpdateUser(dto, getRequesterOib(Request));
 
             }
             catch (Exception e)

@@ -17,6 +17,8 @@ const FormInput = (props: FormInputProps & FieldHookConfig<string>) => {
             {...field}
             placeholder={props.placeholder}
             type={props.type}
+            readOnly={false}
+            disabled = {false}
             className="form-input"
             style={{ borderColor: (meta.touched && meta.error) ? "#fc8181" : "white" }}
          />
