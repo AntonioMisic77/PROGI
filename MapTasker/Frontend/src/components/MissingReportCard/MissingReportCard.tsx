@@ -90,10 +90,10 @@ const MissingReportCard = ({missingReport} : ReportsProps) => {
                 </form>
             </CardActions>
             <div style={{
-                float: "right"
+                
             }}>
-                <List>
-                    <ListItemButton onClick={handleClick}>
+                <List sx={{width: "100%"}}>
+                    <ListItemButton onClick={handleClick} sx={{ float:"right"}}>
                         <ListItemText primary="Pogledaj sve komentare">
                             {open ? <ExpandLess /> : <ExpandMore />}
                             
