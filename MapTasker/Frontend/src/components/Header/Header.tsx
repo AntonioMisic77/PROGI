@@ -1,10 +1,11 @@
 import styled from "@emotion/styled";
 import { AppBar, Toolbar, Typography, Button } from "@mui/material"
 import { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, Navigate } from "react-router-dom";
 import { useUserData } from "../../hooks/useUserData";
+import { useNavigate } from 'react-router-dom';
 
-import "./Header.css"
+
 
  const headersDataNotLoggedIn = [
     {
@@ -43,11 +44,11 @@ import "./Header.css"
 
 export default function Header() {
 
-    const [show, setShow] = useState(true);
-
-    let {user, userLoaded} = useUserData();
+    let {user, setUser, userLoaded} = useUserData();
+    const navigate = useNavigate();
 
     console.log(userLoaded)
+    console.log(user)
 
     const displayDesktop = () => {
         return (
@@ -57,6 +58,10 @@ export default function Header() {
             </Toolbar>
         );
     };
+
+    const logout = () => {
+
+    }
 
     const mapTaskerLogo = (
         <Typography variant="h6" component="h1"
@@ -101,30 +106,39 @@ export default function Header() {
             })
         } else {
             return headersDataLoggedIn.map(({label, href}) => {
+                    return (
+                        <Button 
+                        {...{
+                            key: label,
+                            color: "inherit", 
+                            to: href, 
+                            component: RouterLink, 
+                        }}
+                        onClick = {() => {
+                            if(label === "Odjava") {
+                                localStorage.removeItem('Bearer token');
+                                navigate("/");
+                                window.location.reload();
+                            }
+                        }}
+                        sx = {{
+                            fontFamily: "Open Sans, sans-serif",
+                            fontWeight: 500,
+                            size: "18px",
+                            marginRight: "2px",
+                            '&:hover': {
+                            backgroundColor: "#9500ae",
+                            color: "#fff",
+                            },
+                        }}
+                        
+                        >
+                            {label}
+                        </Button>
+                        
+                    )
                 
-                return (
-                    <Button 
-                    {...{
-                        key: label,
-                        color: "inherit", 
-                        to: href, 
-                        component: RouterLink, 
-                    }}
-                    sx = {{
-                        fontFamily: "Open Sans, sans-serif",
-                        fontWeight: 500,
-                        size: "18px",
-                        marginRight: "2px",
-                        '&:hover': {
-                        backgroundColor: "#9500ae",
-                        color: "#fff",
-                        },
-                    }}
-                    >
-                        {label}
-                    </Button>
-                    
-                )
+                
             })
         }
     }
