@@ -81,9 +81,53 @@ namespace Backend.Services.BlockService
             throw new NotImplementedException();
         }
 
-        public Task<BlockDto> UpdateBlockStatus(BlockDto block, long requesterOib)
+        public async Task<BlockStatusDto> UpdateBlockStatus(BlockStatusDto dto, long requesterOib)
         {
-            throw new NotImplementedException();
+            var block = _context.Blocks.Find(dto.BlockId);
+            if (block == null)
+            {
+                throw new InvalidDataException("Ne postoji blok s tim id-om.");
+            }
+            var area = _context.Areas.Find(block.AreaId);
+            var user = _context.Users.Find(requesterOib);
+
+            var role = _context.Roles.Find(user.RoleId);
+
+            if (role == null || (role.Name != "Admin" && role.Name != "Kartograf"))
+            {
+                throw new InvalidDataException("Osoba nije ni admin ni kartograf.");
+            }
+            if (!dto.Status.Equals("Aktivan") && !dto.Status.Equals("Nezapočet") && !dto.Status.Equals("Provjera") && !dto.Status.Equals("Završen"))
+            {
+                throw new InvalidDataException("Krivi status bloka unesen.");
+            }
+            if (dto.Status.Equals("Aktivan"))
+            {
+                block.ActiveForOib = requesterOib;
+            } else
+            {
+                block.ActiveForOib = null;
+            }
+            if (dto.Status.Equals("Završen") && (!block.Status.Equals("Provjera") || area.UpdatedLastByOib != requesterOib))
+            {
+                throw new Exception("Blok nije u stanju provjera ili ga nisu provjerila barem dva kartografa."); 
+            }
+            if (dto.Status.Equals("Završen"))
+            {
+                area.ClosedAt = DateTime.Now;
+            }
+            
+            block.Status = dto.Status;
+            area.UpdatedLastByOib = requesterOib;
+
+            await _context.Blocks.AddAsync(block);
+            await _context.Areas.AddAsync(area);
+
+            await _context.SaveChangesAsync();
+
+            return dto; 
+
+
         }
     }
 }

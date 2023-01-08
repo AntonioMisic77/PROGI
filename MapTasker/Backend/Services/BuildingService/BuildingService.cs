@@ -91,15 +91,16 @@ namespace Backend.Services.BuildingService
 
             var role = _context.Roles.Find(user.RoleId);
 
-            if (role == null || (role.Name != "Spasioc"))
+            if (role == null || (role.Name != "Admin" && role.Name != "Spasioc"))
             {
-                throw new InvalidDataException("Osoba nije spasioc.");
+                throw new InvalidDataException("Osoba nije ni admin ni spasioc.");
             }
             if (!dto.Status.Equals("Pretraženo") && !dto.Status.Equals("Nepretraženo"))
             {
                 throw new InvalidDataException("Krivi status građevine unesen."); 
             }
             building.Status = dto.Status;
+            
 
             await _context.Buildings.AddAsync(building);
             await _context.SaveChangesAsync();

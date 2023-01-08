@@ -33,7 +33,7 @@ namespace Backend.Controllers
 
         [HttpPut]
 
-        public async Task<ActionResult<BlockDto>> UpdateBlockStatus(BlockDto block)
+        public async Task<ActionResult<BlockStatusDto>> UpdateBlockStatus(BlockStatusDto block)
         {
             try
             {
