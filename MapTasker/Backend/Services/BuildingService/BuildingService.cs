@@ -87,6 +87,7 @@ namespace Backend.Services.BuildingService
             {
                 throw new InvalidDataException("Ne postoji građevina s tim id-om.");
             }
+            var area = _context.Areas.Find(building.AreaId);
             var user = _context.Users.Find(requesterOib);
 
             var role = _context.Roles.Find(user.RoleId);
@@ -99,10 +100,16 @@ namespace Backend.Services.BuildingService
             {
                 throw new InvalidDataException("Krivi status građevine unesen."); 
             }
+            if (dto.Status.Equals("Pretraženo"))
+            {
+                area.ClosedAt = DateTime.Now;
+            }
             building.Status = dto.Status;
+            area.UpdatedLastByOib = requesterOib; 
             
 
             await _context.Buildings.AddAsync(building);
+            await _context.Areas.AddAsync(area);
             await _context.SaveChangesAsync();
 
             return dto; 

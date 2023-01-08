@@ -72,7 +72,7 @@ export class BlockClient extends ApiBase {
         return Promise.resolve<CreateBlockDto[]>(null as any);
     }
 
-    updateBlockStatus(block: BlockDto): Promise<BlockDto> {
+    updateBlockStatus(block: BlockStatusDto): Promise<BlockStatusDto> {
         let url_ = this.baseUrl + "/api/Block";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -94,13 +94,13 @@ export class BlockClient extends ApiBase {
         });
     }
 
-    protected processUpdateBlockStatus(response: Response): Promise<BlockDto> {
+    protected processUpdateBlockStatus(response: Response): Promise<BlockStatusDto> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as BlockDto;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as BlockStatusDto;
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -108,7 +108,7 @@ export class BlockClient extends ApiBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<BlockDto>(null as any);
+        return Promise.resolve<BlockStatusDto>(null as any);
     }
 }
 
@@ -166,7 +166,7 @@ export class BuildingClient extends ApiBase {
         return Promise.resolve<CreateBuildingDto[]>(null as any);
     }
 
-    updateBuilding(building: BuildingDto): Promise<BuildingDto> {
+    updateBuildingStatus(building: BuildingStatusDto): Promise<BuildingStatusDto> {
         let url_ = this.baseUrl + "/api/Building";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -184,17 +184,17 @@ export class BuildingClient extends ApiBase {
         return this.transformOptions(options_).then(transformedOptions_ => {
             return this.http.fetch(url_, transformedOptions_);
         }).then((_response: Response) => {
-            return this.processUpdateBuilding(_response);
+            return this.processUpdateBuildingStatus(_response);
         });
     }
 
-    protected processUpdateBuilding(response: Response): Promise<BuildingDto> {
+    protected processUpdateBuildingStatus(response: Response): Promise<BuildingStatusDto> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as BuildingDto;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as BuildingStatusDto;
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -202,7 +202,7 @@ export class BuildingClient extends ApiBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<BuildingDto>(null as any);
+        return Promise.resolve<BuildingStatusDto>(null as any);
     }
 }
 
@@ -645,7 +645,7 @@ export class OperationClient extends ApiBase {
         return Promise.resolve<OperationDto>(null as any);
     }
 
-    updateOperation(operation: OperationStatusDto): Promise<OperationDto> {
+    updateOperation(operation: OperationStatusDto): Promise<OperationStatusDto> {
         let url_ = this.baseUrl + "/api/Operation";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -667,13 +667,13 @@ export class OperationClient extends ApiBase {
         });
     }
 
-    protected processUpdateOperation(response: Response): Promise<OperationDto> {
+    protected processUpdateOperation(response: Response): Promise<OperationStatusDto> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as OperationDto;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as OperationStatusDto;
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -681,7 +681,7 @@ export class OperationClient extends ApiBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<OperationDto>(null as any);
+        return Promise.resolve<OperationStatusDto>(null as any);
     }
 
     getAllAreas(): Promise<AllAreasDto> {
@@ -1104,6 +1104,112 @@ export interface PointDto {
     longitude: number;
 }
 
+export interface BlockStatusDto {
+    blockId: number;
+    status: string;
+}
+
+export interface CreateBuildingDto {
+    points: PointDto[];
+}
+
+export interface BuildingStatusDto {
+    buildingId: number;
+    status: string;
+}
+
+export interface CommentDto {
+    id: number;
+    reportId: number;
+    text: string;
+    userOib?: number | undefined;
+}
+
+export interface LoginDto {
+    email: string;
+    password: string;
+}
+
+export interface RegionDto {
+    coordinates: PointDto[];
+}
+
+export interface MissingReportDto {
+    id: number;
+    firstName: string;
+    lastName: string;
+    oib: number;
+    photo: string;
+    description?: string | undefined;
+    reportedAt: Date;
+    foundAt?: Date | undefined;
+    comments?: CommentDto[] | undefined;
+}
+
+export interface OperationDto {
+    name: string;
+    leaderOib: number;
+    regions: RegionDto[];
+}
+
+export interface OperationStatusDto {
+    operationId: number;
+    status: string;
+    leaderOib: number;
+}
+
+export interface AllAreasDto {
+    operations: GetOperationDto[];
+    regions: GetRegionDto[];
+    blocks: GetBlockDto[];
+    buildings: GetBuildingDto[];
+}
+
+export interface GetOperationDto {
+    id: number;
+    status: string;
+    leaderOib: number;
+    name: string;
+}
+
+export interface BaseAreaDto {
+    id: number;
+    points: PointDto[];
+}
+
+export interface GetRegionDto extends BaseAreaDto {
+    operationId: number;
+}
+
+export interface GetBlockDto extends BaseAreaDto {
+    regionId: number;
+    status: string;
+}
+
+export interface GetBuildingDto extends BaseAreaDto {
+    blockId: number;
+    status: string;
+}
+
+export interface UserDto {
+    userName?: string | undefined;
+    oib: number;
+    photo: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    email: string;
+    roleId: number;
+    confirmed: boolean;
+}
+
+export interface StatisticDto {
+    missingReports: MissingReportDto[];
+    blocks: BlockDto[];
+    buildings: BuildingDto[];
+}
+
 export interface BlockDto {
     areaId: number;
     status: string;
@@ -1217,108 +1323,12 @@ export interface MissingReport {
     comments: Comment[];
 }
 
-export interface CreateBuildingDto {
-    points: PointDto[];
-}
-
 export interface BuildingDto {
     areaId: number;
     blockId: number;
     status: string;
     area: Area;
     block: Block;
-}
-
-export interface CommentDto {
-    id: number;
-    reportId: number;
-    text: string;
-    userOib?: number | undefined;
-}
-
-export interface LoginDto {
-    email: string;
-    password: string;
-}
-
-export interface RegionDto {
-    coordinates: PointDto[];
-}
-
-export interface MissingReportDto {
-    id: number;
-    firstName: string;
-    lastName: string;
-    oib: number;
-    photo: string;
-    description?: string | undefined;
-    reportedAt: Date;
-    foundAt?: Date | undefined;
-    comments?: CommentDto[] | undefined;
-}
-
-export interface OperationDto {
-    name: string;
-    leaderOib: number;
-    regions: RegionDto[];
-}
-
-export interface OperationStatusDto {
-    operationId: number;
-    status: string;
-    leaderOib: number;
-}
-
-export interface AllAreasDto {
-    operations: GetOperationDto[];
-    regions: GetRegionDto[];
-    blocks: GetBlockDto[];
-    buildings: GetBuildingDto[];
-}
-
-export interface GetOperationDto {
-    id: number;
-    status: string;
-    leaderOib: number;
-    name: string;
-}
-
-export interface BaseAreaDto {
-    id: number;
-    points: PointDto[];
-}
-
-export interface GetRegionDto extends BaseAreaDto {
-    operationId: number;
-}
-
-export interface GetBlockDto extends BaseAreaDto {
-    regionId: number;
-    status: string;
-}
-
-export interface GetBuildingDto extends BaseAreaDto {
-    blockId: number;
-    status: string;
-}
-
-export interface UserDto {
-    userName?: string | undefined;
-    oib: number;
-    photo: string;
-    password: string;
-    firstName: string;
-    lastName: string;
-    phoneNumber: string;
-    email: string;
-    roleId: number;
-    confirmed: boolean;
-}
-
-export interface StatisticDto {
-    missingReports: MissingReportDto[];
-    blocks: BlockDto[];
-    buildings: BuildingDto[];
 }
 
 export interface EditUserDto {
