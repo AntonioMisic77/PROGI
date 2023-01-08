@@ -7,6 +7,6 @@ namespace Backend.Services.BuildingService
     {
         Task<CreateBuildingDto[]> CreateBuilding(int BlockId, CreateBuildingDto[] dtos, long requesterOib);
 
-        Task<BuildingDto> UpdateBuildingStatus(BuildingDto building);
+        Task<BuildingStatusDto> UpdateBuildingStatus(BuildingStatusDto building, long requesterOib);
     }
 }

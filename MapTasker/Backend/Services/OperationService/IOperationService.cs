@@ -8,6 +8,6 @@ namespace Backend.Services.OperationService
     {
         Task<OperationDto> CreateOperation(OperationDto operation);
         AllAreasDto GetAllAreas();
-        Task<OperationDto> UpdateOperation(OperationStatusDto operation);
+        Task<OperationStatusDto> UpdateOperation(OperationStatusDto operation);
     }
 }

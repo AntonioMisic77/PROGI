@@ -37,9 +37,10 @@ namespace Backend.Controllers
 
         [HttpPut]
 
-        public async Task<ActionResult<BuildingDto>> UpdateBuilding(BuildingDto building)
+        public async Task<ActionResult<BuildingStatusDto>> UpdateBuildingStatus(BuildingStatusDto building)
         {
-            return await _buildingService.UpdateBuildingStatus(building);
+            long oib = UserController.getRequesterOib(Request);
+            return await _buildingService.UpdateBuildingStatus(building, oib);
         }
     }
 }

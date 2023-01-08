@@ -36,7 +36,7 @@ namespace Backend.Controllers
 
         [HttpPut]
 
-        public async Task<ActionResult<OperationDto>> UpdateOperation(OperationStatusDto operation)
+        public async Task<ActionResult<OperationStatusDto>> UpdateOperation(OperationStatusDto operation)
         {   
             try
             {

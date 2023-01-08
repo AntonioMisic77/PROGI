@@ -80,9 +80,32 @@ namespace Backend.Services.BuildingService
             
         }
 
-        public Task<BuildingDto> UpdateBuildingStatus(BuildingDto building)
+        public async Task<BuildingStatusDto> UpdateBuildingStatus(BuildingStatusDto dto, long requesterOib)
         {
-            throw new NotImplementedException();
+            var building = _context.Buildings.Find(dto.BuildingId); 
+            if (building == null)
+            {
+                throw new InvalidDataException("Ne postoji građevina s tim id-om.");
+            }
+            var user = _context.Users.Find(requesterOib);
+
+            var role = _context.Roles.Find(user.RoleId);
+
+            if (role == null || (role.Name != "Spasioc"))
+            {
+                throw new InvalidDataException("Osoba nije spasioc.");
+            }
+            if (!dto.Status.Equals("Pretraženo") && !dto.Status.Equals("Nepretraženo"))
+            {
+                throw new InvalidDataException("Krivi status građevine unesen."); 
+            }
+            building.Status = dto.Status;
+
+            await _context.Buildings.AddAsync(building);
+            await _context.SaveChangesAsync();
+
+            return dto; 
+
         }
     }
 }

@@ -175,7 +175,7 @@ namespace Backend.Services.OperationService
             };
         }
 
-        public async Task<OperationDto> UpdateOperation(OperationStatusDto dto)
+        public async Task<OperationStatusDto> UpdateOperation(OperationStatusDto dto)
         {
    
             var operation = await _context.Operations.FirstOrDefaultAsync(a => a.Id == dto.OperationId); 
@@ -198,7 +198,7 @@ namespace Backend.Services.OperationService
             await _context.SaveChangesAsync(); 
 
 
-            return _mapper.Map<OperationDto>(operation); 
+            return _mapper.Map<OperationStatusDto>(operation); 
         }
     }
 }
