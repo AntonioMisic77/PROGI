@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Backend.Models;
 
-namespace Backend.Data.BuildingDTO
+namespace Backend.Data.BuildingDtos
 {
     public class BuildingDto
     {

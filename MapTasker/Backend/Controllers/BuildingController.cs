@@ -1,6 +1,7 @@
 ﻿
-using Backend.Data.BuildingDTO;
-using Backend.Services.Building;
+using Backend.Data.BuildingDtos;
+using Backend.Models;
+using Backend.Services.BuildingService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,18 +11,27 @@ namespace Backend.Controllers
     [ApiController]
     public class BuildingController : ControllerBase
     {
-        private readonly IBuilding _buildingService;
+        private readonly IBuildingService _buildingService;
 
-        public BuildingController(IBuilding buildingService)
+        public BuildingController(IBuildingService buildingService)
         {
             _buildingService = buildingService;
         }
 
         [HttpPost]
 
-        public async Task<ActionResult<BuildingDto>> CreateBuilding(BuildingDto building)
+        public async Task<ActionResult<CreateBuildingDto[]>> CreateBuilding(int blockId, CreateBuildingDto[] building)
         {
-            return await _buildingService.CreateBuilding(building);
+            try
+            {
+                long oib = UserController.getRequesterOib(Request);
+                return Ok(await _buildingService.CreateBuilding(blockId, building, oib)); 
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+
         }
 
 

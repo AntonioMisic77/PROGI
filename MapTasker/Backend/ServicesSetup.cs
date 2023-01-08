@@ -1,6 +1,6 @@
 ﻿using Backend.Configuration;
-using Backend.Services.Block;
-using Backend.Services.Building;
+using Backend.Services.BlockService;
+using Backend.Services.BuildingService;
 using Backend.Services.Comment;
 using Backend.Services.IdGenerator;
 using Backend.Services.Implementations;
@@ -27,8 +27,8 @@ namespace Backend
             serviceCollection.AddTransient<IMissingReport,MissingReport>();
             serviceCollection.AddTransient<IRegionService, RegionService>();
             serviceCollection.AddTransient<IOperationService, OperationService>();
-            serviceCollection.AddTransient<IBlock, Block>();
-            serviceCollection.AddTransient<IBuilding,Building>();
+            serviceCollection.AddTransient<IBlockService, BlockService>();
+            serviceCollection.AddTransient<IBuildingService,BuildingService>();
             serviceCollection.AddTransient<IStatistic,Statistics>();
             serviceCollection.AddTransient<IMissingReport,MissingReport>();
             serviceCollection.AddTransient<IComment, Comment>();

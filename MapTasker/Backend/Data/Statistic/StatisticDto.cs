@@ -1,7 +1,7 @@
 ﻿
 
 using Backend.Data.BlockDtos;
-using Backend.Data.BuildingDTO;
+using Backend.Data.BuildingDtos;
 using Backend.Data.MissingReportDTO;
 
 namespace Backend.Data.StatisticDto
