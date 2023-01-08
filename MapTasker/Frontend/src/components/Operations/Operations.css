@@ -22,8 +22,9 @@
   border-width: 2px;
   border-radius: 10px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 
 .button-container {
@@ -37,4 +38,16 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.5rem 0.5rem;
+  max-width: 400px;
+  font-size: 1rem;
+  color: black;
+  border: 1.2px ridge #4a5568;
+  border-radius: 5px;
+  outline: none;
+  font-family: arial;
 }

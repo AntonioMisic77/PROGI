@@ -2,7 +2,7 @@
 {
     public class PointDto
     {
-        public double Latitude;
-        public double Longitude;
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
     }
 }

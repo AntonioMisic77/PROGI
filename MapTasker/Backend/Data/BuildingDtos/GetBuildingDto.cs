@@ -4,8 +4,8 @@ namespace Backend.Data.BuildingDtos
 {
     public class GetBuildingDto : BaseAreaDto
     {
-        public int BlockId;
+        public int BlockId { get; set; }
 
-        public string Status;
+        public string Status { get; set; }
     }
 }

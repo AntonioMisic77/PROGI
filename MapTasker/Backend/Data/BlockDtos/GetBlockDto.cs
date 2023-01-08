@@ -4,7 +4,7 @@ namespace Backend.Data.BlockDtos
 {
     public class GetBlockDto : BaseAreaDto
     {
-        public int RegionId;
-        public string Status;
+        public int RegionId { get; set; }
+        public string Status { get; set; }
     }
 }

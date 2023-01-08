@@ -4,7 +4,6 @@ using Backend.Data;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Backend.Data.Areas;
-using Backend.Data.OperationDtos;
 using Backend.Data.BlockDtos;
 using Backend.Data.RegionDtos;
 using Backend.Data.BuildingDtos;
@@ -12,15 +11,15 @@ using Backend.Data.PointDtos;
 using Backend.Models;
 using Backend.Services.IdGenerator;
 
-namespace Backend.Services.Operation
+namespace Backend.Services.OperationService
 {
-    public class Operation : IOperation
+    public class OperationService : IOperationService
     {
         private readonly IMapper _mapper;
         private readonly MapTaskerDBContext _context;
         private readonly IGenerator _generator;
 
-        public Operation(IMapper mapper, MapTaskerDBContext context, IGenerator generator)
+        public OperationService(IMapper mapper, MapTaskerDBContext context, IGenerator generator)
         {
             _mapper = mapper;
             _context = context;
@@ -29,6 +28,7 @@ namespace Backend.Services.Operation
 
         public async Task<OperationDto> CreateOperation(OperationDto dto)
         {
+            
             var user = _context.Users.Find(dto.LeaderOib); 
             if (user == null)
             {
@@ -36,25 +36,25 @@ namespace Backend.Services.Operation
             }
 
             var role = _context.Roles.Find(user.RoleId);
-            if (role.Name != "Leader" || role.Name != "Voditelj") 
+            
+            if (role == null || (role.Name != "Admin" && role.Name != "Voditelj")) 
             {
-                throw new Exception("Osoba nije voditelj grupe"); 
+                throw new InvalidDataException("Osoba nije voditelj grupe"); 
             }
 
-
-            var operation = new Backend.Models.Operation() 
-            { 
+            var operation = new Operation()
+            {
+                Name = dto.Name,
                 Id = _generator.generateId(),
-                Status = dto.Status,
+                Status = "Active",
                 LeaderOib = dto.LeaderOib,
             };
-            
+
             await _context.AddAsync(operation);
-        
 
             foreach (var region in dto.Regions)
             {
-                var area = new Backend.Models.Area()
+                var area = new Area()
                 {
                     Id = _generator.generateId(),
                     CreatedAt = DateTime.Now,
@@ -66,29 +66,30 @@ namespace Backend.Services.Operation
                 foreach(var point in region.Coordinates)
                 {
                     i++;
-                    var newPoint = new Backend.Models.Point()
+                    var newPoint = new Point()
                     {
                         Id = _generator.generateId(),
-                        Latitude = point.Item1,
-                        Longitude = point.Item2,
+                        Latitude = point.Latitude,
+                        Longitude = point.Longitude,
                         AreaId = area.Id,
                         OrderNumber = i,
                     };
                     await _context.Points.AddAsync(newPoint);
                     area.Points.Add(newPoint);
                 }
-
                 
-                var newRegion = new Backend.Models.Region()
+                var newRegion = new Region()
                 {
                     AreaId = area.Id,
                     OperationId = operation.Id,
                 };
+                
                 operation.Regions.Add(newRegion);
+                await _context.Regions.AddAsync(newRegion);
             }
             await _context.SaveChangesAsync();
 
-            return _mapper.Map<OperationDto>(operation);
+            return dto;
         }
 
         public AllAreasDto GetAllAreas()
@@ -174,7 +175,7 @@ namespace Backend.Services.Operation
             };
         }
 
-        public async Task<OperationDto> UpdateOperation(OperationDto dto)
+        public async Task<OperationDto> UpdateOperation(OperationStatusDto dto)
         {
    
             var operation = await _context.Operations.FirstOrDefaultAsync(a => a.Id == dto.OperationId); 

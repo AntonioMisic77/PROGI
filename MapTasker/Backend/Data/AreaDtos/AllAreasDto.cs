@@ -8,9 +8,9 @@ namespace Backend.Data.Areas
 {
     public class AllAreasDto
     {
-        public List<GetOperationDto> Operations;
-        public List<GetRegionDto> Regions;
-        public List<GetBlockDto> Blocks;
-        public List<GetBuildingDto> Buildings;
+        public List<GetOperationDto> Operations { get; set; }
+        public List<GetRegionDto> Regions { get; set; }
+        public List<GetBlockDto> Blocks { get; set; }
+        public List<GetBuildingDto> Buildings { get; set; }
     }
 }

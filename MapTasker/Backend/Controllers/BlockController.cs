@@ -18,10 +18,9 @@ namespace Backend.Controllers
 
         [HttpPut]
 
-        public async  Task<ActionResult<BlockDto>> UpdateBlock(BlockDto block)
+        public async Task<ActionResult<BlockDto>> UpdateBlock(BlockDto block)
         {
             return await _blockService.UpdateBlockStatus(block);
         }
-
     }
 }

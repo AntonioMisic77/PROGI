@@ -24,7 +24,6 @@ const LocationMarker = (props: LocationMarkerProps) => {
       click(event){
          let latLng  = map.mouseEventToLatLng(event.originalEvent);
          props.onClick(latLng);
-         console.log(latLng)
       }
    });
 

@@ -2,14 +2,11 @@
 using Backend.Data.Areas;
 using Backend.Data.OperationDtos;
 
-namespace Backend.Services.Operation
+namespace Backend.Services.OperationService
 {
-    public interface IOperation
+    public interface IOperationService
     {
         Task<OperationDto> CreateOperation(OperationDto operation);
-
-        Task<OperationDto> UpdateOperation(OperationDto operation);
-
         AllAreasDto GetAllAreas();
         Task<OperationDto> UpdateOperation(OperationStatusDto operation);
     }

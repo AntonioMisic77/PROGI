@@ -598,7 +598,7 @@ export class OperationClient extends ApiBase {
         return Promise.resolve<OperationDto>(null as any);
     }
 
-    updateOperation(operation: OperationDto): Promise<OperationDto> {
+    updateOperation(operation: OperationStatusDto): Promise<OperationDto> {
         let url_ = this.baseUrl + "/api/Operation";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1182,11 +1182,12 @@ export interface LoginDto {
 }
 
 export interface RegionDto {
-    areaId: number;
-    operationId: number;
-    area: Area;
-    operation: Operation;
-    blocks: Block[];
+    coordinates: PointDto[];
+}
+
+export interface PointDto {
+    latitude: number;
+    longitude: number;
 }
 
 export interface MissingReportDto {
@@ -1202,11 +1203,15 @@ export interface MissingReportDto {
 }
 
 export interface OperationDto {
-    id: number;
+    name: string;
+    leaderOib: number;
+    regions: RegionDto[];
+}
+
+export interface OperationStatusDto {
+    operationId: number;
     status: string;
     leaderOib: number;
-    leaderOibNavigation: User;
-    regions: RegionDto[];
 }
 
 export interface AllAreasDto {
@@ -1230,11 +1235,6 @@ export interface BaseAreaDto {
 
 export interface GetRegionDto extends BaseAreaDto {
     operationId: number;
-}
-
-export interface PointDto {
-    latitude: number;
-    longitude: number;
 }
 
 export interface GetBlockDto extends BaseAreaDto {

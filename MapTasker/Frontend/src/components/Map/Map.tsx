@@ -19,6 +19,7 @@ interface MapProps {
    buildings: GetBuildingDto[];
    onAreaClick: (id: number, type: "region" | "block" | "building") => void;
    children: ReactNode;
+   selectionEnabled: boolean;
 }
 
 const pointsToLatLngArray = (points: PointDto[]) : LatLng[] => {
@@ -27,7 +28,7 @@ const pointsToLatLngArray = (points: PointDto[]) : LatLng[] => {
    return latLngArray
 }
 
-const Map = ({selectedBlockId, selectedRegionId, showAllRegions, showChildrenBlocks, showChildrenBuildings, onAreaClick, regions, blocks, buildings, children, selectedBuildingId} : MapProps) => {
+const Map = ({selectedBlockId, selectedRegionId, showAllRegions, showChildrenBlocks, showChildrenBuildings, onAreaClick, regions, blocks, buildings, children, selectedBuildingId, selectionEnabled} : MapProps) => {
 
    return ( 
       <MapContainer center={[45.33, 14.445]} zoom={13} scrollWheelZoom={true}>
@@ -40,7 +41,11 @@ const Map = ({selectedBlockId, selectedRegionId, showAllRegions, showChildrenBlo
                <Polygon positions={pointsToLatLngArray(region.points)}
                         eventHandlers={{click: (e) => {onAreaClick(region.id, "region")}}}
                         fillColor="blue"
-                        color="blue"/>)
+                        color="blue"
+                        interactive={selectionEnabled}
+                        key={region.id}/>
+                        
+                        )
          }
          {
             selectedRegionId !== undefined && (
@@ -49,13 +54,16 @@ const Map = ({selectedBlockId, selectedRegionId, showAllRegions, showChildrenBlo
                      <>
                         <Polygon positions={pointsToLatLngArray(regions.find(r => r.id === selectedRegionId)?.points!)}
                            color="white"
-                           fillColor="white"/>
+                           fillColor="white"
+                           interactive={false}/>
                         {!showChildrenBuildings && blocks &&
                            blocks.filter(b => b.regionId === selectedRegionId).map(
                               b => <Polygon positions={pointsToLatLngArray(b.points)}
                                           fillColor = "red"
                                           eventHandlers={{click: (e) => {onAreaClick(b.id, "block")}}}
                                           color = {b.id === selectedBlockId ? "green" : "red"}
+                                          key = {b.id + (selectedBlockId ?? 0)}
+                                          interactive={selectionEnabled}
                                     />
                            )
                         }
@@ -67,6 +75,8 @@ const Map = ({selectedBlockId, selectedRegionId, showAllRegions, showChildrenBlo
                               eventHandlers={{click: (e) => {onAreaClick(r.id, "region")}}}
                               fillColor = "blue"
                               color = {r.id === selectedRegionId ? "green" : "blue"}
+                              key = {r.id + selectedRegionId}
+                              interactive={selectionEnabled}
                         />
                      )
             )
@@ -77,13 +87,16 @@ const Map = ({selectedBlockId, selectedRegionId, showAllRegions, showChildrenBlo
                   <>
                      <Polygon positions={pointsToLatLngArray(blocks.find(b => b.id === selectedBlockId)?.points!)}
                         color="white"
-                        fillColor="white"/>
+                        fillColor="white"
+                        interactive={false}/>
                      {
                         buildings.filter(b => b.blockId === selectedBlockId).map(
                            b => <Polygon positions={pointsToLatLngArray(b.points)}
                                        eventHandlers={{click: (e) => {onAreaClick(b.id, "building")}}}
                                        fillColor = "yellow"
                                        color = {b.id === selectedBuildingId ? "green" : "yellow"}
+                                       key = {b.id + (selectedBuildingId ?? 0)}
+                                       interactive={selectionEnabled}
                                  />
                         )
                      }

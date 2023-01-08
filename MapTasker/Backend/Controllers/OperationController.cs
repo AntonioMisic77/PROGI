@@ -1,8 +1,8 @@
 ﻿
 using Backend.Data.Areas;
-using Backend.Data.OperationDTO;
+using Backend.Data.OperationDtos;
 using Backend.Data.UserDtos;
-using Backend.Services.Operation;
+using Backend.Services.OperationService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,9 +12,9 @@ namespace Backend.Controllers
     [ApiController]
     public class OperationController : ControllerBase
     {
-        private readonly IOperation _operationService;
+        private readonly IOperationService _operationService;
 
-        public OperationController(IOperation operationService)
+        public OperationController(IOperationService operationService)
         {
             _operationService = operationService;
         }
@@ -25,7 +25,7 @@ namespace Backend.Controllers
         {
             try
             {
-                 return Ok(await _operationService.CreateOperation(operation));
+                return Ok(await _operationService.CreateOperation(operation));
             } 
             catch (Exception e) 
             { 
@@ -36,7 +36,7 @@ namespace Backend.Controllers
 
         [HttpPut]
 
-        public async Task<ActionResult<OperationDto>> UpdateOperation(OperationDto operation)
+        public async Task<ActionResult<OperationDto>> UpdateOperation(OperationStatusDto operation)
         {   
             try
             {

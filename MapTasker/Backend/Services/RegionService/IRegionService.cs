@@ -1,9 +1,9 @@
 ﻿
 using Backend.Data.RegionDtos;
 
-namespace Backend.Services.Region
+namespace Backend.Services.RegionService
 {
-    public interface IRegion
+    public interface IRegionService
     {
         Task<List<RegionDto>> getAllRegions();
     }

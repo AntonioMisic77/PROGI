@@ -4,14 +4,14 @@ using Backend.Data;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Services.Region
+namespace Backend.Services.RegionService
 {
-    public class Region : IRegion
+    public class RegionService : IRegionService
     {
         private readonly IMapper _mapper;
         private readonly MapTaskerDBContext _context;
 
-        public Region(IMapper mapper, MapTaskerDBContext context)
+        public RegionService(IMapper mapper, MapTaskerDBContext context)
         {
             _mapper = mapper;
             _context = context;

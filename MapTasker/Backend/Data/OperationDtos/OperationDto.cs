@@ -6,15 +6,10 @@ namespace Backend.Data.OperationDtos
 {
     public class OperationDto
     {
-        public int Id { get; set; }
-
-        [Required]
-        public string Status { get; set; } = null!;
+        public string Name { get; set; }
 
         [Required]
         public long LeaderOib { get; set; }
-
-        public virtual User LeaderOibNavigation { get; set; } = null!;
-        public virtual ICollection<RegionDto> Regions { get; set; }
+        public RegionDto[] Regions { get; set; }
     }
 }
