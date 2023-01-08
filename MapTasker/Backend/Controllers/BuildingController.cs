@@ -20,7 +20,7 @@ namespace Backend.Controllers
 
         [HttpPost]
 
-        public async Task<ActionResult<CreateBuildingDto[]>> CreateBuilding(int blockId, CreateBuildingDto[] building)
+        public async Task<ActionResult<GetBuildingDto[]>> CreateBuilding(int blockId, CreateBuildingDto[] building)
         {
             try
             {

@@ -19,7 +19,7 @@ namespace Backend.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<CreateBlockDto[]>> CreateBlock(int regionId, CreateBlockDto[] block)
+        public async Task<ActionResult<GetBlockDto[]>> CreateBlock(int regionId, CreateBlockDto[] block)
         {
             try
             {

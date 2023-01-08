@@ -20,8 +20,10 @@ namespace Backend.Services.BlockService
             _context = context;
             _generator = generator;
         }
-        public async Task<CreateBlockDto[]> CreateBlock(int regionId, CreateBlockDto[] dtos, long requesterOib)
+        public async Task<GetBlockDto[]> CreateBlock(int regionId, CreateBlockDto[] dtos, long requesterOib)
         {
+            GetBlockDto[] result = new GetBlockDto[dtos.Length];
+
             var region = _context.Regions.Find(regionId); 
             if (region == null)
             {
@@ -35,6 +37,8 @@ namespace Backend.Services.BlockService
             {
                 throw new InvalidDataException("Osoba nije ni admin ni kartograf.");
             }
+
+            int blockCount = 0;
 
             foreach (var block in dtos)
             {
@@ -68,17 +72,23 @@ namespace Backend.Services.BlockService
                     RegionId = regionId,
                 };
                 region.Blocks.Add(newBlock);
-                await _context.Blocks.AddAsync(newBlock); 
+                await _context.Blocks.AddAsync(newBlock);
+
+                result[blockCount] = new GetBlockDto
+                {
+                    Id = newBlock.AreaId,
+                    RegionId = newBlock.RegionId,
+                    Status = newBlock.Status,
+                    Points = block.Points.ToList(),
+                };
+
+                blockCount++;
             }
          
             await _context.SaveChangesAsync();
 
-            return dtos; 
+            return result; 
 
-        }
-        public Task<ActionResult<BlockDto>> UpdateBlock(BlockDto block)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<BlockStatusDto> UpdateBlockStatus(BlockStatusDto dto, long requesterOib)

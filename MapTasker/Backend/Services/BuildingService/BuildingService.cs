@@ -19,7 +19,7 @@ namespace Backend.Services.BuildingService
             _context = context;
             _generator = generator;
         }
-        public async Task<CreateBuildingDto[]> CreateBuilding(int BlockId, CreateBuildingDto[] dtos, long requesterOib)
+        public async Task<GetBuildingDto[]> CreateBuilding(int BlockId, CreateBuildingDto[] dtos, long requesterOib)
         {
             var block = _context.Blocks.Find(BlockId);
             if (block == null)
@@ -39,6 +39,9 @@ namespace Backend.Services.BuildingService
             {
                 throw new Exception("Nije dopušteno kreiranje građevina."); 
             }
+
+            var result = new GetBuildingDto[dtos.Length];
+            int buildingCount = 0;
 
             foreach (var building in dtos)
             {
@@ -74,11 +77,20 @@ namespace Backend.Services.BuildingService
                 block.Buildings.Add(newBuilding);
                 await _context.Buildings.AddAsync(newBuilding);
 
+                result[buildingCount] = new GetBuildingDto
+                {
+                    Id = newBuilding.AreaId,
+                    BlockId = newBuilding.BlockId,
+                    Status = newBuilding.Status,
+                    Points = building.Points.ToList(),
+                };
+
+                buildingCount++;
             }
 
             await _context.SaveChangesAsync();
 
-            return dtos;
+            return result;
             
         }
 

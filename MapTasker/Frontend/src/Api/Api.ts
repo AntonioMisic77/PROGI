@@ -29,7 +29,7 @@ export class BlockClient extends ApiBase {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    createBlock(regionId: number | undefined, block: CreateBlockDto[]): Promise<CreateBlockDto[]> {
+    createBlock(regionId: number | undefined, block: CreateBlockDto[]): Promise<GetBlockDto[]> {
         let url_ = this.baseUrl + "/api/Block?";
         if (regionId === null)
             throw new Error("The parameter 'regionId' cannot be null.");
@@ -55,13 +55,13 @@ export class BlockClient extends ApiBase {
         });
     }
 
-    protected processCreateBlock(response: Response): Promise<CreateBlockDto[]> {
+    protected processCreateBlock(response: Response): Promise<GetBlockDto[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as CreateBlockDto[];
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetBlockDto[];
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -69,7 +69,7 @@ export class BlockClient extends ApiBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<CreateBlockDto[]>(null as any);
+        return Promise.resolve<GetBlockDto[]>(null as any);
     }
 
     updateBlockStatus(block: BlockStatusDto): Promise<BlockStatusDto> {
@@ -123,7 +123,7 @@ export class BuildingClient extends ApiBase {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    createBuilding(blockId: number | undefined, building: CreateBuildingDto[]): Promise<CreateBuildingDto[]> {
+    createBuilding(blockId: number | undefined, building: CreateBuildingDto[]): Promise<GetBuildingDto[]> {
         let url_ = this.baseUrl + "/api/Building?";
         if (blockId === null)
             throw new Error("The parameter 'blockId' cannot be null.");
@@ -149,13 +149,13 @@ export class BuildingClient extends ApiBase {
         });
     }
 
-    protected processCreateBuilding(response: Response): Promise<CreateBuildingDto[]> {
+    protected processCreateBuilding(response: Response): Promise<GetBuildingDto[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as CreateBuildingDto[];
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetBuildingDto[];
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -163,7 +163,7 @@ export class BuildingClient extends ApiBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<CreateBuildingDto[]>(null as any);
+        return Promise.resolve<GetBuildingDto[]>(null as any);
     }
 
     updateBuildingStatus(building: BuildingStatusDto): Promise<BuildingStatusDto> {
@@ -1095,8 +1095,14 @@ export class UserClient extends ApiBase {
     }
 }
 
-export interface CreateBlockDto {
+export interface BaseAreaDto {
+    id: number;
     points: PointDto[];
+}
+
+export interface GetBlockDto extends BaseAreaDto {
+    regionId: number;
+    status: string;
 }
 
 export interface PointDto {
@@ -1104,7 +1110,16 @@ export interface PointDto {
     longitude: number;
 }
 
+export interface CreateBlockDto {
+    points: PointDto[];
+}
+
 export interface BlockStatusDto {
+    blockId: number;
+    status: string;
+}
+
+export interface GetBuildingDto extends BaseAreaDto {
     blockId: number;
     status: string;
 }
@@ -1172,23 +1187,8 @@ export interface GetOperationDto {
     name: string;
 }
 
-export interface BaseAreaDto {
-    id: number;
-    points: PointDto[];
-}
-
 export interface GetRegionDto extends BaseAreaDto {
     operationId: number;
-}
-
-export interface GetBlockDto extends BaseAreaDto {
-    regionId: number;
-    status: string;
-}
-
-export interface GetBuildingDto extends BaseAreaDto {
-    blockId: number;
-    status: string;
 }
 
 export interface UserDto {
