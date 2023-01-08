@@ -34,10 +34,12 @@ namespace Backend.Services.BuildingService
             {
                 throw new InvalidDataException("Osoba nije ni admin ni kartograf.");
             }
+
             if (requesterOib != block.ActiveForOib)
             {
                 throw new Exception("Nije dopušteno kreiranje građevina."); 
             }
+
             foreach (var building in dtos)
             {
                 var area = new Area()
@@ -96,14 +98,17 @@ namespace Backend.Services.BuildingService
             {
                 throw new InvalidDataException("Osoba nije ni admin ni spasioc.");
             }
+
             if (!dto.Status.Equals("Pretraženo") && !dto.Status.Equals("Nepretraženo"))
             {
                 throw new InvalidDataException("Krivi status građevine unesen."); 
             }
+
             if (dto.Status.Equals("Pretraženo"))
             {
                 area.ClosedAt = DateTime.Now;
             }
+
             building.Status = dto.Status;
             area.UpdatedLastByOib = requesterOib; 
             

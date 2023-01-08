@@ -97,10 +97,12 @@ namespace Backend.Services.BlockService
             {
                 throw new InvalidDataException("Osoba nije ni admin ni kartograf.");
             }
+
             if (!dto.Status.Equals("Aktivan") && !dto.Status.Equals("Nezapočet") && !dto.Status.Equals("Provjera") && !dto.Status.Equals("Završen"))
             {
                 throw new InvalidDataException("Krivi status bloka unesen.");
             }
+
             if (dto.Status.Equals("Aktivan"))
             {
                 block.ActiveForOib = requesterOib;
@@ -108,10 +110,12 @@ namespace Backend.Services.BlockService
             {
                 block.ActiveForOib = null;
             }
+
             if (dto.Status.Equals("Završen") && (!block.Status.Equals("Provjera") || area.UpdatedLastByOib != requesterOib))
             {
                 throw new Exception("Blok nije u stanju provjera ili ga nisu provjerila barem dva kartografa."); 
             }
+
             if (dto.Status.Equals("Završen"))
             {
                 area.ClosedAt = DateTime.Now;
