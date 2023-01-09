@@ -27,8 +27,7 @@ const UserView = () => {
    useEffect(
       () => {
          if (userLoaded) {
-            if (!user || roles[user.roleId-1] !== 'Admin'){
-               console.log(roles)
+            if (!user || roles[user.roleId] !== 'Admin'){
                navigate("/login")
             } 
             else {
@@ -40,7 +39,7 @@ const UserView = () => {
    )
 
    return ( 
-      (user && roles[user.roleId-1] === 'Admin')  ?
+      (user && roles[user.roleId] === 'Admin')  ?
          <>
             <Typography sx={{color: "white", margin: "0 0 1vh 1vw", paddingTop:"1vh"}} variant="h4"> Nepotvrđeni korisnici: </Typography>
             <div className="user-container">

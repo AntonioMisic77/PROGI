@@ -1,8 +1,9 @@
-﻿
-using Backend.Data.BlockDTO;
-using Backend.Services.Block;
+﻿using Backend.Data.BlockDtos;
+using Backend.Data.OperationDtos;
+using Backend.Services.BlockService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace Backend.Controllers
 {
@@ -10,19 +11,39 @@ namespace Backend.Controllers
     [ApiController]
     public class BlockController : ControllerBase
     {
-        private readonly IBlock _blockService;
+        private readonly IBlockService _blockService;
 
-        public BlockController(IBlock blockService)
+        public BlockController(IBlockService blockService)
         {
             _blockService = blockService;
         }
 
-        [HttpPut]
-
-        public async  Task<ActionResult<BlockDto>> UpdateBlock(BlockDto block)
+        [HttpPost]
+        public async Task<ActionResult<GetBlockDto[]>> CreateBlock(int regionId, CreateBlockDto[] block)
         {
-            return await _blockService.UpdateBlockStatus(block);
+            try
+            {
+                long oib = UserController.getRequesterOib(Request);
+                return Ok(await _blockService.CreateBlock(regionId, block, oib));
+            } catch (Exception e)
+            {
+                return BadRequest(e);
+            }
         }
 
+        [HttpPut]
+
+        public async Task<ActionResult<BlockStatusDto>> UpdateBlockStatus(BlockStatusDto block)
+        {
+            try
+            {
+                long oib = UserController.getRequesterOib(Request);
+                return Ok(await _blockService.UpdateBlockStatus(block, oib));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
     }
 }

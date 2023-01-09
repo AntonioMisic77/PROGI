@@ -16,7 +16,7 @@ namespace Backend.Controllers
     {
         private IUserService _userService;
 
-        private static long getRequesterOib(HttpRequest request)
+        public static long getRequesterOib(HttpRequest request)
         {
             var handler = new JwtSecurityTokenHandler();
             string token = request.Headers["Authorization"];

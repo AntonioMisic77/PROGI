@@ -1,9 +1,10 @@
 import styled from "@emotion/styled";
-import { AppBar, Toolbar, Typography, Button } from "@mui/material"
+import { AppBar, Toolbar, Typography, Button, Hidden } from "@mui/material"
 import { useState } from "react";
 import { Link, Link as RouterLink, Navigate, useLocation } from "react-router-dom";
 import { useUserData } from "../../hooks/useUserData";
 import { useNavigate } from 'react-router-dom';
+import { roles } from '../../models/Role';
 
 
 
@@ -33,6 +34,10 @@ import { useNavigate } from 'react-router-dom';
         href: "/operations"
     },
     {
+        label: "Statistika", 
+        href: "/statistics"
+    },
+    {
         label: "Uredi profil",
         href: "/profile", 
         className: "not-visible",
@@ -44,6 +49,10 @@ import { useNavigate } from 'react-router-dom';
     },
     
  ];
+
+ const headerDataStatistics = [
+
+ ]
 
 
 export default function Header() {
@@ -64,8 +73,30 @@ export default function Header() {
         );
     };
 
-    const logout = () => {
+    const getColor = (path : any) => {
+        if(path === '/') {
+            return "transparent";
+        } else if(path === '/statistics') {
+            return '#4e342e';
+        } else {
+            return '#01579b';
+        }
+    }
 
+    const getHoverColor = (path : any) => {
+        if(path === '/') {
+            return "#9500ae";
+        } else if(path === '/statistics') {
+            return "#795548";
+        } else {
+            return '#039be5';
+        }
+    }
+
+    const checkUser = (user : any, role : any, label : any) => {
+        if (!user || role === 'Spasioc' && label === "Statistika") {
+            return "none";
+        }
     }
 
     const mapTaskerLogo = (
@@ -99,7 +130,7 @@ export default function Header() {
                             size: "18px",
                             marginRight: "2px",
                             '&:hover': {
-                            backgroundColor: pathname === "/" ? "#9500ae" : "#039be5",
+                            backgroundColor: getHoverColor(window.location.pathname),
                             color: "#fff",
                             },
                         }}
@@ -131,9 +162,10 @@ export default function Header() {
                             fontWeight: 500,
                             size: "18px",
                             marginRight: "2px",
+                            display: (!user || roles[user.roleId] === 'Spasioc') && label === "Statistika" ? "none" : 'incline',
                             '&:hover': {
-                            backgroundColor: pathname === "/" ? "#9500ae" : "#039be5",
-                            color: "#fff",
+                            backgroundColor: getHoverColor(window.location.pathname),
+                            color: "#fff",                            
                             },
                         }}
                         
@@ -148,18 +180,20 @@ export default function Header() {
         }
     }
 
-
-    return (
-        <header>
-            <AppBar sx={{
-                backgroundColor: pathname === '/' ? 'transparent' : '#01579b',
-                flexGrow: 1,
-                height: pathname === '/' ? 'default' : '50px',
-                justifyContent: "center"
-
-            }}
-            >{displayDesktop()}</AppBar>
-        </header>
  
-    );
+        return (
+            <header>
+                <AppBar sx={{
+                    backgroundColor: getColor(window.location.pathname),
+                    flexGrow: 1,
+                    height: pathname === '/' ? 'default' : '50px',
+                    justifyContent: "center"
+
+                }}
+                >{displayDesktop()}</AppBar>
+            </header>
+    
+        );
+    
+        
 }

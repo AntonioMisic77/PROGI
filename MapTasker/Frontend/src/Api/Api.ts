@@ -29,7 +29,50 @@ export class BlockClient extends ApiBase {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    updateBlock(block: BlockDto): Promise<BlockDto> {
+    createBlock(regionId: number | undefined, block: CreateBlockDto[]): Promise<GetBlockDto[]> {
+        let url_ = this.baseUrl + "/api/Block?";
+        if (regionId === null)
+            throw new Error("The parameter 'regionId' cannot be null.");
+        else if (regionId !== undefined)
+            url_ += "regionId=" + encodeURIComponent("" + regionId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(block);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processCreateBlock(_response);
+        });
+    }
+
+    protected processCreateBlock(response: Response): Promise<GetBlockDto[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetBlockDto[];
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<GetBlockDto[]>(null as any);
+    }
+
+    updateBlockStatus(block: BlockStatusDto): Promise<BlockStatusDto> {
         let url_ = this.baseUrl + "/api/Block";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -47,17 +90,17 @@ export class BlockClient extends ApiBase {
         return this.transformOptions(options_).then(transformedOptions_ => {
             return this.http.fetch(url_, transformedOptions_);
         }).then((_response: Response) => {
-            return this.processUpdateBlock(_response);
+            return this.processUpdateBlockStatus(_response);
         });
     }
 
-    protected processUpdateBlock(response: Response): Promise<BlockDto> {
+    protected processUpdateBlockStatus(response: Response): Promise<BlockStatusDto> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as BlockDto;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as BlockStatusDto;
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -65,7 +108,7 @@ export class BlockClient extends ApiBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<BlockDto>(null as any);
+        return Promise.resolve<BlockStatusDto>(null as any);
     }
 }
 
@@ -80,8 +123,12 @@ export class BuildingClient extends ApiBase {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    createBuilding(building: BuildingDto): Promise<BuildingDto> {
-        let url_ = this.baseUrl + "/api/Building";
+    createBuilding(blockId: number | undefined, building: CreateBuildingDto[]): Promise<GetBuildingDto[]> {
+        let url_ = this.baseUrl + "/api/Building?";
+        if (blockId === null)
+            throw new Error("The parameter 'blockId' cannot be null.");
+        else if (blockId !== undefined)
+            url_ += "blockId=" + encodeURIComponent("" + blockId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(building);
@@ -102,13 +149,13 @@ export class BuildingClient extends ApiBase {
         });
     }
 
-    protected processCreateBuilding(response: Response): Promise<BuildingDto> {
+    protected processCreateBuilding(response: Response): Promise<GetBuildingDto[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as BuildingDto;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as GetBuildingDto[];
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -116,10 +163,10 @@ export class BuildingClient extends ApiBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<BuildingDto>(null as any);
+        return Promise.resolve<GetBuildingDto[]>(null as any);
     }
 
-    updateBuilding(building: BuildingDto): Promise<BuildingDto> {
+    updateBuildingStatus(building: BuildingStatusDto): Promise<BuildingStatusDto> {
         let url_ = this.baseUrl + "/api/Building";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -137,17 +184,17 @@ export class BuildingClient extends ApiBase {
         return this.transformOptions(options_).then(transformedOptions_ => {
             return this.http.fetch(url_, transformedOptions_);
         }).then((_response: Response) => {
-            return this.processUpdateBuilding(_response);
+            return this.processUpdateBuildingStatus(_response);
         });
     }
 
-    protected processUpdateBuilding(response: Response): Promise<BuildingDto> {
+    protected processUpdateBuildingStatus(response: Response): Promise<BuildingStatusDto> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as BuildingDto;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as BuildingStatusDto;
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -155,7 +202,7 @@ export class BuildingClient extends ApiBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<BuildingDto>(null as any);
+        return Promise.resolve<BuildingStatusDto>(null as any);
     }
 }
 
@@ -509,7 +556,7 @@ export class MissingReportClient extends ApiBase {
         return Promise.resolve<MissingReportDto>(null as any);
     }
 
-    deleteMissingReport(id: number): Promise<MissingReportDto[]> {
+    markPersonAsFound(id: number): Promise<MissingReportDto[]> {
         let url_ = this.baseUrl + "/api/MissingReport/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -526,11 +573,11 @@ export class MissingReportClient extends ApiBase {
         return this.transformOptions(options_).then(transformedOptions_ => {
             return this.http.fetch(url_, transformedOptions_);
         }).then((_response: Response) => {
-            return this.processDeleteMissingReport(_response);
+            return this.processMarkPersonAsFound(_response);
         });
     }
 
-    protected processDeleteMissingReport(response: Response): Promise<MissingReportDto[]> {
+    protected processMarkPersonAsFound(response: Response): Promise<MissingReportDto[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -598,7 +645,7 @@ export class OperationClient extends ApiBase {
         return Promise.resolve<OperationDto>(null as any);
     }
 
-    updateOperation(operation: OperationDto): Promise<OperationDto> {
+    updateOperation(operation: OperationStatusDto): Promise<OperationStatusDto> {
         let url_ = this.baseUrl + "/api/Operation";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -620,13 +667,13 @@ export class OperationClient extends ApiBase {
         });
     }
 
-    protected processUpdateOperation(response: Response): Promise<OperationDto> {
+    protected processUpdateOperation(response: Response): Promise<OperationStatusDto> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as OperationDto;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as OperationStatusDto;
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -634,7 +681,42 @@ export class OperationClient extends ApiBase {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<OperationDto>(null as any);
+        return Promise.resolve<OperationStatusDto>(null as any);
+    }
+
+    getAllAreas(): Promise<AllAreasDto> {
+        let url_ = this.baseUrl + "/api/Operation";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetAllAreas(_response);
+        });
+    }
+
+    protected processGetAllAreas(response: Response): Promise<AllAreasDto> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as AllAreasDto;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<AllAreasDto>(null as any);
     }
 }
 
@@ -1013,124 +1095,43 @@ export class UserClient extends ApiBase {
     }
 }
 
-export interface BlockDto {
-    areaId: number;
-    status: string;
+export interface BaseAreaDto {
+    id: number;
+    points: PointDto[];
+}
+
+export interface GetBlockDto extends BaseAreaDto {
     regionId: number;
-    activeForOib: number;
-    activeForOibNavigation?: User | undefined;
-    area: Area;
-    region: Region;
-    buildings: Building[];
-}
-
-export interface User {
-    username?: string | undefined;
-    oib: number;
-    firstName: string;
-    lastName: string;
-    photo?: string | undefined;
-    phoneNumber: string;
-    email: string;
-    password: string;
-    roleId: number;
-    confirmed: boolean;
-    role: Role;
-    areas: Area[];
-    blocks: Block[];
-    comments: Comment[];
-    operations: Operation[];
-}
-
-export interface Role {
-    id: number;
-    name: string;
-    users: User[];
-}
-
-export interface Area {
-    id: number;
-    createdAt: Date;
-    closedAt?: Date | undefined;
-    updatedLastByOib: number;
-    updatedLastByOibNavigation: User;
-    block?: Block | undefined;
-    building?: Building | undefined;
-    region?: Region | undefined;
-    points: Point[];
-}
-
-export interface Block {
-    areaId: number;
     status: string;
-    regionId: number;
-    activeForOib?: number | undefined;
-    activeForOibNavigation?: User | undefined;
-    area: Area;
-    region: Region;
-    buildings: Building[];
+    activeForOIB?: number | undefined;
 }
 
-export interface Region {
-    areaId: number;
-    operationId: number;
-    area: Area;
-    operation: Operation;
-    blocks: Block[];
-}
-
-export interface Operation {
-    id: number;
-    status: string;
-    leaderOib: number;
-    leaderOibNavigation: User;
-    regions: Region[];
-}
-
-export interface Building {
-    areaId: number;
-    blockId: number;
-    status: string;
-    area: Area;
-    block: Block;
-}
-
-export interface Point {
-    id: number;
+export interface PointDto {
     latitude: number;
     longitude: number;
-    areaId: number;
-    orderNumber: number;
-    area: Area;
 }
 
-export interface Comment {
-    id: number;
-    reportId: number;
-    text: string;
-    userOib?: number | undefined;
-    report: MissingReport;
-    userOibNavigation?: User | undefined;
+export interface CreateBlockDto {
+    points: PointDto[];
 }
 
-export interface MissingReport {
-    id: number;
-    firstName: string;
-    lastName: string;
-    oib: number;
-    photo: string;
-    description?: string | undefined;
-    reportedAt: Date;
-    foundAt?: Date | undefined;
-    comments: Comment[];
-}
-
-export interface BuildingDto {
-    areaId: number;
+export interface BlockStatusDto {
     blockId: number;
     status: string;
-    area: Area;
-    block: Block;
+}
+
+export interface GetBuildingDto extends BaseAreaDto {
+    blockId: number;
+    status: string;
+}
+
+export interface CreateBuildingDto {
+    points: PointDto[];
+}
+
+export interface BuildingStatusDto {
+    buildingId: number;
+    status: string;
 }
 
 export interface CommentDto {
@@ -1146,11 +1147,7 @@ export interface LoginDto {
 }
 
 export interface RegionDto {
-    areaId: number;
-    operationId: number;
-    area: Area;
-    operation: Operation;
-    blocks: Block[];
+    coordinates: PointDto[];
 }
 
 export interface MissingReportDto {
@@ -1166,11 +1163,33 @@ export interface MissingReportDto {
 }
 
 export interface OperationDto {
+    name: string;
+    leaderOib: number;
+    regions: RegionDto[];
+}
+
+export interface OperationStatusDto {
+    operationId: number;
+    status: string;
+    leaderOib: number;
+}
+
+export interface AllAreasDto {
+    operations: GetOperationDto[];
+    regions: GetRegionDto[];
+    blocks: GetBlockDto[];
+    buildings: GetBuildingDto[];
+}
+
+export interface GetOperationDto {
     id: number;
     status: string;
     leaderOib: number;
-    leaderOibNavigation: User;
-    regions: RegionDto[];
+    name: string;
+}
+
+export interface GetRegionDto extends BaseAreaDto {
+    operationId: number;
 }
 
 export interface UserDto {
@@ -1187,9 +1206,10 @@ export interface UserDto {
 }
 
 export interface StatisticDto {
-    missingReports: MissingReportDto[];
-    blocks: BlockDto[];
-    buildings: BuildingDto[];
+    missingPeople: number[];
+    foundPeople: number[];
+    unsearchedBuildings: number[];
+    searchedBuildings: number[];
 }
 
 export interface EditUserDto {

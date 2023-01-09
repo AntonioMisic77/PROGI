@@ -9,7 +9,7 @@ import { useState } from "react";
 
 
 const FileMissingPerson = () => {
-
+    
     let [image, setImage] = useState<string>("")
 
     const uploadImage = (e: any) => {

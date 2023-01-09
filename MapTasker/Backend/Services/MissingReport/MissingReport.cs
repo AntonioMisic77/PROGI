@@ -39,7 +39,7 @@ namespace Backend.Services.MissingReport
             return _mapper.Map<MissingReportDto>(missingReport);
         }
 
-        public async Task<MissingReportDto> DeleteMissingReport(int id)
+        public async Task<MissingReportDto> MarkPersonAsFound(int id)
         {
             var missingReport = await _context.MissingReports.FindAsync(id);
 
@@ -47,7 +47,7 @@ namespace Backend.Services.MissingReport
             {
                 throw new InvalidDataException("No such missing report");
             }
-            _context.Remove(missingReport);
+            missingReport.FoundAt = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
 

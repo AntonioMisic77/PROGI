@@ -157,6 +157,8 @@ namespace Backend.Data
 
                 entity.Property(e => e.LeaderOib).HasColumnName("LeaderOIB");
 
+                entity.Property(e => e.Name).HasMaxLength(50);
+
                 entity.Property(e => e.Status).HasMaxLength(50);
 
                 entity.HasOne(d => d.LeaderOibNavigation)

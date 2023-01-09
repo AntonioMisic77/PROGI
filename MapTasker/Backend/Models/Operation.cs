@@ -13,6 +13,7 @@ namespace Backend.Models
         public int Id { get; set; }
         public string Status { get; set; } = null!;
         public long LeaderOib { get; set; }
+        public string Name { get; set; } = null!;
 
         public virtual User LeaderOibNavigation { get; set; } = null!;
         public virtual ICollection<Region> Regions { get; set; }

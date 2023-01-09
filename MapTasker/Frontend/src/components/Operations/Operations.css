@@ -1,8 +1,3 @@
-.leaflet-container {
-  width: 100%; 
-  height: 80vh;
-}
-
 .operations-container {
   height: 92vh;
   width: 100%;
@@ -18,4 +13,42 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-evenly;
+}
+
+.text-container {
+  width: 70%;
+  height: 95%;
+  box-sizing: border-box;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.button-container {
+  display: flex;
+  height: 95%;
+  width: 25%;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.5rem 0.5rem;
+  max-width: 400px;
+  font-size: 1rem;
+  color: black;
+  border: 1.2px ridge #4a5568;
+  border-radius: 5px;
+  outline: none;
+  font-family: arial;
 }

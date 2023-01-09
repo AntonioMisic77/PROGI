@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { useUserData } from '../../hooks/useUserData';
 import { useNavigate } from 'react-router-dom';
-import { MissingReportClient, MissingReport, MissingReportDto } from '../../Api/Api';
+import { MissingReportClient, MissingReportDto } from '../../Api/Api';
 import { Card, CardContent, Typography } from '@mui/material';
 import MissingReportCard from '../MissingReportCard/MissingReportCard';
 import { date } from 'yup/lib/locale';

@@ -10,7 +10,7 @@ namespace Backend.Services.MissingReport
 
         Task<MissingReportDto> UpdateMissingReport(MissingReportDto dto);
 
-        Task<MissingReportDto> DeleteMissingReport(int id);
+        Task<MissingReportDto> MarkPersonAsFound(int id);
     }
 }
 

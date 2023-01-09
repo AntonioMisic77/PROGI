@@ -1,7 +1,7 @@
 ﻿
-using Backend.Data.RegionDTO;
+using Backend.Data.RegionDtos;
 using Backend.Data.UserDtos;
-using Backend.Services.Region;
+using Backend.Services.RegionService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,9 +11,9 @@ namespace Backend.Controllers
     [ApiController]
     public class MapController : ControllerBase
     {
-        private readonly IRegion _regionService;
+        private readonly IRegionService _regionService;
 
-        public MapController(IRegion regionService)
+        public MapController(IRegionService regionService)
         {
             _regionService = regionService;
         }
