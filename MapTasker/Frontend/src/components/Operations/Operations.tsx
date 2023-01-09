@@ -9,7 +9,7 @@ import { Button, Typography } from '@mui/material';
 import { useUserData } from '../../hooks/useUserData';
 import { roles } from '../../models/Role';
 import { useNavigate } from 'react-router-dom';
-import { GetBlockDto, GetBuildingDto, GetOperationDto, GetRegionDto, OperationClient, RegionDto, PointDto, BlockClient, BlockDto, CreateBlockDto, BuildingClient, CreateBuildingDto } from '../../Api/Api';
+import { GetBlockDto, GetBuildingDto, GetOperationDto, GetRegionDto, OperationClient, RegionDto, PointDto, BlockClient, CreateBlockDto, BuildingClient, CreateBuildingDto } from '../../Api/Api';
 import Map from '../Map/Map';
 
 interface OperationsProps {

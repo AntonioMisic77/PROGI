@@ -11,7 +11,7 @@ using Backend.Services.OperationService;
 using Backend.Services.RegionService;
 using Backend.Services.Registration;
 using Backend.Services.SeedDb;
-using Backend.Services.Statistic;
+using Backend.Services.StatisticsService;
 
 namespace Backend
 {
@@ -29,7 +29,7 @@ namespace Backend
             serviceCollection.AddTransient<IOperationService, OperationService>();
             serviceCollection.AddTransient<IBlockService, BlockService>();
             serviceCollection.AddTransient<IBuildingService,BuildingService>();
-            serviceCollection.AddTransient<IStatistic,Statistics>();
+            serviceCollection.AddTransient<IStatisticsService,StatisticsService>();
             serviceCollection.AddTransient<IMissingReport,MissingReport>();
             serviceCollection.AddTransient<IComment, Comment>();
             serviceCollection.AddTransient<IGenerator,IdGenerator>();
