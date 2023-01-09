@@ -6,6 +6,7 @@ import { Button } from "@mui/material";
 import "./RegistrationForm.css"
 import { RegisterClient } from "../../Api/Api";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface RegistrationValues {
    username: string, 
@@ -20,6 +21,7 @@ interface RegistrationValues {
 
 const RegistrationForm = () => {
 
+   let navigate = useNavigate();
    let [image, setImage] = useState<string>("")
 
    const options = [
@@ -72,6 +74,7 @@ const RegistrationForm = () => {
                   photo: image,
                   confirmed: false
                })
+            navigate("/")
          }}
          >
          <Form> 

@@ -99,9 +99,9 @@ const Map = ({selectedBlockId, selectedRegionId, showAllRegions, showChildrenBlo
                         buildings.filter(b => b.blockId === selectedBlockId).map(
                            b => <Polygon positions={pointsToLatLngArray(b.points)}
                                        eventHandlers={{click: (e) => {onAreaClick(b.id, "building")}}}
-                                       fillColor = "yellow"
+                                       fillColor = {b.status === "Pretraženo" ? "green" : "yellow"}
                                        color = {b.id === selectedBuildingId ? "green" : "yellow"}
-                                       key = {b.id + (selectedBuildingId ?? 0) + +selectionEnabled}
+                                       key = {b.id + (selectedBuildingId ?? 0) + +selectionEnabled + b.status}
                                        interactive={selectionEnabled}
                                  />
                         )

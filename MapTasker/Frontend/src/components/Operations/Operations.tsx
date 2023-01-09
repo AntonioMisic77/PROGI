@@ -288,6 +288,10 @@ const Operations = () => {
       return blocks.find(b => b.id === selectedBlockId)?.status ?? "Greška"
    }
 
+   let buildingStatus = () => {
+      return buildings.find(b => b.id === selectedBuildingId)?.status ?? "Greška"
+   }
+
    let hideChildrenBuildings = () => {
       if (!user) return;
       setSelectedBuildingId(undefined);
@@ -313,7 +317,7 @@ const Operations = () => {
    }
 
    let markBlockAsActive = () => {
-      if (!selectedBlockId) return
+      if (!selectedBlockId) return;
       let client = new BlockClient('https://localhost:7270');
       client.updateBlockStatus({status: "Aktivan", blockId: selectedBlockId})
             .then((response) => {
@@ -321,6 +325,7 @@ const Operations = () => {
                   oldBlocks => {
                      let index = oldBlocks.findIndex(b => b.id === selectedBlockId);
                      oldBlocks[index].status = "Aktivan";
+                     oldBlocks[index].activeForOIB = user?.oib;
                      return oldBlocks;
                   })
                setShownText("Uspješno promijenjen status bloku na: Aktivan")
@@ -361,6 +366,24 @@ const Operations = () => {
                   })
                setShownText("Uspješno promijenjen status bloku na: Završen")
             }).catch(err => setShownText("Ne možete sami sebi napraviti provjeru"))
+   }
+
+   let markBuildingAsChecked = () => {
+      if (!selectedBuildingId) return;
+      let building = buildings.find(b => b.id === selectedBuildingId);
+      if (!building) return;
+      
+      let client = new BuildingClient('https://localhost:7270');
+      client.updateBuildingStatus({status: "Pretraženo", buildingId: selectedBuildingId})
+            .then((response) => {
+               setBuildings(
+                  oldBuildings => {
+                     let index = oldBuildings.findIndex(b => b.id === selectedBuildingId);
+                     oldBuildings[index].status = "Pretraženo";
+                     return oldBuildings;
+                  })
+               setShownText("Uspješno promijenjen status građevini na: Pretraženo")
+            }).catch(err => setShownText("Neočekivana pogreška"))
    }
 
    let onAreaClick = (id: number, type: "region" | "block" | "building") => {
@@ -504,9 +527,6 @@ const Operations = () => {
                      <Button variant="outlined" onClick={showBuildingsOfSelectedBlock}>
                         Prikaži građevine bloka
                      </Button>
-                     <Button variant="outlined" onClick={unselectBlock} color="error">
-                        Odznači blok
-                     </Button>
                   </>
                }
                {user && showChildrenBuildings && selectedBlockId && (roles[user.roleId] === 'Kartograf' || roles[user.roleId] === 'Admin') && ableToCreateBuilding() && (
@@ -551,6 +571,11 @@ const Operations = () => {
                {selectedBlockId && blockStatus() === "Provjera" && !drawing && !showChildrenBuildings &&
                   <Button variant="outlined" color="success" onClick={markBlockAsDone}>
                      Označi blok gotovim
+                  </Button>
+               }
+               {user && selectedBuildingId && buildingStatus() === "Nepretraženo" && (roles[user.roleId] === 'Spasioc' || roles[user.roleId] === 'Admin') && !drawing &&
+                  <Button variant="outlined" color="success" onClick={markBuildingAsChecked}>
+                     Označi građevinu pretraženom
                   </Button>
                }
             </div>
