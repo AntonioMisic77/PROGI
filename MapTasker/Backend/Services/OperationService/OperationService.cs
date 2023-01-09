@@ -144,6 +144,7 @@ namespace Backend.Services.OperationService
                     Id = block.AreaId,
                     Points = points,
                     Status = block.Status,
+                    ActiveForOIB = block.ActiveForOib,
                 });
             }
 

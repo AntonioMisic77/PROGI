@@ -9,7 +9,7 @@ import { Button, Typography } from '@mui/material';
 import { useUserData } from '../../hooks/useUserData';
 import { roles } from '../../models/Role';
 import { useNavigate } from 'react-router-dom';
-import { GetBlockDto, GetBuildingDto, GetOperationDto, GetRegionDto, OperationClient, RegionDto, PointDto } from '../../Api/Api';
+import { GetBlockDto, GetBuildingDto, GetOperationDto, GetRegionDto, OperationClient, RegionDto, PointDto, BlockClient, BlockDto, CreateBlockDto, BuildingClient, CreateBuildingDto } from '../../Api/Api';
 import Map from '../Map/Map';
 
 interface OperationsProps {
@@ -27,6 +27,31 @@ const areasToRegions = (areas: LatLng[][]) : RegionDto[] => {
    })
    return regions;
 }
+
+const areasToBlocks = (areas: LatLng[][]) : CreateBlockDto[] => {
+   let blocks : CreateBlockDto[] = [];
+   areas.forEach(area => {
+      let block : CreateBlockDto = {points: []};
+      area.forEach(latLng => {
+         block.points.push({latitude: latLng.lat, longitude: latLng.lng});
+      })
+      blocks.push(block);
+   })
+   return blocks;
+}
+
+const areasToBuildings = (areas: LatLng[][]) : CreateBuildingDto[] => {
+   let buildings : CreateBuildingDto[] = [];
+   areas.forEach(area => {
+      let building : CreateBuildingDto = {points: []};
+      area.forEach(latLng => {
+         building.points.push({latitude: latLng.lat, longitude: latLng.lng});
+      })
+      buildings.push(building);
+   })
+   return buildings;
+}
+
 
 const Operations = () => {
 
@@ -122,13 +147,31 @@ const Operations = () => {
       setPoint(undefined);
    }
 
-   let giveUp = () => {
+   let giveUpRegions = () => {
       setPoints([]);
       setPoint(undefined);
       setAreas([]);
       setDrawing(false);
       setShowAllRegions(true);
       setDefaultText();
+   }
+
+   let giveUpBlocks = () => {
+      if (!user) return;
+      setPoints([]);
+      setPoint(undefined);
+      setAreas([]);
+      setDrawing(false);
+      setShownText("Označi željeni blok" + ((roles[user?.roleId] === "Kartograf" || roles[user?.roleId] === "Admin") ? " ili stvorite nove blokove za operaciju" : ""))
+   }
+
+   let giveUpBuildings = () => {
+      if (!user) return;
+      setPoints([]);
+      setPoint(undefined);
+      setAreas([]);
+      setDrawing(false);
+      setShownText("Kliknite na građevinu" + ((roles[user?.roleId] === "Kartograf" || roles[user?.roleId] === "Admin") ? " ili stvorite nove građevine u bloku" : ""))
    }
 
    let nameOperation = () => {
@@ -149,6 +192,7 @@ const Operations = () => {
                setDrawing(false);
                setShowAllRegions(true);
                setNamingOperation(false);
+               setAreas([]);
                setPoints([]);
                setPoint(undefined);
             }).catch(err => alert(err))
@@ -168,12 +212,14 @@ const Operations = () => {
 
    let showBlocksOfSelectedRegion = () => {
       if (!user) return
-      setShownText("Označi željeni blok" + ((roles[user?.roleId] === "Kartograf" || roles[user?.roleId] === "Admin") ? " ili stvori nove blokove za operaciju" : ""))
+      setShownText("Označi željeni blok" + ((roles[user?.roleId] === "Kartograf" || roles[user?.roleId] === "Admin") ? " ili stvorite nove blokove za operaciju" : ""))
       setShowChildrenBlocks(true);
    }
 
    let hideChildrenBlocks = () => {
+      setDefaultText();
       setShowChildrenBlocks(false);
+      setSelectedBlockId(undefined);
    }
 
    let addPolygon = () => {
@@ -188,16 +234,151 @@ const Operations = () => {
       }
    }
 
+   let startBlockCreation = () => {
+      setDrawing(true);
+      setSelectedBlockId(undefined);
+      setShownText("Označite blokove počevši od prve točke")
+   }
+
+   let createBlocks = () => {
+      let client = new BlockClient('https://localhost:7270');
+      client.createBlock(selectedRegionId, areasToBlocks(areas))
+            .then(response => {
+               setShownText("Blokovi uspješno stvoreni");
+               setPoints([]);
+               setPoint(undefined);
+               setDrawing(false);
+               setAreas([]);
+               setBlocks(oldBlocks => {
+                  response.forEach(block => oldBlocks.push(block))
+                  return oldBlocks;
+               })
+            }).catch(err => alert(err))
+   }
+
+   let showBuildingsOfSelectedBlock = () => {
+      if (!user) return
+      setSelectedRegionId(undefined);
+      setShowChildrenBuildings(true);
+      setShownText("Kliknite na građevinu" + ((roles[user?.roleId] === "Kartograf" || roles[user?.roleId] === "Admin") ? " ili stvorite nove građevine u bloku" : ""))
+   }
+
+   let unselectBlock = () => {
+      if (!user) return
+      setSelectedBlockId(undefined);
+      setShownText("Označi željeni blok" + ((roles[user?.roleId] === "Kartograf" || roles[user?.roleId] === "Admin") ? " ili stvorite nove blokove za operaciju" : ""))
+   }
+
+   let startBuildingCreation = () => {
+      setDrawing(true);
+      setSelectedBuildingId(undefined);
+      setShownText("Označite građevine počevši od prve točke")
+   }
+
+   let ableToCreateBuilding = () => {
+      if (selectedBlockId === undefined) return false;
+      let block = blocks.find(b => b.id === selectedBlockId)
+      if (!block) return false;
+      if (block.status !== "Aktivan") return false;
+      if (block.activeForOIB !== user?.oib) return false;
+      return true;
+   }
+
+   let blockStatus = () => {
+      return blocks.find(b => b.id === selectedBlockId)?.status ?? "Greška"
+   }
+
+   let hideChildrenBuildings = () => {
+      if (!user) return;
+      setSelectedBuildingId(undefined);
+      setShowChildrenBuildings(false);
+      setSelectedRegionId(blocks.find(b => b.id === selectedBlockId)?.regionId);
+      setShownText("Označi željeni blok" + ((roles[user?.roleId] === "Kartograf" || roles[user?.roleId] === "Admin") ? " ili stvorite nove blokove za operaciju" : ""))
+   }
+
+   let createBuildings = () => {
+      let client = new BuildingClient('https://localhost:7270');
+      client.createBuilding(selectedBlockId, areasToBuildings(areas))
+            .then(response => {
+               setShownText("Građevine uspješno stvorene");
+               setPoints([]);
+               setPoint(undefined);
+               setDrawing(false);
+               setAreas([]);
+               setBuildings(oldBuildings => {
+                  response.forEach(building => oldBuildings.push(building))
+                  return oldBuildings;
+               })
+            }).catch(err => alert(err))
+   }
+
+   let markBlockAsActive = () => {
+      if (!selectedBlockId) return
+      let client = new BlockClient('https://localhost:7270');
+      client.updateBlockStatus({status: "Aktivan", blockId: selectedBlockId})
+            .then((response) => {
+               setBlocks(
+                  oldBlocks => {
+                     let index = oldBlocks.findIndex(b => b.id === selectedBlockId);
+                     oldBlocks[index].status = "Aktivan";
+                     return oldBlocks;
+                  })
+               setShownText("Uspješno promijenjen status bloku na: Aktivan")
+            }).catch(err => alert(err))
+   }
+
+   let markBlockForCheck = () => {
+      if (!selectedBlockId) return;
+      let block = blocks.find(b => b.id === selectedBlockId);
+      if (!block || block.status !== "Aktivan") return;
+
+      let client = new BlockClient('https://localhost:7270');
+      client.updateBlockStatus({status: "Provjera", blockId: selectedBlockId})
+            .then((response) => {
+               setBlocks(
+                  oldBlocks => {
+                     let index = oldBlocks.findIndex(b => b.id === selectedBlockId);
+                     oldBlocks[index].status = "Provjera";
+                     return oldBlocks;
+                  })
+               setShownText("Uspješno promijenjen status bloku na: Provjera. Pričekajte drugog kartografa za provjeru.")
+            }).catch(err => alert(err))
+   }
+
+   let markBlockAsDone = () => {
+      if (!selectedBlockId) return;
+      let block = blocks.find(b => b.id === selectedBlockId);
+      if (!block || block.status !== "Provjera") return;
+
+      let client = new BlockClient('https://localhost:7270');
+      client.updateBlockStatus({status: "Završen", blockId: selectedBlockId})
+            .then((response) => {
+               setBlocks(
+                  oldBlocks => {
+                     let index = oldBlocks.findIndex(b => b.id === selectedBlockId);
+                     oldBlocks[index].status = "Završen";
+                     return oldBlocks;
+                  })
+               setShownText("Uspješno promijenjen status bloku na: Završen")
+            }).catch(err => setShownText("Ne možete sami sebi napraviti provjeru"))
+   }
+
    let onAreaClick = (id: number, type: "region" | "block" | "building") => {
-      if (drawing) return;
       setShowAllRegions(false);
       if (type === "region") {
          setSelectedRegionId(id);
+         let region = regions.find(r => r.id === id);
+         let operation = operations.find(op => op.id === region?.operationId);
+         setShownText("Označena regija s ID-jem " + region?.id + " operacije " + operation?.name)
       }
       if (type === "block"){
          setSelectedBlockId(id);
+         let block = blocks.find(b => b.id === id)
+         setShownText("Označen blok s ID-jem " + block?.id + " sa statusom: " + block?.status)
       }
       if (type === "building"){
+         let building = buildings.find(b => b.id === id)
+         setShownText("Označena građevina s ID-jem " + building?.id + " sa statusom: " + building?.status)
          setSelectedBuildingId(id);
       }
    }
@@ -257,12 +438,12 @@ const Operations = () => {
                         Potvrdi novu točku
                      </Button>
                      <Button variant="outlined" onClick={addPolygon}>
-                        Stvori regiju
+                        Spremi regiju
                      </Button>
                      <Button variant="outlined" onClick={resetPoints} color="error">
                         Resetiraj trenutne točke
                      </Button>
-                     <Button variant="outlined" onClick={giveUp} color="error">
+                     <Button variant="outlined" onClick={giveUpRegions} color="error">
                         Odustani
                      </Button>
                      <Button variant="outlined" onClick={nameOperation} color="success" disabled={point !== undefined || points.length > 0 || !drawing || areas.length < 1}>
@@ -286,12 +467,90 @@ const Operations = () => {
                   </>
                }
                {user && (roles[user.roleId] === 'Voditelj' || roles[user.roleId] === 'Admin') && selectedRegionId &&
-                  <>
+                  <> {/* ovdje gumb za brisanje regije/operacije */}
                   </>
                }
-               {showChildrenBlocks && !showChildrenBuildings &&
+               {showChildrenBlocks && !showChildrenBuildings && !drawing &&
                   <Button variant="outlined" onClick={hideChildrenBlocks} color="error">
                      Nazad na regije
+                  </Button>
+               }
+               {user && showChildrenBlocks && !showChildrenBuildings && (roles[user.roleId] === 'Kartograf' || roles[user.roleId] === 'Admin') && (
+                  drawing ?
+                  <>
+                     <Button variant="outlined" onClick={confirmPoint}>
+                        Potvrdi novu točku
+                     </Button>
+                     <Button variant="outlined" onClick={addPolygon}>
+                        Spremi blok
+                     </Button>
+                     <Button variant="outlined" onClick={resetPoints} color="error">
+                        Resetiraj trenutne točke
+                     </Button>
+                     <Button variant="outlined" onClick={giveUpBlocks} color="error">
+                        Odustani
+                     </Button>
+                     <Button variant="outlined" onClick={createBlocks} color="success" disabled={point !== undefined || points.length > 0 || !drawing || areas.length < 1}>
+                        Stvori blokove
+                     </Button>
+                  </>
+                  :
+                  <Button variant="outlined" onClick={startBlockCreation}>
+                     Započni stvaranje blokova
+                  </Button>
+               )}
+               {user && showChildrenBlocks && !showChildrenBuildings && selectedBlockId && selectedRegionId &&
+                  <>
+                     <Button variant="outlined" onClick={showBuildingsOfSelectedBlock}>
+                        Prikaži građevine bloka
+                     </Button>
+                     <Button variant="outlined" onClick={unselectBlock} color="error">
+                        Odznači blok
+                     </Button>
+                  </>
+               }
+               {user && showChildrenBuildings && selectedBlockId && (roles[user.roleId] === 'Kartograf' || roles[user.roleId] === 'Admin') && ableToCreateBuilding() && (
+                  drawing ?
+                  <>
+                     <Button variant="outlined" onClick={confirmPoint}>
+                        Potvrdi novu točku
+                     </Button>
+                     <Button variant="outlined" onClick={addPolygon}>
+                        Spremi građevinu
+                     </Button>
+                     <Button variant="outlined" onClick={resetPoints} color="error">
+                        Resetiraj trenutne točke
+                     </Button>
+                     <Button variant="outlined" onClick={giveUpBuildings} color="error">
+                        Odustani
+                     </Button>
+                     <Button variant="outlined" onClick={createBuildings} color="success" disabled={point !== undefined || points.length > 0 || !drawing || areas.length < 1}>
+                        Stvori građevine
+                     </Button>
+                  </>
+                  :
+                  <Button variant="outlined" onClick={startBuildingCreation}>
+                     Započni stvaranje građevina
+                  </Button>
+               )}
+               {showChildrenBuildings && !drawing &&
+                  <Button variant="outlined" onClick={hideChildrenBuildings} color="error">
+                     Nazad na blokove
+                  </Button>
+               }
+               {selectedBlockId && (blockStatus() === "Nezapočeto" || blockStatus() === "Provjera") && !drawing && !showChildrenBuildings &&
+                  <Button variant="outlined" color={blockStatus() === "Nezapočeto" ? "success" : "error"} onClick={markBlockAsActive}>
+                     Označi blok aktivnim
+                  </Button>
+               }
+               {selectedBlockId && blockStatus() === "Aktivan" && !drawing && !showChildrenBuildings &&
+                  <Button variant="outlined" color="success" onClick={markBlockForCheck}>
+                     Označi blok za provjeru
+                  </Button>
+               }
+               {selectedBlockId && blockStatus() === "Provjera" && !drawing && !showChildrenBuildings &&
+                  <Button variant="outlined" color="success" onClick={markBlockAsDone}>
+                     Označi blok gotovim
                   </Button>
                }
             </div>

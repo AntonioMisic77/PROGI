@@ -1103,6 +1103,7 @@ export interface BaseAreaDto {
 export interface GetBlockDto extends BaseAreaDto {
     regionId: number;
     status: string;
+    activeForOIB?: number | undefined;
 }
 
 export interface PointDto {

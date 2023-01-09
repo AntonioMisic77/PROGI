@@ -124,9 +124,6 @@ namespace Backend.Services.BuildingService
             building.Status = dto.Status;
             area.UpdatedLastByOib = requesterOib; 
             
-
-            await _context.Buildings.AddAsync(building);
-            await _context.Areas.AddAsync(area);
             await _context.SaveChangesAsync();
 
             return dto; 

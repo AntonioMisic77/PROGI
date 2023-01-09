@@ -80,6 +80,7 @@ namespace Backend.Services.BlockService
                     RegionId = newBlock.RegionId,
                     Status = newBlock.Status,
                     Points = block.Points.ToList(),
+                    ActiveForOIB = null,
                 };
 
                 blockCount++;
@@ -98,6 +99,7 @@ namespace Backend.Services.BlockService
             {
                 throw new InvalidDataException("Ne postoji blok s tim id-om.");
             }
+
             var area = _context.Areas.Find(block.AreaId);
             var user = _context.Users.Find(requesterOib);
 
@@ -121,7 +123,7 @@ namespace Backend.Services.BlockService
                 block.ActiveForOib = null;
             }
 
-            if (dto.Status.Equals("Završen") && (!block.Status.Equals("Provjera") || area.UpdatedLastByOib != requesterOib))
+            if (dto.Status.Equals("Završen") && (!block.Status.Equals("Provjera") || area.UpdatedLastByOib == requesterOib))
             {
                 throw new Exception("Blok nije u stanju provjera ili ga nisu provjerila barem dva kartografa."); 
             }
@@ -133,9 +135,6 @@ namespace Backend.Services.BlockService
             
             block.Status = dto.Status;
             area.UpdatedLastByOib = requesterOib;
-
-            await _context.Blocks.AddAsync(block);
-            await _context.Areas.AddAsync(area);
 
             await _context.SaveChangesAsync();
 

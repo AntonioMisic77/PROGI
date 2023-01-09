@@ -28,6 +28,14 @@ const pointsToLatLngArray = (points: PointDto[]) : LatLng[] => {
    return latLngArray
 }
 
+const getBlockColor = (status: string) => {
+   if (status === "Nezapočeto") return "red";
+   if (status === "Aktivan") return "blue";
+   if (status === "Provjera") return "yellow";
+   if (status === "Završen") return "green";
+   return "black"
+}
+
 const Map = ({selectedBlockId, selectedRegionId, showAllRegions, showChildrenBlocks, showChildrenBuildings, onAreaClick, regions, blocks, buildings, children, selectedBuildingId, selectionEnabled} : MapProps) => {
 
    return ( 
@@ -43,8 +51,7 @@ const Map = ({selectedBlockId, selectedRegionId, showAllRegions, showChildrenBlo
                         fillColor="blue"
                         color="blue"
                         interactive={selectionEnabled}
-                        key={region.id}/>
-                        
+                        key={region.id + +selectionEnabled}/>
                         )
          }
          {
@@ -59,10 +66,10 @@ const Map = ({selectedBlockId, selectedRegionId, showAllRegions, showChildrenBlo
                         {!showChildrenBuildings && blocks &&
                            blocks.filter(b => b.regionId === selectedRegionId).map(
                               b => <Polygon positions={pointsToLatLngArray(b.points)}
-                                          fillColor = "red"
+                                          fillColor = {getBlockColor(b.status)}
                                           eventHandlers={{click: (e) => {onAreaClick(b.id, "block")}}}
-                                          color = {b.id === selectedBlockId ? "green" : "red"}
-                                          key = {b.id + (selectedBlockId ?? 0)}
+                                          color = {b.id === selectedBlockId ? "green" : "orange"}
+                                          key = {b.id + (selectedBlockId ?? 0) + +selectionEnabled + b.status}
                                           interactive={selectionEnabled}
                                     />
                            )
@@ -75,15 +82,14 @@ const Map = ({selectedBlockId, selectedRegionId, showAllRegions, showChildrenBlo
                               eventHandlers={{click: (e) => {onAreaClick(r.id, "region")}}}
                               fillColor = "blue"
                               color = {r.id === selectedRegionId ? "green" : "blue"}
-                              key = {r.id + selectedRegionId}
+                              key = {r.id + selectedRegionId + +selectionEnabled}
                               interactive={selectionEnabled}
                         />
                      )
             )
          }
          {
-            selectedBlockId !== undefined && showChildrenBuildings &&
-               blocks.find(b => b.id === selectedBlockId) &&
+            selectedBlockId !== undefined && showChildrenBuildings && blocks.find(b => b.id === selectedBlockId) &&
                   <>
                      <Polygon positions={pointsToLatLngArray(blocks.find(b => b.id === selectedBlockId)?.points!)}
                         color="white"
@@ -95,7 +101,7 @@ const Map = ({selectedBlockId, selectedRegionId, showAllRegions, showChildrenBlo
                                        eventHandlers={{click: (e) => {onAreaClick(b.id, "building")}}}
                                        fillColor = "yellow"
                                        color = {b.id === selectedBuildingId ? "green" : "yellow"}
-                                       key = {b.id + (selectedBuildingId ?? 0)}
+                                       key = {b.id + (selectedBuildingId ?? 0) + +selectionEnabled}
                                        interactive={selectionEnabled}
                                  />
                         )

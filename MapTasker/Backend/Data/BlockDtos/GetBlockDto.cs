@@ -6,5 +6,7 @@ namespace Backend.Data.BlockDtos
     {
         public int RegionId { get; set; }
         public string Status { get; set; }
+
+        public long ?ActiveForOIB { get; set; }
     }
 }
