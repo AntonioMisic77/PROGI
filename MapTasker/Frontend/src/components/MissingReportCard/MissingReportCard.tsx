@@ -49,7 +49,7 @@ const MissingReportCard = ({missingReport} : ReportsProps) => {
         <Card sx={{
             height:"auto",
             width:"100%",
-            marginBottom: "1px"
+            marginBottom: "1px",
 
         }}>
             <CardContent>
@@ -84,7 +84,10 @@ const MissingReportCard = ({missingReport} : ReportsProps) => {
                     <Button variant="contained"
                             size="medium"
                             endIcon={<SendRoundedIcon/>}
-                            type="submit"> 
+                            type="submit" 
+                            sx = {{
+                                
+                            }}> 
                        POST
                     </Button>
                 </form>

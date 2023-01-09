@@ -1,12 +1,20 @@
 import React from 'react';
+import Header from '../../components/Header/Header';
 import MissingReports from '../../components/MissingReports/MissingReports';
 
 
 const MissingReportsPage = () =>  {
 
     return(
-        <div className="mr-page">
-            <MissingReports/>
+        <div>
+            <div >
+                <Header />
+            </div>
+            <div style={{
+                marginTop: "60px"
+            }}>
+                <MissingReports/>
+            </div>
         </div>
     );
 }

@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { AppBar, Toolbar, Typography, Button } from "@mui/material"
 import { useState } from "react";
-import { Link as RouterLink, Navigate } from "react-router-dom";
+import { Link, Link as RouterLink, Navigate, useLocation } from "react-router-dom";
 import { useUserData } from "../../hooks/useUserData";
 import { useNavigate } from 'react-router-dom';
 
@@ -29,6 +29,10 @@ import { useNavigate } from 'react-router-dom';
         href: "/missing-reports"
     },
     {
+        label: "Karta", 
+        href: "/operations"
+    },
+    {
         label: "Uredi profil",
         href: "/profile", 
         className: "not-visible",
@@ -46,6 +50,7 @@ export default function Header() {
 
     let {user, setUser, userLoaded} = useUserData();
     const navigate = useNavigate();
+    const { pathname } = useLocation();
 
     console.log(userLoaded)
     console.log(user)
@@ -69,7 +74,7 @@ export default function Header() {
             fontFamily: "Work Sans, sans-serif",
             fontWeight: 750,
             flexGrow: 1,
-            color: "#fff",
+            color: '#fff',
             marginLeft: "2rem",
         }}>
             Maptasker
@@ -94,7 +99,7 @@ export default function Header() {
                             size: "18px",
                             marginRight: "2px",
                             '&:hover': {
-                            backgroundColor: "#9500ae",
+                            backgroundColor: pathname === "/" ? "#9500ae" : "#039be5",
                             color: "#fff",
                             },
                         }}
@@ -127,7 +132,7 @@ export default function Header() {
                             size: "18px",
                             marginRight: "2px",
                             '&:hover': {
-                            backgroundColor: "#9500ae",
+                            backgroundColor: pathname === "/" ? "#9500ae" : "#039be5",
                             color: "#fff",
                             },
                         }}
@@ -147,8 +152,11 @@ export default function Header() {
     return (
         <header>
             <AppBar sx={{
-                backgroundColor: "transparent",
+                backgroundColor: pathname === '/' ? 'transparent' : '#01579b',
                 flexGrow: 1,
+                height: pathname === '/' ? 'default' : '50px',
+                justifyContent: "center"
+
             }}
             >{displayDesktop()}</AppBar>
         </header>

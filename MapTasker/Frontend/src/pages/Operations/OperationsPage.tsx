@@ -1,11 +1,18 @@
 import { Typography } from '@mui/material';
 import * as React from 'react';
+import Header from '../../components/Header/Header';
 import Operations from '../../components/Operations/Operations';
 import { UserContext } from '../../store/UserContextProvider';
 
 const OperationsPage = () => {
    return (
-      <Operations/>
+      <div>
+         <div>
+            <Header />
+         </div>
+         <Operations/>
+      </div>
+      
    );
 }
  
