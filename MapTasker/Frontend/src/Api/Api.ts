@@ -556,7 +556,7 @@ export class MissingReportClient extends ApiBase {
         return Promise.resolve<MissingReportDto>(null as any);
     }
 
-    deleteMissingReport(id: number): Promise<MissingReportDto[]> {
+    markPersonAsFound(id: number): Promise<MissingReportDto[]> {
         let url_ = this.baseUrl + "/api/MissingReport/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -573,11 +573,11 @@ export class MissingReportClient extends ApiBase {
         return this.transformOptions(options_).then(transformedOptions_ => {
             return this.http.fetch(url_, transformedOptions_);
         }).then((_response: Response) => {
-            return this.processDeleteMissingReport(_response);
+            return this.processMarkPersonAsFound(_response);
         });
     }
 
-    protected processDeleteMissingReport(response: Response): Promise<MissingReportDto[]> {
+    protected processMarkPersonAsFound(response: Response): Promise<MissingReportDto[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {

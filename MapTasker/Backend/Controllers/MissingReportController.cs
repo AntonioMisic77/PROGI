@@ -63,11 +63,11 @@ namespace Backend.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<List<MissingReportDto>>> DeleteMissingReport(int id)
+        public async Task<ActionResult<List<MissingReportDto>>> MarkPersonAsFound(int id)
         {
             try
             {
-                return Ok(await _missingReportService.DeleteMissingReport(id));
+                return Ok(await _missingReportService.MarkPersonAsFound(id));
             }
             catch (Exception e)
             {
