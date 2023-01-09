@@ -1,0 +1,16 @@
+.grid-2x1 {
+   display: grid;
+   height: 90%;
+   width: 90%;
+   grid-template-columns: repeat(2, 50%);
+   grid-template-rows: repeat(1, 100%);
+   column-gap: 1vw;
+ }
+ 
+ .grid-2x1 > * {
+   width: 100%;
+   height: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}

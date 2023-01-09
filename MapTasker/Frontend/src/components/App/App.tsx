@@ -13,6 +13,7 @@ import UserViewPage from '../../pages/UserView/UserViewPage';
 import UserContextProvider from '../../store/UserContextProvider';
 import MissingReportsPage from '../../pages/MissingReports/MissingReportsPage';
 import FileMissingPersonPage from '../../pages/FileMissingPerson/FileMissingPersonPage';
+import StatisticsPage from '../../pages/Statistics/StatisticsPage';
 
 function App() {
    return (
@@ -27,6 +28,7 @@ function App() {
                <Route path="/operations" element={<OperationsPage/>}/>
                <Route path="/missing-reports" element={<MissingReportsPage/>}/>
                <Route path="/missing-person" element={<FileMissingPersonPage />}/>
+               <Route path="/statistics" element={<StatisticsPage />}/>
             </Routes>
          </Router>
       </UserContextProvider>
