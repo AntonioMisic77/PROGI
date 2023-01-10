@@ -9,14 +9,17 @@ import { useUserData } from '../../hooks/useUserData';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { List, ListItemButton, ListItemText, Collapse } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { roles } from '../../models/Role';
+import { format } from 'date-fns'
 
 
 interface ReportsProps {
     missingReport: MissingReportDto,
+    removeCard: () => void,
 
  }
 
-const MissingReportCard = ({missingReport} : ReportsProps) => {
+const MissingReportCard = ({missingReport, removeCard} : ReportsProps) => {
     
     const [message, setMessage] = React.useState('');
 
@@ -45,6 +48,8 @@ const MissingReportCard = ({missingReport} : ReportsProps) => {
         setOpen(!open);
     }
 
+    if (missingReport.foundAt === null) {
+
     return(
         <Card sx={{
             height:"auto",
@@ -64,11 +69,11 @@ const MissingReportCard = ({missingReport} : ReportsProps) => {
                     {"Opis: " + missingReport.description}
                 </Typography>
                 <Typography>
-                    {"Zadnje viđen/a: " + missingReport.reportedAt}
+                    {"Zadnje viđen/a: " + missingReport.reportedAt.toString().split('T')[0]}
                 </Typography>
             </CardContent>
-            <CardActions disableSpacing sx={{
-                
+            <CardActions  sx={{
+                display: 'flex',
             }}>
                 <form className="comment-form" onSubmit={addComment}>
                     <TextField  size="small"
@@ -80,17 +85,33 @@ const MissingReportCard = ({missingReport} : ReportsProps) => {
                                 sx={{
                                     width:"30rem",
                                     marginLeft: "120px"
+                                    
                                 }}/>
                     <Button variant="contained"
                             size="medium"
                             endIcon={<SendRoundedIcon/>}
                             type="submit" 
                             sx = {{
-                                
+                               
                             }}> 
                        POST
                     </Button>
                 </form>
+                <Button
+                    sx={{
+                        display: !user || roles[user.roleId] === 'Spasioc' || roles[user.roleId] === 'Admin' || roles[user.roleId] === 'Voditelj' ? "none" : 'inline',
+                        float: 'right'
+                    }}
+                    onClick={() => {
+                        let client = new MissingReportClient("https://localhost:7270");
+                        client.markPersonAsFound(missingReport.id).then(
+                            resp => {
+                               removeCard();
+                            }
+                         ).catch(() => alert("Greška"));
+                    }}>
+                    PRONAĐEN/A
+                </Button>
             </CardActions>
             <div style={{
                 
@@ -110,6 +131,13 @@ const MissingReportCard = ({missingReport} : ReportsProps) => {
             </div>
         </Card>
     )
+    } else {
+        return(
+            <div>
+
+            </div>
+        )
+    }
 }
 
 export default MissingReportCard;

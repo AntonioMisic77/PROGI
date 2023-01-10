@@ -21,6 +21,12 @@ const MissingReports = () =>  {
 
     console.log(missingReports)
 
+    const removeCard = (id: number) => {
+        return () => {
+           setMissingReports(oldMissingReports => oldMissingReports.filter(missingReport => missingReport.id !== id));
+        }  
+     }
+
 
     return(
        <div>
@@ -32,7 +38,7 @@ const MissingReports = () =>  {
                 Nestale osobe
             </Typography>
             <div className="card-container">
-                {missingReports.map(missingReport => <MissingReportCard missingReport={missingReport} key={missingReport.id}/>)}
+                {missingReports.map(missingReport => <MissingReportCard missingReport={missingReport} removeCard={removeCard(missingReport.id)} key={missingReport.id}/>)}
             </div>
        </div>
 
