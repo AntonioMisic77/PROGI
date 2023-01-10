@@ -186,7 +186,7 @@ export default function Header() {
                 <AppBar sx={{
                     backgroundColor: getColor(window.location.pathname),
                     flexGrow: 1,
-                    height: pathname === '/' ? 'default' : '50px',
+                    height: pathname === '/' ? 'default' : '7vh',
                     justifyContent: "center"
 
                 }}
