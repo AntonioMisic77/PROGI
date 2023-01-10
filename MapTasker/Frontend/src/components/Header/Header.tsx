@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
 import { AppBar, Toolbar, Typography, Button, Hidden } from "@mui/material"
 import { useState } from "react";
-import { Link, Link as RouterLink, Navigate, useLocation } from "react-router-dom";
+import { Link as RouterLink, Navigate, useLocation } from "react-router-dom";
+import Link from '@mui/material/Link';
 import { useUserData } from "../../hooks/useUserData";
 import { useNavigate } from 'react-router-dom';
 import { roles } from '../../models/Role';
@@ -100,16 +101,20 @@ export default function Header() {
     }
 
     const mapTaskerLogo = (
+    
         <Typography variant="h6" component="h1"
         sx = {{
-            fontFamily: "Work Sans, sans-serif",
-            fontWeight: 750,
             flexGrow: 1,
-            color: '#fff',
             marginLeft: "2rem",
         }}>
-            Maptasker
+            <Link href='/' underline="none"
+            sx = {{
+                fontFamily: "Work Sans, sans-serif",
+                fontWeight: 750,
+                color: '#fff',
+            }}>Maptasker</Link>
         </Typography>
+        
     );
 
     const getMenuButtons = () => {
