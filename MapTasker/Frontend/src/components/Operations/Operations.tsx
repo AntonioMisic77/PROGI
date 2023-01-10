@@ -437,7 +437,7 @@ const Operations = () => {
          </Map>
          <div className="actions-container">
             <div className="text-container">
-               <Typography variant="h4" textAlign="center">
+               <Typography fontSize="1.5rem" textAlign="center">
                   {shownText}
                </Typography>
                {namingOperation && <input type="text" className="form-input" onChange={(e:any) => setOperationName(e.target.value)}/>}
@@ -446,7 +446,7 @@ const Operations = () => {
                {user && (roles[user.roleId] === 'Voditelj' || roles[user.roleId] === 'Admin') && showAllRegions && noneSelected() && (
                   namingOperation ?
                   <>
-                     <Button variant="contained" onClick={createOperation} color="success" disabled={!namingOperation || operationName.length < 4}>
+                     <Button variant="contained" onClick={createOperation} color="success" disabled={!namingOperation || operationName.length < 4} style={{height:"18%"}}>
                         Stvori operaciju
                      </Button>
                      <Button variant="outlined" onClick={backToCreatingOperation} color="error">
