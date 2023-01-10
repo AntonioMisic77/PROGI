@@ -34,7 +34,7 @@ const FileMissingPerson = () => {
         <Formik initialValues={{ firstName: "", lastName: "", OIB: null, photo: "", description: null, reportedAt: null, foundAt: undefined}}
          validationSchema={schemaMR}
          onSubmit={async (values) => {
-            let client = new MissingReportClient('https://localhost:7270');
+            let client = new MissingReportClient(process.env.REACT_APP_API_URL);
             client.createMissingReport({
                 id: 0,
                 firstName: values.firstName,

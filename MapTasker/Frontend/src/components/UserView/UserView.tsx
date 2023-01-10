@@ -31,7 +31,7 @@ const UserView = () => {
                navigate("/login")
             } 
             else {
-               let client = new UserClient("https://localhost:7270")
+               let client = new UserClient(process.env.REACT_APP_API_URL)
                client.getAllUsers().then(users => setUsers(users));
             }
          }

@@ -27,7 +27,7 @@ const MissingReportCard = ({missingReport, removeCard} : ReportsProps) => {
 
     const addComment = async () => {
        
-                let client = new CommentClient("https://localhost:7270");
+                let client = new CommentClient(process.env.REACT_APP_API_URL);
                 client.createComment({
                     id: 0,
                     reportId: missingReport.id,
@@ -103,7 +103,7 @@ const MissingReportCard = ({missingReport, removeCard} : ReportsProps) => {
                         float: 'right'
                     }}
                     onClick={() => {
-                        let client = new MissingReportClient("https://localhost:7270");
+                        let client = new MissingReportClient(process.env.REACT_APP_API_URL);
                         client.markPersonAsFound(missingReport.id).then(
                             resp => {
                                removeCard();

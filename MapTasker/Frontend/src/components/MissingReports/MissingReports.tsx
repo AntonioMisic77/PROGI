@@ -14,7 +14,7 @@ const MissingReports = () =>  {
 
     useEffect(
        () => {
-        let client = new MissingReportClient("https://localhost:7270");
+        let client = new MissingReportClient(process.env.REACT_APP_API_URL);
         client.getAllMissingReports().then(missingReports => setMissingReports(missingReports));
        }, []
     )

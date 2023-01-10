@@ -107,7 +107,7 @@ const Operations = () => {
    )
 
    useEffect(()=>{
-      let client = new OperationClient("https://localhost:7270");
+      let client = new OperationClient(process.env.REACT_APP_API_URL);
       client.getAllAreas().then(areas => {
          setOperations(areas.operations);
          setRegions(areas.regions);
@@ -185,7 +185,7 @@ const Operations = () => {
    }
 
    let createOperation = () => {
-      let client = new OperationClient('https://localhost:7270');
+      let client = new OperationClient('process.env.REACT_APP_API_URL');
       client.createOperation({name: operationName, leaderOib: user?.oib ?? 0, regions: areasToRegions(areas)})
             .then(response => {
                setShownText("Uspješno stvorena operacija, osvježite stranicu da ju vidite na karti");
@@ -241,7 +241,7 @@ const Operations = () => {
    }
 
    let createBlocks = () => {
-      let client = new BlockClient('https://localhost:7270');
+      let client = new BlockClient('process.env.REACT_APP_API_URL');
       client.createBlock(selectedRegionId, areasToBlocks(areas))
             .then(response => {
                setShownText("Blokovi uspješno stvoreni");
@@ -301,7 +301,7 @@ const Operations = () => {
    }
 
    let createBuildings = () => {
-      let client = new BuildingClient('https://localhost:7270');
+      let client = new BuildingClient('process.env.REACT_APP_API_URL');
       client.createBuilding(selectedBlockId, areasToBuildings(areas))
             .then(response => {
                setShownText("Građevine uspješno stvorene");
@@ -318,7 +318,7 @@ const Operations = () => {
 
    let markBlockAsActive = () => {
       if (!selectedBlockId) return;
-      let client = new BlockClient('https://localhost:7270');
+      let client = new BlockClient('process.env.REACT_APP_API_URL');
       client.updateBlockStatus({status: "Aktivan", blockId: selectedBlockId})
             .then((response) => {
                setBlocks(
@@ -337,7 +337,7 @@ const Operations = () => {
       let block = blocks.find(b => b.id === selectedBlockId);
       if (!block || block.status !== "Aktivan") return;
 
-      let client = new BlockClient('https://localhost:7270');
+      let client = new BlockClient('process.env.REACT_APP_API_URL');
       client.updateBlockStatus({status: "Provjera", blockId: selectedBlockId})
             .then((response) => {
                setBlocks(
@@ -355,7 +355,7 @@ const Operations = () => {
       let block = blocks.find(b => b.id === selectedBlockId);
       if (!block || block.status !== "Provjera") return;
 
-      let client = new BlockClient('https://localhost:7270');
+      let client = new BlockClient('process.env.REACT_APP_API_URL');
       client.updateBlockStatus({status: "Završen", blockId: selectedBlockId})
             .then((response) => {
                setBlocks(
@@ -373,7 +373,7 @@ const Operations = () => {
       let building = buildings.find(b => b.id === selectedBuildingId);
       if (!building) return;
       
-      let client = new BuildingClient('https://localhost:7270');
+      let client = new BuildingClient('process.env.REACT_APP_API_URL');
       client.updateBuildingStatus({status: "Pretraženo", buildingId: selectedBuildingId})
             .then((response) => {
                setBuildings(

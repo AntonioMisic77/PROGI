@@ -10,7 +10,7 @@ export const useUserData = () => {
    
    useEffect(
       () => {
-         let client = new UserClient("https://localhost:7270");
+         let client = new UserClient(process.env.REACT_APP_API_URL);
          client.getUser2().then(
             user => {
                setUser(user);

@@ -37,7 +37,7 @@ const StatisticsCharts = () => {
                navigate("/login")
             } 
             else {
-               let client = new StatisticClient("https://localhost:7270")
+               let client = new StatisticClient(process.env.REACT_APP_API_URL)
                client.getStatistics().then(stats => {
                   setMissingPeopleData(stats.missingPeople);
                   setFoundPeopleData(stats.foundPeople);

@@ -24,7 +24,7 @@ const Comments = ({comment} : CommentProps) => {
 
     React.useEffect(
         () => {
-         let client = new UserClient("https://localhost:7270");
+         let client = new UserClient(process.env.REACT_APP_API_URL);
          if(comment.userOib != null) {
             client.getUser(comment.userOib).then(user => setUser(user));
          }
