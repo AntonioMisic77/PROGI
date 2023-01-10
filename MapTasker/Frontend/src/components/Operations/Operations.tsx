@@ -563,12 +563,12 @@ const Operations = () => {
                      Označi blok aktivnim
                   </Button>
                }
-               {selectedBlockId && blockStatus() === "Aktivan" && !drawing && !showChildrenBuildings &&
+               {user && selectedBlockId && blockStatus() === "Aktivan" && !drawing && !showChildrenBuildings && (roles[user.roleId] === 'Kartograf' || roles[user.roleId] === 'Admin') &&
                   <Button variant="outlined" color="success" onClick={markBlockForCheck}>
                      Označi blok za provjeru
                   </Button>
                }
-               {selectedBlockId && blockStatus() === "Provjera" && !drawing && !showChildrenBuildings &&
+               {user && selectedBlockId && blockStatus() === "Provjera" && !drawing && !showChildrenBuildings && (roles[user.roleId] === 'Kartograf' || roles[user.roleId] === 'Admin') &&
                   <Button variant="outlined" color="success" onClick={markBlockAsDone}>
                      Označi blok gotovim
                   </Button>
