@@ -6,6 +6,6 @@ namespace Backend.Services.Registration
 {
     public interface IRegister
     {
-        Task<UserDto> Register(UserDto user);
+        Task<UserDto> Registration (UserDto user);
     }
 }
