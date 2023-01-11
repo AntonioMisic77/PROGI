@@ -9,7 +9,7 @@ Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Frontend", "Frontend\Fronte
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "MapTaskerDB", "MapTaskerDB\MapTaskerDB.sqlproj", "{FAF3A7B8-869B-4BE0-8972-3CE55B21AEAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapTasker.Tests", "MapTasker.Tests\MapTasker.Tests.csproj", "{D2F296FD-48AA-4DEF-B4A5-4E9EFC49CB5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapTaskerTests", "MapTasker.Tests\MapTaskerTests.csproj", "{D2F296FD-48AA-4DEF-B4A5-4E9EFC49CB5C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
