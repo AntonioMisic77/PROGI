@@ -21,7 +21,7 @@ namespace Backend.Controllers
 
         public async Task<ActionResult<string>> Login([FromBody] LoginDto user)
         {
-            var token = await _loginService.Login(user);
+            var token = await _loginService.LogIn(user);
            
             if (token == null)
             {

@@ -23,7 +23,7 @@ namespace Backend.Controllers
         {
             try
             {
-                result = await _registerService.Register(user);
+                result = await _registerService.Registration(user);
             }
             catch (Exception e)
             {
