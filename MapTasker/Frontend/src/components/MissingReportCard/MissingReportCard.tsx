@@ -10,7 +10,7 @@ import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { List, ListItemButton, ListItemText, Collapse } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { roles } from '../../models/Role';
-import { format } from 'date-fns'
+
 
 
 interface ReportsProps {
@@ -24,6 +24,10 @@ const MissingReportCard = ({missingReport, removeCard} : ReportsProps) => {
     const [message, setMessage] = React.useState('');
 
     let {user, userLoaded} = useUserData();
+
+    let [comments, setComments] = React.useState(missingReport.comments);
+
+    
 
     const addComment = async () => {
        
@@ -47,6 +51,15 @@ const MissingReportCard = ({missingReport, removeCard} : ReportsProps) => {
     const handleClick = () => {
         setOpen(!open);
     }
+
+
+    const removeComment = (id: number, missingReport : MissingReportDto) => {
+        return () => {
+            missingReport.comments?.filter(comment => comment.id !== id);
+            //setComments(oldComments => oldComments?.filter(comment => comment.id !== id));
+            window.location.reload();
+        }  
+     }
 
     if (missingReport.foundAt === null) {
 
@@ -99,7 +112,7 @@ const MissingReportCard = ({missingReport, removeCard} : ReportsProps) => {
                 </form>
                 <Button
                     sx={{
-                        display: !user || roles[user.roleId] === 'Spasioc' || roles[user.roleId] === 'Admin' || roles[user.roleId] === 'Voditelj' ? "none" : 'inline',
+                        display: !user || roles[user.roleId] === 'Kartograf' ? "none" : 'block',
                         float: 'right'
                     }}
                     onClick={() => {
@@ -125,7 +138,7 @@ const MissingReportCard = ({missingReport, removeCard} : ReportsProps) => {
                         <ExpandMoreIcon />
                     </ListItemButton>
                     <Collapse in={open} timeout="auto" unmountOnExit>
-                        {missingReport.comments !== undefined ? missingReport.comments.map(comment => <Comments comment={comment} key={comment.id}/>) : <List sx={{ width: '100%', bgcolor: 'background.paper' }}/> }
+                        {missingReport.comments !== undefined ? missingReport.comments.map(comment => <Comments comment={comment} removeComment={removeComment(comment.id, missingReport)} key={comment.id}/>) : <List sx={{ width: '100%', bgcolor: 'background.paper' }}/> }
                     </Collapse>
                 </List>
             </div>
