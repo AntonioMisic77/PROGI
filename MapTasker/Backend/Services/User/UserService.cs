@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Backend.Data;
-using Backend.Data.Register;
+using Backend.Data.UserDtos;
 using Backend.Models;
 using Backend.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -49,11 +49,46 @@ namespace Backend.Services.Implementations
             
         }
 
-        public Task<UserDto> UpdateUser(UserDto dto)
+        public async Task<UserDto> UpdateUser(EditUserDto dto, long oib)
         {
-            throw new NotImplementedException();
+            var user = _context.Users.FirstOrDefault(a => a.Oib == oib);
+
+            if (user == null)
+            {
+                throw new InvalidDataException("No such user.");
+            }
+
+            
+            user.PhoneNumber = dto.PhoneNumber;
+            user.Email = dto.Email;
+            user.Photo = dto.Photo;
+
+            _context.Attach(user);
+            _context.Entry(user).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return _mapper.Map<UserDto>(user);
         }
 
+        public async Task<UserDto> ChangePassword(UserDto dto)
+        {
+            IPasswordHasher<User> hasher = new PasswordHasher<User>();
+
+            var user = _context.Users.FirstOrDefault(a => a.Oib == dto.OIB);
+
+            if (user == null)
+            {
+                throw new InvalidDataException("No such user");
+            }
+
+            user.Password = hasher.HashPassword(user,dto.Password);
+
+            _context.Attach(user);
+            _context.Entry(user).State= EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return _mapper.Map<UserDto>(user);
+        }
         public async Task<UserDto> GetUser(long oib) 
         {
             var user = await _context.Users.FindAsync(oib);

@@ -29,7 +29,7 @@ namespace Backend.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
 
         public async Task<ActionResult<CommentDto>> DeleteComment(int id)
         {
@@ -39,6 +39,20 @@ namespace Backend.Controllers
             }
             catch (Exception e)
             {
+                return BadRequest(e);
+            }
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<CommentDto>> UpdateComment(CommentDto dto)
+        {
+            try
+            {
+                return Ok(await _commentService.UpdateComment(dto));
+            }
+            catch (Exception e)
+            {
+
                 return BadRequest(e);
             }
         }

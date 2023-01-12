@@ -1,7 +1,4 @@
 \chapter{Arhitektura i dizajn sustava}
-		
-		\textbf{\textit{dio 1. revizije}}\\
-
 
 
                \textit{Arhitektura sustava može se podijeliti  na tri podsustava: }
@@ -64,16 +61,23 @@
 
 			
 		\section{Baza podataka}
-			
-			\textbf{\textit{dio 1. revizije}}\\
-			
-		\textit{Potrebno je opisati koju vrstu i implementaciju baze podataka ste odabrali, glavne komponente od kojih se sastoji i slično.}
-		
-			\subsection{Opis tablica}
+
+             Za potrebe našeg sustava koristimo relacijsku Microsoft SQL Server bazu podataka koja svojom strukturom olakšava modeliranje stvarnog svijeta. Gradivna jedinka baze je relacija, odnosno tablica koja je definirana svojim imenom i skupom atributa. Zadaća baze podataka je brza i jednostavna pohrana te izmjena i dohvat podataka za daljnju obradu.
+        Baza podataka ove aplikacije sastoji se od sljedećih entiteta: \\
+        \\
+        \-\hspace{1cm} • Users \\
+        \-\hspace{1cm} • Role \\
+        \-\hspace{1cm} • Missing Report \\
+        \-\hspace{1cm} • Comment \\
+        \-\hspace{1cm} • Operation \\
+        \-\hspace{1cm} • Area \\
+        \-\hspace{1cm} • Region \\
+        \-\hspace{1cm} • Block \\
+        \-\hspace{1cm} • Building \\
+        \-\hspace{1cm} • Point \\
 			
 
-				\textit{Svaku tablicu je potrebno opisati po zadanom predlošku. Lijevo se nalazi točno ime varijable u bazi podataka, u sredini se nalazi tip podataka, a desno se nalazi opis varijable. Svjetlozelenom bojom označite primarni ključ. Svjetlo plavom označite strani ključ}
-				
+			\subsection{Opis tablica}
 
 \textbf{Users} Ovaj entitet sadrži sve važne informacije o korisniku aplikacije. Sadrži atribute: korisničko ime, OIB, ime, prezime, fotografiju, broj telefona, adresu elektroničke pošte, lozinku, ID uloge korisnika te status je li potvrđen. Ovaj entitet u vezi je \textit{Many-to-One} s entitetom Role preko atributa identifikatora uloge, u vezi \textit{One-To-Many} s entitetom Operation preko atributa identifikatora osobe, u vezi \textit{One-to-Many} s entitetom Comment preko atributa identifikatora osobe, u vezi \textit{One-To-Many} s entitetom Area preko atributa identifikatora osobe te u vezi \textit{One-To-Many} s entitetom Block preko atributa identifikatora osobe. 
 				\begin{longtblr}[
@@ -251,11 +255,7 @@
 			
 			
 		\section{Dijagram razreda}
-		
-			\textit{Potrebno je priložiti dijagram razreda s pripadajućim opisom. Zbog preglednosti je moguće dijagram razlomiti na više njih, ali moraju biti grupirani prema sličnim razinama apstrakcije i srodnim funkcionalnostima.}\\
-			
-			\textbf{\textit{dio 1. revizije}}\\
-			
+								
 			\begin{figure}[h!] \includegraphics[width=\linewidth]{dijagrami/CD-LoginRegister.png}
 				\caption{Dijagram razreda 1 - Register i Login}
 			\end{figure}
@@ -275,25 +275,20 @@
 			\begin{figure}[h!] \includegraphics[width=\linewidth]{dijagrami/CD-Statistics.png}
 				\caption{Dijagram razreda 5 - Statistics}
 			\end{figure}
-			
-			\textit{Prilikom prve predaje projekta, potrebno je priložiti potpuno razrađen dijagram razreda vezan uz \textbf{generičku funkcionalnost} sustava. Ostale funkcionalnosti trebaju biti idejno razrađene u dijagramu sa sljedećim komponentama: nazivi razreda, nazivi metoda i vrste pristupa metodama (npr. javni, zaštićeni), nazivi atributa razreda, veze i odnosi između razreda.}\\
-			
-			\textbf{\textit{dio 2. revizije}}\\			
-			
-			\textit{Prilikom druge predaje projekta dijagram razreda i opisi moraju odgovarati stvarnom stanju implementacije}
-			
-			
-			
+					
 			\eject
 		
 		\section{Dijagram stanja}
 			
 			
-			\textbf{\textit{dio 2. revizije}}\\
-			
-			\textit{Potrebno je priložiti dijagram stanja i opisati ga. Dovoljan je jedan dijagram stanja koji prikazuje \textbf{značajan dio funkcionalnosti} sustava. Na primjer, stanja korisničkog sučelja i tijek korištenja neke ključne funkcionalnosti jesu značajan dio sustava, a registracija i prijava nisu. }
 			
 			
+			\textbf Dijagram stanja koristi se kako bi se opisalo dinamičko ponašanje nekog dijela sustava u vremenu. Njime se prikazuju prijelazi između stanja pojedinih objekata. Korisnik prilikom registracije unosi svoje podatke i bira ulogu za koju se prijavljuje. Na slici 4.9 prikazan je dijagram stanja za registriranog korisnika koji je odabrao ulogu voditelja operacije. Nakon prijave u sustav, voditelju se prikazuje karta na kojoj može stvarati nove operacije, to jest definirati područja koja je potrebno pretražiti. Svakoj operaciji daje ime. Voditelj može u bilo kojem trenutku pregledati podatke o svom profilu i po potrebi ih izmejniti. Također, voditelj osim što može prijaviti nestalu osobu, ima uvid u popis nestalih osoba i može zaključati prijavu o nestaloj osobi nakon što je ona pronađena, i dodavati i brisati komentare na prijave. Uz to, voditelj može i obrisati prijavu o nestaloj osobi. Na kraju, voditelj ima pristup statistici o nestalim osobama.   
+			
+			\begin{figure}[h!] \includegraphics[width=\linewidth]{dijagrami/Dijagram stanja - Voditelj operacije.png}
+				\caption{Dijagram stanja - Voditelj operacije}
+			\end{figure}
+   
 			\eject 
 		
 		\section{Dijagram aktivnosti}

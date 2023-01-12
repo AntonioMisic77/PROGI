@@ -1,17 +1,18 @@
 ﻿
 
-using Backend.Data.BlockDTO;
-using Backend.Data.BuildingDTO;
+using Backend.Data.BlockDtos;
+using Backend.Data.BuildingDtos;
 using Backend.Data.MissingReportDTO;
 
 namespace Backend.Data.StatisticDto
 {
     public class StatisticDto
     {
-        public ICollection<MissingReportDto> MissingReports { get; set; }
+        public int[] missingPeople { get; set; }
+        public int[] foundPeople { get; set; }
 
-        public  ICollection<BlockDto>  Blocks { get; set; }
+        public int[] unsearchedBuildings { get; set; }
 
-        public ICollection<BuildingDto> Buildings { get; set; }
+        public int[] searchedBuildings { get; set; }
     }
 }

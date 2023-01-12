@@ -1,7 +1,7 @@
 ﻿
 using Backend.Data.MissingReportDTO;
 using System.Security.Policy;
-using Backend.Data.Register;
+using Backend.Data.UserDtos;
 using Backend.Models;
 using Backend.Services.MissingReport;
 using Microsoft.AspNetCore.Http;
@@ -62,13 +62,12 @@ namespace Backend.Controllers
             }
         }
 
-        [HttpDelete]
-
-        public async Task<ActionResult<List<MissingReportDto>>> DeleteMissingReport(int id)
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<List<MissingReportDto>>> MarkPersonAsFound(int id)
         {
             try
             {
-                return Ok(await _missingReportService.DeleteMissingReport(id));
+                return Ok(await _missingReportService.MarkPersonAsFound(id));
             }
             catch (Exception e)
             {

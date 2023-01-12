@@ -8,5 +8,7 @@ namespace Backend.Services.Comment
         Task<CommentDto> CreateComment(CommentDto dto);
 
         Task<CommentDto> DeleteComment(int id);
+
+        Task<CommentDto> UpdateComment(CommentDto dto);
     }
 }

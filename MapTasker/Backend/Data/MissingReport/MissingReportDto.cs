@@ -22,6 +22,8 @@ namespace Backend.Data.MissingReportDTO
         public DateTime ReportedAt { get; set; }
 
         public DateTime? FoundAt { get; set; }
+
+        public virtual ICollection<Backend.Data.CommentDto.CommentDto>? Comments { get; set; }
     }
 }
 

@@ -1,6 +1,6 @@
-﻿using Backend.Data.Register;
+﻿using Backend.Data.UserDtos;
 using Backend.Data.StatisticDto;
-using Backend.Services.Statistic;
+using Backend.Services.StatisticsService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,18 +10,18 @@ namespace Backend.Controllers
     [ApiController]
     public class StatisticController : ControllerBase
     {
-        private readonly IStatistic _statisticsService;
+        private readonly IStatisticsService _statisticsService;
 
-        public StatisticController(IStatistic statisticsService)
+        public StatisticController(IStatisticsService statisticsService)
         {
             _statisticsService = statisticsService;
         }
 
         [HttpGet]
 
-        public async Task<ActionResult<StatisticDto>> getStatistics()
+        public ActionResult<StatisticDto> getStatistics()
         {
-            return await _statisticsService.getStatistics();
+            return Ok(_statisticsService.getStatistics());
         }
     }
 }

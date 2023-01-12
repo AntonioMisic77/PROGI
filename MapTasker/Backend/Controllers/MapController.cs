@@ -1,7 +1,7 @@
 ﻿
-using Backend.Data.RegionDTO;
-using Backend.Data.Register;
-using Backend.Services.Region;
+using Backend.Data.RegionDtos;
+using Backend.Data.UserDtos;
+using Backend.Services.RegionService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,9 +11,9 @@ namespace Backend.Controllers
     [ApiController]
     public class MapController : ControllerBase
     {
-        private readonly IRegion _regionService;
+        private readonly IRegionService _regionService;
 
-        public MapController(IRegion regionService)
+        public MapController(IRegionService regionService)
         {
             _regionService = regionService;
         }
@@ -22,7 +22,15 @@ namespace Backend.Controllers
 
         public async Task<ActionResult<List<RegionDto>>> getMap()
         {
-            return await _regionService.getAllRegions();
+            try
+            {
+                return Ok(await _regionService.getAllRegions());
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e);
+            }
+            
         }
     }
 }
