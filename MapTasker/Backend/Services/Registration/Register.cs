@@ -18,7 +18,7 @@ namespace Backend.Services.Registration
            _context = context;
         }
 
-        async Task<UserDto>  IRegister.Register(UserDto user)
+        public async Task<UserDto> Registration (UserDto user)
         {
 
             IPasswordHasher<User> hasher = new PasswordHasher<User>();

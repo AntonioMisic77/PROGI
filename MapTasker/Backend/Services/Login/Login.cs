@@ -22,7 +22,7 @@ namespace Backend.Services.Login
             _configuration = configuration;
         }
 
-        async Task<string> ILogin.Login(LoginDto item)
+        public async Task<string> LogIn(LoginDto item)
         {
             IPasswordHasher<User> hasher = new PasswordHasher<User>();
 
