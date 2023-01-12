@@ -27,6 +27,10 @@ import { roles } from '../../models/Role';
 
  const headersDataLoggedIn = [
     {
+        label: "Nepotvrđeni računi",
+        href: "/users"
+    },
+    {
         label: "Nestale osobe",
         href: "/missing-reports"
     },
@@ -42,7 +46,6 @@ import { roles } from '../../models/Role';
         label: "Uredi profil",
         href: "/profile", 
         className: "not-visible",
-        
     },
     {
         label: "Odjava", 
@@ -167,7 +170,7 @@ export default function Header() {
                             fontWeight: 500,
                             size: "18px",
                             marginRight: "2px",
-                            display: (!user || roles[user.roleId] === 'Spasioc') && label === "Statistika" ? "none" : 'incline',
+                            display: ((!user || roles[user.roleId] === 'Spasioc') && label === "Statistika") || (label === "Nepotvrđeni računi" && roles[user?.roleId ?? 3] !== "Admin") ? "none" : 'incline',
                             '&:hover': {
                             backgroundColor: getHoverColor(window.location.pathname),
                             color: "#fff",                            
