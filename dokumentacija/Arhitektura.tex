@@ -318,7 +318,7 @@
 		\section{Dijagram komponenti}
 		
 			\par
-			Ovaj dijagram pokazuje organizaciju i međuodnos komponenti, unutarnje strukture te odnos prema okolini. Postoje 3 vrste sučelja: za dohvat CSS, JS i TSX datoteka, za dohvat JSON podataka kojim se pristupa REST API komponenti te za dohvat tablica iz baze podataka. Podaci koji pristignu iz baze podataka šalju se u obliku DTO-a MVC arhitekturi na daljnju manipulaciju.
+			Ovaj dijagram pokazuje organizaciju i međuodnos komponenti, unutarnje strukture te odnos prema okolini. Postoje 3 vrste sučelja: za dohvat CSS, JS i TSX datoteka, za dohvat JSON podataka kojim se pristupa REST API komponenti te za dohvat tablica iz baze podataka. Preko glavne komponente App pristupa se ostalim komponentama. Preko drugog sučelja za dohvat JSON-a pristupa se Rest API-ju koji zatim poslužuje podatke koji pripadaju \textit{backend} dijelu aplikacije. Tablice se iz baze podataka dohvaćaju preko sučelja za dohvat podataka iz baze te se šalju u obliku DTO-a MVC arhitekturi na daljnju manipulaciju.
 			
 			\begin{figure}[H] \includegraphics[width=\linewidth]{./dijagrami/ComponentDiagram.vpd.png}
 				\caption{Dijagram komponenti}
