@@ -255,28 +255,48 @@
 			
 			
 		\section{Dijagram razreda}
+		
+		Na slikama 4.4, 4.5, 4.6, 4.7 i 4.8 prikazani su razredi koji pripadaju \textit{backend} dijelu MVC arhitekure. Da bi se izbjegla prenapučenost, razredi su podijeljeni s obzirom na funkcionalnosti. Tako na prvom dijagramu imamo razrede vezane za registraciju i prijavu, na drugom su razredi vezani za prijave i komentare, na trećem se dijagramu nalaze svi razredi potrebni za karte i mapiranje, na četvrtom razredi vezani za korisnike i njihove uloge, a na petom su dijagramu smješteni razredi vezani za statistiku.
+		
+		Na slici 4.4 nalazi se dijagram koji prikazuje odnos Controllera, Modela i DTO-ova vezanih uz Login i Register. Vidimo da se, nakon registracije korisnika, podaci spremaju u bazu podataka, a također se iz RegisterControllera podaci šalju u UserDto. RegisterController i LoginController pomoću registerServicea i loginServicera realiziraju sučelja IRegister i ILogin te nasljeđuju njihove metode.
 								
 			\begin{figure}[H] \includegraphics[width=\linewidth]{dijagrami/CD-LoginRegister.png}
 				\caption{Dijagram razreda 1 - Register i Login}
 			\end{figure}
 		
-			\begin{figure}[H] \includegraphics[width=\linewidth]{dijagrami/CD-CommentMissingReport.png}
+		\eject
+		
+		Ovaj dijagram prikazuje prijave nestalih i komentare. Promatrajući Controllere, koji nasljeđuju sučelja, vidimo koje sve metode postoje, a to su metode za stvaranje, brisanje, ažuriranje i dohvat svih podataka, te isto tako za stvaranje i brisanje komentara. One manipuliraju s MissingReportDto i CommentDto. Modeli MissingReport i Comment primaju ulazne podatke od Controllera te su međusobno povezani relacijama pridruživanja.
+		
+			\begin{figure}[h!] \includegraphics[width=\linewidth]{dijagrami/CD-CommentMissingReport.png}
 				\caption{Dijagram razreda 2 - Missing Report i Comment}
 			\end{figure}
 		
-			\begin{figure}[H] \includegraphics[width=\linewidth]{dijagrami/CD-AreasOperations.png}
+		\eject
+		
+		Ovaj dijagram prikazuje razrede vezane za mapu, operacije i područja te kao takav čini ključni dio aplikacije. Iz ovog dijagrama razvidna je hijerarhija svih područja. Controlleri OperationController, MapController, BlockController i BuildingController nasljeđuju metode za stvaranje operacija i područja, kao i za mijenjanje njihova statusa. Modeli operacije, regije, blokovi i zgrade međusobno su povezani relacijama generalizacija i pridruživanje. Modeli i DTO-ovi također su povezani s Userom relacijama pridruživanja te su prikazane operacije, područja i blokovi povezani s tim Userom.
+		
+			\begin{figure}[h!] \includegraphics[width=\linewidth]{dijagrami/CD-AreasOperations.png}
 				\caption{Dijagram razreda 3 - Operations, Areas, Regions, Blocks, Buildings}
 			\end{figure}
 		
-			\begin{figure}[H] \includegraphics[width=\linewidth]{dijagrami/CD-UserRole.png}
+		\eject
+		
+		Na slici 4.7 prikazani su Controlleri, Modeli i Servicei User i Role. UserController implementira IServiceUser te implementira metode za potvrdu, brisanje, dohvat, ažuriranje te dohvat svih korisnika. Modeli User i Role također su međusobno povezani pridruživanjem. Vidimo i da se podaci o Useru spremaju u bazu podataka.
+		
+			\begin{figure}[h!] \includegraphics[width=\linewidth]{dijagrami/CD-UserRole.png}
 				\caption{Dijagram razreda 4 - User i Role}
 			\end{figure}
 		
-			\begin{figure}[H] \includegraphics[width=\linewidth]{dijagrami/CD-Statistics.png}
+		\eject
+		
+		Na slici 4.8 nalazi se dijagram koji prikazuje statistiku. StatisticsController realizira sučelje IStatistic te njegovu metodu getStatistic za dohvat statistike. Data transfer object StatisticDto povezan je s DTO-ovima MissingReport, Block i Building kako bi mogao prikazati potrebne podatke.
+		
+			\begin{figure}[h!] \includegraphics[width=\linewidth]{dijagrami/CD-Statistics.png}
 				\caption{Dijagram razreda 5 - Statistics}
 			\end{figure}
 					
-			\eject
+		\eject
 		
 		\section{Dijagram stanja}
 			
@@ -307,5 +327,11 @@
 			\eject
 		\section{Dijagram komponenti}
 		
+			\par
+			Ovaj dijagram pokazuje organizaciju i međuodnos komponenti, unutarnje strukture te odnos prema okolini. Postoje 3 vrste sučelja: za dohvat CSS, JS i TSX datoteka, za dohvat JSON podataka kojim se pristupa REST API komponenti te za dohvat tablica iz baze podataka. Preko glavne komponente App pristupa se ostalim komponentama. Preko drugog sučelja za dohvat JSON-a pristupa se Rest API-ju koji zatim poslužuje podatke koji pripadaju \textit{backend} dijelu aplikacije. Tablice se iz baze podataka dohvaćaju preko sučelja za dohvat podataka iz baze te se šalju u obliku DTO-a MVC arhitekturi na daljnju manipulaciju.
+			
+			\begin{figure}[H] \includegraphics[width=\linewidth]{./dijagrami/ComponentDiagram.vpd.png}
+				\caption{Dijagram komponenti}
+			\end{figure}
 		
-			 \textit{Potrebno je priložiti dijagram komponenti s pripadajućim opisom. Dijagram komponenti treba prikazivati strukturu cijele aplikacije.}
+		\eject
